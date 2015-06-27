@@ -37,7 +37,6 @@ import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.AndFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xenei.classpathutils.filter.AndFilter;
 import org.xenei.classpathutils.filter.PrefixFilter;
 
 /**
