@@ -19,8 +19,8 @@ package org.xenei.classpathutils.filter;
 import java.io.Serializable;
 import java.util.Collection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.Case;
 
 /**
@@ -28,8 +28,8 @@ import org.xenei.classpathutils.Case;
  */
 public class SuffixFilter extends _AbstractStringFilter implements Serializable {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(SuffixFilter.class);
+	private static final Log LOG = LogFactory
+			.getLog(SuffixFilter.class);
 
 	private static final long serialVersionUID = 525854048564445111L;
 
@@ -46,7 +46,7 @@ public class SuffixFilter extends _AbstractStringFilter implements Serializable 
 	}
 
 	@Override
-	protected Logger getLog() {
+	protected Log getLog() {
 		return LOG;
 	}
 

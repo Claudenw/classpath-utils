@@ -24,8 +24,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
 import org.xenei.classpathutils.filter._AbstractStringFilter;
@@ -42,8 +42,8 @@ public class AbstractStringClassFilterTest {
 
 	private _AbstractStringFilter filter_insens;
 
-	private static Logger LOG = LoggerFactory
-			.getLogger(AbstractStringClassFilterTest.class);
+	private static Log LOG = LogFactory
+			.getLog(AbstractStringClassFilterTest.class);
 
 	/**
 	 * Recreate the filters.
@@ -58,7 +58,7 @@ public class AbstractStringClassFilterTest {
 			}
 
 			@Override
-			protected Logger getLog() {
+			protected Log getLog() {
 				return LOG;
 			}
 		};
@@ -70,7 +70,7 @@ public class AbstractStringClassFilterTest {
 			}
 
 			@Override
-			protected Logger getLog() {
+			protected Log getLog() {
 				return LOG;
 			}
 		};
@@ -82,7 +82,7 @@ public class AbstractStringClassFilterTest {
 			}
 
 			@Override
-			protected Logger getLog() {
+			protected Log getLog() {
 				return LOG;
 			}
 		};

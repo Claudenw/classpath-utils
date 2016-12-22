@@ -21,7 +21,7 @@ package org.xenei.classpathutils.filter;
 import java.net.URL;
 import java.util.Collection;
 
-import org.slf4j.Logger;
+import org.apache.commons.logging.Log;
 import org.xenei.classpathutils.ClassPathFilter;
 
 /**
@@ -32,7 +32,7 @@ public abstract class _AbstractBaseFilter implements ClassPathFilter {
 
 	protected static final String[] NO_ARGS = new String[0];
 
-	protected abstract Logger getLog();
+	protected abstract Log getLog();
 
 	/**
 	 * {@inheritDoc}

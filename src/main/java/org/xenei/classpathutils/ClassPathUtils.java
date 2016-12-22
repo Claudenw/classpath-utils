@@ -35,8 +35,8 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.AndFileFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.filter.PrefixFilter;
 
 /**
@@ -45,8 +45,8 @@ import org.xenei.classpathutils.filter.PrefixFilter;
  */
 public class ClassPathUtils {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ClassPathUtils.class);
+	private static final Log LOG = LogFactory
+			.getLog(ClassPathUtils.class);
 
 	/**
 	 * Recursive method used to find all classes in a given directory and
@@ -200,7 +200,10 @@ public class ClassPathUtils {
 						for (final String clazz : findClasses(dir, packageName,
 								filter)) {
 							try {
-								LOG.debug("Adding class {}", clazz);
+								if (LOG.isDebugEnabled())
+								{
+									LOG.debug(String.format("Adding class %s", clazz));
+								}
 								classes.add(Class.forName(clazz, false,
 										classLoader));
 							} catch (final ClassNotFoundException e) {
@@ -495,7 +498,10 @@ public class ClassPathUtils {
 					try {
 						for (final String clazz : findResources(dir,
 								packageName, filter)) {
-							LOG.debug("Adding class {}", clazz);
+							if (LOG.isDebugEnabled())
+							{
+								LOG.debug(String.format("Adding class %s", clazz));
+							}
 							URL url = classLoader.getResource(clazz);
 							if (url != null) {
 								classes.add(url);
@@ -512,7 +518,10 @@ public class ClassPathUtils {
 		} else {
 			if (packageName.length() > 0) {
 				// there are no resources at that path so see if it is a class
-				LOG.debug("Adding class {}", packageName);
+				if (LOG.isDebugEnabled())
+				{
+					LOG.debug(String.format("Adding class %s", packageName));
+				}
 				URL url = classLoader.getResource(packageName);
 				if (url != null) {
 					classes.add(url);

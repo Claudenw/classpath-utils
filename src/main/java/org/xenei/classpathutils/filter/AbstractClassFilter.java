@@ -20,8 +20,8 @@ import java.io.Serializable;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
 
 /**
@@ -30,8 +30,8 @@ import org.xenei.classpathutils.ClassPathFilter;
 public class AbstractClassFilter extends _AbstractBaseFilter implements
 		Serializable {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AbstractClassFilter.class);
+	private static final Log LOG = LogFactory
+			.getLog(AbstractClassFilter.class);
 	/**
 	 * 
 	 */
@@ -46,7 +46,7 @@ public class AbstractClassFilter extends _AbstractBaseFilter implements
 	}
 
 	@Override
-	protected Logger getLog() {
+	protected Log getLog() {
 		return LOG;
 	}
 

@@ -19,8 +19,8 @@ package org.xenei.classpathutils.filter;
 import java.io.Serializable;
 import java.net.URL;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
 
 /**
@@ -29,7 +29,8 @@ import org.xenei.classpathutils.ClassPathFilter;
  */
 public class TrueFilter extends _AbstractBaseFilter implements Serializable {
 
-	private static final Logger LOG = LoggerFactory.getLogger(TrueFilter.class);
+	private static final Log LOG = LogFactory
+			.getLog(TrueFilter.class);
 
 	/**
 	 * 
@@ -47,7 +48,7 @@ public class TrueFilter extends _AbstractBaseFilter implements Serializable {
 	}
 
 	@Override
-	protected Logger getLog() {
+	protected Log getLog() {
 		return LOG;
 	}
 
