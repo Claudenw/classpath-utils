@@ -30,7 +30,7 @@ import org.xenei.classpathutils.ClassPathFilter;
  * filter list stops when the first filter returns {@code true}.
  *
  */
-public class OrFilter extends _AbstractConditionalFilter implements
+public class OrClassFilter extends _AbstractConditionalFilter implements
 		Serializable {
 
 	/**
@@ -47,7 +47,7 @@ public class OrFilter extends _AbstractConditionalFilter implements
 	 * @throws IllegalArgumentException
 	 *             if any filter is null.
 	 */
-	public OrFilter(final Collection<ClassPathFilter> filters) {
+	public OrClassFilter(final Collection<ClassPathFilter> filters) {
 		super(filters);
 	}
 
@@ -59,7 +59,7 @@ public class OrFilter extends _AbstractConditionalFilter implements
 	 * @throws IllegalArgumentException
 	 *             if any filter is null.
 	 */
-	public OrFilter(ClassPathFilter... filters) {
+	public OrClassFilter(ClassPathFilter... filters) {
 		super(filters);
 	}
 

@@ -29,7 +29,7 @@ import org.xenei.classpathutils.ClassPathFilter;
  * {@code true}. Otherwise, it returns {@code false}. Checking of the file
  * filter list stops when the first filter returns {@code false}.
  */
-public class AndFilter extends _AbstractConditionalFilter implements
+public class AndClassFilter extends _AbstractConditionalFilter implements
 		Serializable {
 
 	/**
@@ -44,7 +44,7 @@ public class AndFilter extends _AbstractConditionalFilter implements
 	 * @param classFilters
 	 *            a Collection of ClassFilter instances, copied, null ignored
 	 */
-	public AndFilter(final Collection<ClassPathFilter> classFilters) {
+	public AndClassFilter(final Collection<ClassPathFilter> classFilters) {
 		super(classFilters);
 	}
 
@@ -55,7 +55,7 @@ public class AndFilter extends _AbstractConditionalFilter implements
 	 * @param classFilters
 	 *            a List of ClassFilter instances, copied, null ignored
 	 */
-	public AndFilter(final ClassPathFilter... classFilters) {
+	public AndClassFilter(final ClassPathFilter... classFilters) {
 		super(classFilters);
 	}
 

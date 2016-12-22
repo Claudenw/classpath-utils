@@ -32,7 +32,7 @@ import org.xenei.classpathutils.ClassPathFilter;
  * implementations for basic add/delete filters and toString.
  *
  */
-public abstract class _AbstractConditionalFilter implements ConditionalFilter {
+public abstract class _AbstractConditionalFilter implements ConditionalClassFilter {
 
 	/** The list of file filters. */
 	private final List<ClassPathFilter> classFilters = new ArrayList<ClassPathFilter>();

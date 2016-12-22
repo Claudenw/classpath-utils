@@ -27,7 +27,7 @@ import java.net.URL;
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.RegexFilter;
+import org.xenei.classpathutils.filter.RegexClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
@@ -46,8 +46,8 @@ public class RegexFilterTest {
 	 * Constructor
 	 */
 	public RegexFilterTest() {
-		filter_sens = new RegexFilter(Case.SENSITIVE, "^.+xenei.+$");
-		filter_insens = new RegexFilter(Case.INSENSITIVE, "^.+Xenei.+$");
+		filter_sens = new RegexClassFilter(Case.SENSITIVE, "^.+xenei.+$");
+		filter_insens = new RegexClassFilter(Case.INSENSITIVE, "^.+Xenei.+$");
 	}
 
 	/**
@@ -87,8 +87,8 @@ public class RegexFilterTest {
 	public void testAccceptURL() throws MalformedURLException {
 
 		URL url = new URL("http://example.com");
-		RegexFilter sens = new RegexFilter(Case.SENSITIVE, "^.+example.c.+$");
-		RegexFilter insens = new RegexFilter(Case.INSENSITIVE,
+		RegexClassFilter sens = new RegexClassFilter(Case.SENSITIVE, "^.+example.c.+$");
+		RegexClassFilter insens = new RegexClassFilter(Case.INSENSITIVE,
 				"^.+Example.c.+$");
 
 		assertTrue(sens.accept(url));
@@ -124,13 +124,13 @@ public class RegexFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter_sens.toString());
-		assertTrue("Wrong class", cf instanceof RegexFilter);
+		assertTrue("Wrong class", cf instanceof RegexClassFilter);
 		String[] args = cf.args();
 		assertEquals(Case.SENSITIVE.toString(), args[0]);
 		assertEquals("^.+xenei.+$", args[1]);
 
 		cf = p.parse(filter_insens.toString());
-		assertTrue("Wrong class", cf instanceof RegexFilter);
+		assertTrue("Wrong class", cf instanceof RegexClassFilter);
 		args = cf.args();
 		assertEquals(Case.INSENSITIVE.toString(), args[0]);
 		assertEquals("^.+Xenei.+$", args[1]);

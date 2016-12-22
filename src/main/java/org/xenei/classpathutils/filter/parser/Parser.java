@@ -29,20 +29,20 @@ import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
 import org.xenei.classpathutils.filter.AbstractClassFilter;
 import org.xenei.classpathutils.filter._AbstractStringFilter;
-import org.xenei.classpathutils.filter.AndFilter;
+import org.xenei.classpathutils.filter.AndClassFilter;
 import org.xenei.classpathutils.filter.AnnotationClassFilter;
-import org.xenei.classpathutils.filter.ConditionalFilter;
-import org.xenei.classpathutils.filter.FalseFilter;
+import org.xenei.classpathutils.filter.ConditionalClassFilter;
+import org.xenei.classpathutils.filter.FalseClassFilter;
 import org.xenei.classpathutils.filter.HasAnnotationClassFilter;
 import org.xenei.classpathutils.filter.InterfaceClassFilter;
-import org.xenei.classpathutils.filter.NameFilter;
-import org.xenei.classpathutils.filter.NotFilter;
-import org.xenei.classpathutils.filter.OrFilter;
-import org.xenei.classpathutils.filter.PrefixFilter;
-import org.xenei.classpathutils.filter.RegexFilter;
-import org.xenei.classpathutils.filter.SuffixFilter;
-import org.xenei.classpathutils.filter.TrueFilter;
-import org.xenei.classpathutils.filter.WildcardFilter;
+import org.xenei.classpathutils.filter.NameClassFilter;
+import org.xenei.classpathutils.filter.NotClassFilter;
+import org.xenei.classpathutils.filter.OrClassFilter;
+import org.xenei.classpathutils.filter.PrefixClassFilter;
+import org.xenei.classpathutils.filter.RegexClassFilter;
+import org.xenei.classpathutils.filter.SuffixClassFilter;
+import org.xenei.classpathutils.filter.TrueClassFilter;
+import org.xenei.classpathutils.filter.WildcardClassFilter;
 
 /**
  * Class to parse a function string into a ClassFilter.
@@ -56,19 +56,19 @@ public class Parser {
 	 */
 	public Parser() {
 		map.put("abstractclass", AbstractClassFilter.class);
-		map.put("and", AndFilter.class);
+		map.put("and", AndClassFilter.class);
 		map.put("annotationclass", AnnotationClassFilter.class);
-		map.put("false", FalseFilter.class);
+		map.put("false", FalseClassFilter.class);
 		map.put("hasannotation", HasAnnotationClassFilter.class);
 		map.put("interfaceclass", InterfaceClassFilter.class);
-		map.put("name", NameFilter.class);
-		map.put("not", NotFilter.class);
-		map.put("or", OrFilter.class);
-		map.put("prefix", PrefixFilter.class);
-		map.put("regex", RegexFilter.class);
-		map.put("suffix", SuffixFilter.class);
-		map.put("true", TrueFilter.class);
-		map.put("wildcard", WildcardFilter.class);
+		map.put("name", NameClassFilter.class);
+		map.put("not", NotClassFilter.class);
+		map.put("or", OrClassFilter.class);
+		map.put("prefix", PrefixClassFilter.class);
+		map.put("regex", RegexClassFilter.class);
+		map.put("suffix", SuffixClassFilter.class);
+		map.put("true", TrueClassFilter.class);
+		map.put("wildcard", WildcardClassFilter.class);
 	}
 
 	/**
@@ -122,11 +122,11 @@ public class Parser {
 				}
 			}
 
-			if (NotFilter.class.isAssignableFrom(info.clazz)) {
-				return new NotFilter(parse(args));
+			if (NotClassFilter.class.isAssignableFrom(info.clazz)) {
+				return new NotClassFilter(parse(args));
 			}
 
-			if (ConditionalFilter.class.isAssignableFrom(info.clazz)) {
+			if (ConditionalClassFilter.class.isAssignableFrom(info.clazz)) {
 				List<ClassPathFilter> consArgs = new ArrayList<ClassPathFilter>();
 				// parse the functions.
 				int cnt = 0;
@@ -163,7 +163,7 @@ public class Parser {
 				return constructWithCase(info, args);
 			}
 
-			if (WildcardFilter.class.isAssignableFrom(info.clazz)) {
+			if (WildcardClassFilter.class.isAssignableFrom(info.clazz)) {
 				return constructWithCase(info, args);
 			}
 
@@ -192,7 +192,7 @@ public class Parser {
 						"%s is not an Annotation", args));
 			}
 
-			if (RegexFilter.class.isAssignableFrom(info.clazz)) {
+			if (RegexClassFilter.class.isAssignableFrom(info.clazz)) {
 				List<String> argStrLst = splitArgs(args);
 				if (argStrLst.size() == 0) {
 					throw new IllegalArgumentException(String.format(
@@ -204,14 +204,14 @@ public class Parser {
 				} catch (IllegalArgumentException expected) {
 					// this catch has to be here because later
 					// IllegalArgumenExceptions must be thrown.
-					return new RegexFilter(argStrLst.get(0));
+					return new RegexClassFilter(argStrLst.get(0));
 				}
 				if (argStrLst.size() < 2) {
 					throw new IllegalArgumentException(
 							String.format(" Not enough arguments for %s: %s",
 									info.name, args));
 				}
-				return new RegexFilter(caze, argStrLst.get(1));
+				return new RegexClassFilter(caze, argStrLst.get(1));
 			}
 
 			throw new IllegalArgumentException("Unrecognized filter: "

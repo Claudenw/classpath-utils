@@ -27,10 +27,10 @@ import org.xenei.classpathutils.ClassPathFilter;
  * This filter produces a logical NOT of the specified filter
  *
  */
-public class NotFilter extends _AbstractBaseFilter implements Serializable {
+public class NotClassFilter extends _AbstractBaseFilter implements Serializable {
 
 	private static final Log LOG = LogFactory
-			.getLog(NotFilter.class);
+			.getLog(NotClassFilter.class);
 
 	/**
 	 * 
@@ -47,7 +47,7 @@ public class NotFilter extends _AbstractBaseFilter implements Serializable {
 	 * @throws IllegalArgumentException
 	 *             if the filter is null
 	 */
-	public NotFilter(ClassPathFilter filter) {
+	public NotClassFilter(ClassPathFilter filter) {
 		if (filter == null) {
 			throw new IllegalArgumentException("The filter must not be null");
 		}

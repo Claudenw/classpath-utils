@@ -37,7 +37,7 @@ import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xenei.classpathutils.filter.PrefixFilter;
+import org.xenei.classpathutils.filter.PrefixClassFilter;
 
 /**
  * Package of class path searching utilities
@@ -64,7 +64,7 @@ public class ClassPathUtils {
 	public static Set<String> findClasses(final String directory,
 			final String packageName) throws IOException {
 		return findClasses(directory, packageName,
-				new PrefixFilter(packageName));
+				new PrefixClassFilter(packageName));
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class ClassPathUtils {
 	 * @return A collection of Class objects.
 	 */
 	public static Collection<Class<?>> getClasses(final String packageName) {
-		return getClasses(packageName, new PrefixFilter(packageName));
+		return getClasses(packageName, new PrefixClassFilter(packageName));
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class ClassPathUtils {
 	 */
 	public static Collection<Class<?>> getClasses(
 			final ClassLoader classLoader, final String packageName) {
-		return getClasses(classLoader, packageName, new PrefixFilter(
+		return getClasses(classLoader, packageName, new PrefixClassFilter(
 				packageName));
 	}
 
@@ -362,7 +362,7 @@ public class ClassPathUtils {
 	 */
 	public static Set<String> findResources(final String directory,
 			final String packageName) throws IOException {
-		return findResources(directory, packageName, new PrefixFilter(
+		return findResources(directory, packageName, new PrefixClassFilter(
 				packageName));
 	}
 
@@ -407,7 +407,7 @@ public class ClassPathUtils {
 	 * @return A collection of Class objects.
 	 */
 	public static Collection<URL> getResources(final String packageName) {
-		return getResources(packageName, new PrefixFilter(packageName));
+		return getResources(packageName, new PrefixClassFilter(packageName));
 	}
 
 	/**
@@ -447,7 +447,7 @@ public class ClassPathUtils {
 	 */
 	public static Collection<URL> getResources(final ClassLoader classLoader,
 			final String packageName) {
-		return getResources(classLoader, packageName, new PrefixFilter(
+		return getResources(classLoader, packageName, new PrefixClassFilter(
 				packageName));
 	}
 

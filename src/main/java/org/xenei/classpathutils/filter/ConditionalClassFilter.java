@@ -25,7 +25,7 @@ import org.xenei.classpathutils.ClassPathFilter;
  * Defines operations for conditional resource filters.
  *
  */
-public interface ConditionalFilter extends ClassPathFilter {
+public interface ConditionalClassFilter extends ClassPathFilter {
 
 	/**
 	 * Adds the specified file filter to the list of file filters at the end of

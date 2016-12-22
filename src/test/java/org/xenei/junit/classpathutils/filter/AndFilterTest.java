@@ -24,7 +24,7 @@ import java.net.URL;
 
 import org.junit.Test;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.AndFilter;
+import org.xenei.classpathutils.filter.AndClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
@@ -41,17 +41,17 @@ public class AndFilterTest {
 	 */
 	@Test
 	public void testAcceptClass() {
-		ClassPathFilter filter = new AndFilter(ClassPathFilter.FALSE,
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
 				ClassPathFilter.FALSE);
 		assertFalse(filter.accept(cls));
 
-		filter = new AndFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
+		filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
 		assertFalse(filter.accept(cls));
 
-		filter = new AndFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
 		assertFalse(filter.accept(cls));
 
-		filter = new AndFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
 		assertTrue(filter.accept(cls));
 	}
 
@@ -60,17 +60,17 @@ public class AndFilterTest {
 	 */
 	@Test
 	public void testAccceptString() {
-		ClassPathFilter filter = new AndFilter(ClassPathFilter.FALSE,
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
 				ClassPathFilter.FALSE);
 		assertFalse(filter.accept(str));
 
-		filter = new AndFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
+		filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
 		assertFalse(filter.accept(str));
 
-		filter = new AndFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
 		assertFalse(filter.accept(str));
 
-		filter = new AndFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
 		assertTrue(filter.accept(str));
 	}
 
@@ -82,17 +82,17 @@ public class AndFilterTest {
 	@Test
 	public void testAccceptURL() throws MalformedURLException {
 		URL url = new URL("http://example.com");
-		ClassPathFilter filter = new AndFilter(ClassPathFilter.FALSE,
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
 				ClassPathFilter.FALSE);
 		assertFalse(filter.accept(url));
 
-		filter = new AndFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
+		filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
 		assertFalse(filter.accept(url));
 
-		filter = new AndFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
 		assertFalse(filter.accept(url));
 
-		filter = new AndFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
 		assertTrue(filter.accept(url));
 	}
 
@@ -101,7 +101,7 @@ public class AndFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		ClassPathFilter filter = new AndFilter(ClassPathFilter.FALSE,
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
 				ClassPathFilter.TRUE);
 		assertEquals("And( False(), True() )", filter.toString());
 	}
@@ -116,11 +116,11 @@ public class AndFilterTest {
 	public void testParse() throws Exception {
 		Parser p = new Parser();
 
-		ClassPathFilter filter = new AndFilter(ClassPathFilter.FALSE,
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
 				ClassPathFilter.TRUE);
 
 		ClassPathFilter cf = p.parse(filter.toString());
-		assertTrue("wrong class type", cf instanceof AndFilter);
+		assertTrue("wrong class type", cf instanceof AndClassFilter);
 		String[] args = cf.args();
 		assertEquals(ClassPathFilter.FALSE.toString(), args[0]);
 		assertEquals(ClassPathFilter.TRUE.toString(), args[1]);

@@ -50,11 +50,11 @@ import org.xenei.classpathutils.ClassPathFilter;
  * }
  * </pre>
  */
-public class WildcardFilter extends _AbstractBaseFilter implements
-		Serializable, StringFilter {
+public class WildcardClassFilter extends _AbstractBaseFilter implements
+		Serializable, StringClassFilter {
 
 	private static final Log LOG = LogFactory
-			.getLog(WildcardFilter.class);
+			.getLog(WildcardClassFilter.class);
 
 	/**
 	 * 
@@ -75,7 +75,7 @@ public class WildcardFilter extends _AbstractBaseFilter implements
 	 * @throws IllegalArgumentException
 	 *             if the pattern is null
 	 */
-	public WildcardFilter(String wildcard) {
+	public WildcardClassFilter(String wildcard) {
 		this(null, wildcard);
 	}
 
@@ -90,7 +90,7 @@ public class WildcardFilter extends _AbstractBaseFilter implements
 	 * @throws IllegalArgumentException
 	 *             if the pattern is null
 	 */
-	public WildcardFilter(Case caseSensitivity, String wildcard) {
+	public WildcardClassFilter(Case caseSensitivity, String wildcard) {
 		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE
 				: caseSensitivity;
 		addWildcard(wildcard);
@@ -107,7 +107,7 @@ public class WildcardFilter extends _AbstractBaseFilter implements
 	 * @throws IllegalArgumentException
 	 *             if the pattern array is null
 	 */
-	public WildcardFilter(String... wildcards) {
+	public WildcardClassFilter(String... wildcards) {
 		this(null, wildcards);
 	}
 
@@ -125,7 +125,7 @@ public class WildcardFilter extends _AbstractBaseFilter implements
 	 * @throws IllegalArgumentException
 	 *             if the pattern array is null
 	 */
-	public WildcardFilter(Case caseSensitivity, String... wildcards) {
+	public WildcardClassFilter(Case caseSensitivity, String... wildcards) {
 		if (wildcards.length == 0) {
 			throw new IllegalArgumentException(
 					"The wildcard array may not be empty");
@@ -146,7 +146,7 @@ public class WildcardFilter extends _AbstractBaseFilter implements
 	 * @throws ClassCastException
 	 *             if the list does not contain Strings
 	 */
-	public WildcardFilter(Collection<String> wildcards) {
+	public WildcardClassFilter(Collection<String> wildcards) {
 		this(null, wildcards);
 	}
 
@@ -163,7 +163,7 @@ public class WildcardFilter extends _AbstractBaseFilter implements
 	 * @throws ClassCastException
 	 *             if the list does not contain Strings
 	 */
-	public WildcardFilter(Case caseSensitivity, Collection<String> wildcards) {
+	public WildcardClassFilter(Case caseSensitivity, Collection<String> wildcards) {
 		if (wildcards == null || wildcards.size() == 0) {
 			throw new IllegalArgumentException(
 					"The wildcard list may not be empty");
@@ -228,15 +228,15 @@ public class WildcardFilter extends _AbstractBaseFilter implements
 			throw new IllegalArgumentException("The wildcard must not be null");
 		}
 		this.wildcards.add(wildcard);
-		RegexFilter filter = new RegexFilter(caseSensitivity,
+		RegexClassFilter filter = new RegexClassFilter(caseSensitivity,
 				makeRegex(wildcard));
 		if (wrapped == null) {
 			wrapped = filter;
 		} else {
-			if (wrapped instanceof RegexFilter) {
-				wrapped = new OrFilter(wrapped, filter);
+			if (wrapped instanceof RegexClassFilter) {
+				wrapped = new OrClassFilter(wrapped, filter);
 			} else {
-				((OrFilter) wrapped).addFilter(filter);
+				((OrClassFilter) wrapped).addFilter(filter);
 			}
 		}
 	}

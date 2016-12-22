@@ -27,7 +27,7 @@ import java.net.URL;
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.PrefixFilter;
+import org.xenei.classpathutils.filter.PrefixClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
@@ -46,8 +46,8 @@ public class PrefixFilterTest {
 	 * Constructor.
 	 */
 	public PrefixFilterTest() {
-		filter_sens = new PrefixFilter(Case.SENSITIVE, "org.xenei");
-		filter_insens = new PrefixFilter(Case.INSENSITIVE, "org.Xenei");
+		filter_sens = new PrefixClassFilter(Case.SENSITIVE, "org.xenei");
+		filter_insens = new PrefixClassFilter(Case.INSENSITIVE, "org.Xenei");
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class PrefixFilterTest {
 	public void testAccceptURL() throws MalformedURLException {
 
 		URL url = new URL("http://example.com");
-		PrefixFilter sens = new PrefixFilter(Case.SENSITIVE, "http://example");
-		PrefixFilter insens = new PrefixFilter(Case.INSENSITIVE,
+		PrefixClassFilter sens = new PrefixClassFilter(Case.SENSITIVE, "http://example");
+		PrefixClassFilter insens = new PrefixClassFilter(Case.INSENSITIVE,
 				"HTTP://example");
 
 		assertTrue(sens.accept(url));
@@ -120,13 +120,13 @@ public class PrefixFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter_sens.toString());
-		assertTrue("Wrong class", cf instanceof PrefixFilter);
+		assertTrue("Wrong class", cf instanceof PrefixClassFilter);
 		String[] args = cf.args();
 		assertEquals(Case.SENSITIVE.toString(), args[0]);
 		assertEquals("org.xenei", args[1]);
 
 		cf = p.parse(filter_insens.toString());
-		assertTrue("Wrong class", cf instanceof PrefixFilter);
+		assertTrue("Wrong class", cf instanceof PrefixClassFilter);
 		args = cf.args();
 		assertEquals(Case.INSENSITIVE.toString(), args[0]);
 		assertEquals("org.Xenei", args[1]);

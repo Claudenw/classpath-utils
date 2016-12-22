@@ -24,27 +24,27 @@ import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
 
 /**
- * A class filter that always returns false.
+ * A class filter that always returns true.
  *
  */
-public class FalseFilter extends _AbstractBaseFilter implements Serializable {
+public class TrueClassFilter extends _AbstractBaseFilter implements Serializable {
 
 	private static final Log LOG = LogFactory
-			.getLog(FalseFilter.class);
+			.getLog(TrueClassFilter.class);
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5537028986673047572L;
+	private static final long serialVersionUID = 6422553815074269475L;
 	/**
-	 * Singleton instance of false filter.
+	 * Singleton instance of true filter.
 	 */
-	public static final ClassPathFilter FALSE = new FalseFilter();
+	public static final ClassPathFilter TRUE = new TrueClassFilter();
 
 	/**
 	 * Restrictive constructor.
 	 */
-	private FalseFilter() {
+	private TrueClassFilter() {
 	}
 
 	@Override
@@ -53,43 +53,48 @@ public class FalseFilter extends _AbstractBaseFilter implements Serializable {
 	}
 
 	/**
-	 * Returns false.
-	 *
-	 * @param fileName
-	 *            the file name to check (ignored)
-	 * @return false
-	 */
-	@Override
-	public boolean accept(String fileName) {
-		return false;
-	}
-
-	/**
-	 * Returns false.
+	 * Returns true.
 	 *
 	 * @param url
 	 *            the url to check (ignored)
-	 * @return false
+	 * @return true
 	 */
 	@Override
 	public boolean accept(URL url) {
-		return false;
+		return true;
 	}
 
 	/**
-	 * Returns false.
+	 * Returns true.
 	 *
 	 * @param clazz
 	 *            the class to check (ignored)
-	 * @return false
+	 * @return true
 	 */
 	@Override
 	public boolean accept(Class<?> clazz) {
-		return false;
+		return true;
 	}
 
+	/**
+	 * Returns true.
+	 *
+	 * 
+	 * @param string
+	 *            the string name (ignored)
+	 * @return true
+	 */
+	@Override
+	public boolean accept(String string) {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String[] args() {
 		return NO_ARGS;
 	}
+
 }

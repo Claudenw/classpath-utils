@@ -27,7 +27,7 @@ import java.net.URL;
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.NameFilter;
+import org.xenei.classpathutils.filter.NameClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
@@ -46,8 +46,8 @@ public class NameFilterTest {
 	 * Constructor.
 	 */
 	public NameFilterTest() {
-		filter_sens = new NameFilter(Case.SENSITIVE, t.getName());
-		filter_insens = new NameFilter(Case.INSENSITIVE, t.getName());
+		filter_sens = new NameClassFilter(Case.SENSITIVE, t.getName());
+		filter_insens = new NameClassFilter(Case.INSENSITIVE, t.getName());
 	}
 
 	/**
@@ -89,8 +89,8 @@ public class NameFilterTest {
 		URL url2 = new URL("http://Example.com");
 		URL url3 = new URL("ftp://example.com");
 
-		NameFilter sens = new NameFilter(Case.SENSITIVE, "http://example.com");
-		NameFilter insens = new NameFilter(Case.INSENSITIVE,
+		NameClassFilter sens = new NameClassFilter(Case.SENSITIVE, "http://example.com");
+		NameClassFilter insens = new NameClassFilter(Case.INSENSITIVE,
 				"http://example.com");
 
 		assertTrue(sens.accept(url));
@@ -125,13 +125,13 @@ public class NameFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter_sens.toString());
-		assertTrue("Wrong class", cf instanceof NameFilter);
+		assertTrue("Wrong class", cf instanceof NameClassFilter);
 		String[] args = cf.args();
 		assertEquals(Case.SENSITIVE.toString(), args[0]);
 		assertEquals(t.getName(), args[1]);
 
 		cf = p.parse(filter_insens.toString());
-		assertTrue("Wrong class", cf instanceof NameFilter);
+		assertTrue("Wrong class", cf instanceof NameClassFilter);
 		args = cf.args();
 		assertEquals(Case.INSENSITIVE.toString(), args[0]);
 		assertEquals(t.getName(), args[1]);

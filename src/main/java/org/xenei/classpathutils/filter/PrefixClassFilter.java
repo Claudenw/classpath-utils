@@ -27,10 +27,10 @@ import org.xenei.classpathutils.Case;
 /**
  * A filter that matches classes by prefix.
  */
-public class PrefixFilter extends _AbstractStringFilter implements Serializable {
+public class PrefixClassFilter extends _AbstractStringFilter implements Serializable {
 
 	private static final Log LOG = LogFactory
-			.getLog(PrefixFilter.class);
+			.getLog(PrefixClassFilter.class);
 
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class PrefixFilter extends _AbstractStringFilter implements Serializable 
 	 * @throws IllegalArgumentException
 	 *             if the prefix is null
 	 */
-	public PrefixFilter(String prefix) {
+	public PrefixClassFilter(String prefix) {
 		super(prefix);
 	}
 
@@ -63,7 +63,7 @@ public class PrefixFilter extends _AbstractStringFilter implements Serializable 
 	 * @param caseSensitivity
 	 *            how to handle case sensitivity, null means case-sensitive
 	 */
-	public PrefixFilter(Case caseSensitivity, String prefix) {
+	public PrefixClassFilter(Case caseSensitivity, String prefix) {
 		super(caseSensitivity, prefix);
 	}
 
@@ -78,7 +78,7 @@ public class PrefixFilter extends _AbstractStringFilter implements Serializable 
 	 * @throws IllegalArgumentException
 	 *             if the prefix array is null
 	 */
-	public PrefixFilter(String... prefixes) {
+	public PrefixClassFilter(String... prefixes) {
 		super(prefixes);
 	}
 
@@ -93,7 +93,7 @@ public class PrefixFilter extends _AbstractStringFilter implements Serializable 
 	 * @param caseSensitivity
 	 *            how to handle case sensitivity, null means case-sensitive
 	 */
-	public PrefixFilter(Case caseSensitivity, String... prefixes) {
+	public PrefixClassFilter(Case caseSensitivity, String... prefixes) {
 		super(caseSensitivity, prefixes);
 	}
 
@@ -107,7 +107,7 @@ public class PrefixFilter extends _AbstractStringFilter implements Serializable 
 	 * @throws ClassCastException
 	 *             if the list does not contain Strings
 	 */
-	public PrefixFilter(List<String> prefixes) {
+	public PrefixClassFilter(List<String> prefixes) {
 		super(prefixes);
 	}
 
@@ -124,7 +124,7 @@ public class PrefixFilter extends _AbstractStringFilter implements Serializable 
 	 * @throws ClassCastException
 	 *             if the list does not contain Strings
 	 */
-	public PrefixFilter(Case caseSensitivity, Collection<String> prefixes) {
+	public PrefixClassFilter(Case caseSensitivity, Collection<String> prefixes) {
 		super(caseSensitivity, prefixes);
 	}
 

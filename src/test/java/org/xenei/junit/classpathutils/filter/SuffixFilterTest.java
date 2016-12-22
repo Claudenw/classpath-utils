@@ -27,7 +27,7 @@ import java.net.URL;
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.SuffixFilter;
+import org.xenei.classpathutils.filter.SuffixClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
@@ -46,8 +46,8 @@ public class SuffixFilterTest {
 	 * Constructor
 	 */
 	public SuffixFilterTest() {
-		filter_sens = new SuffixFilter(Case.SENSITIVE, "Filter");
-		filter_insens = new SuffixFilter(Case.INSENSITIVE, "filter");
+		filter_sens = new SuffixClassFilter(Case.SENSITIVE, "Filter");
+		filter_insens = new SuffixClassFilter(Case.INSENSITIVE, "filter");
 	}
 
 	/**
@@ -87,8 +87,8 @@ public class SuffixFilterTest {
 	public void testAccceptURL() throws MalformedURLException {
 
 		URL url = new URL("http://example.com");
-		SuffixFilter sens = new SuffixFilter(Case.SENSITIVE, "example.com");
-		SuffixFilter insens = new SuffixFilter(Case.INSENSITIVE, "Example.COM");
+		SuffixClassFilter sens = new SuffixClassFilter(Case.SENSITIVE, "example.com");
+		SuffixClassFilter insens = new SuffixClassFilter(Case.INSENSITIVE, "Example.COM");
 
 		assertTrue(sens.accept(url));
 		assertTrue(insens.accept(url));
@@ -122,13 +122,13 @@ public class SuffixFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter_sens.toString());
-		assertTrue("Wrong class", cf instanceof SuffixFilter);
+		assertTrue("Wrong class", cf instanceof SuffixClassFilter);
 		String[] args = cf.args();
 		assertEquals(Case.SENSITIVE.toString(), args[0]);
 		assertEquals("Filter", args[1]);
 
 		cf = p.parse(filter_insens.toString());
-		assertTrue("Wrong class", cf instanceof SuffixFilter);
+		assertTrue("Wrong class", cf instanceof SuffixClassFilter);
 		args = cf.args();
 		assertEquals(Case.INSENSITIVE.toString(), args[0]);
 		assertEquals("filter", args[1]);

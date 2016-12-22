@@ -28,7 +28,7 @@ import org.xenei.classpathutils.ClassPathFilter;
 /**
  * Match classes with a regular expression.
  */
-public class RegexFilter implements ClassPathFilter, Serializable, StringFilter {
+public class RegexClassFilter implements ClassPathFilter, Serializable, StringClassFilter {
 
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class RegexFilter implements ClassPathFilter, Serializable, StringFilter 
 	 * @throws IllegalArgumentException
 	 *             if the pattern is null
 	 */
-	public RegexFilter(String pattern) {
+	public RegexClassFilter(String pattern) {
 		this(Case.SENSITIVE, pattern);
 	}
 
@@ -60,7 +60,7 @@ public class RegexFilter implements ClassPathFilter, Serializable, StringFilter 
 	 * @throws IllegalArgumentException
 	 *             if the pattern is null
 	 */
-	public RegexFilter(Case caseSensitivity, String pattern) {
+	public RegexClassFilter(Case caseSensitivity, String pattern) {
 		if (pattern == null) {
 			throw new IllegalArgumentException("Pattern is missing");
 		}
@@ -81,7 +81,7 @@ public class RegexFilter implements ClassPathFilter, Serializable, StringFilter 
 	 * @throws IllegalArgumentException
 	 *             if the pattern is null
 	 */
-	public RegexFilter(String pattern, int flags) {
+	public RegexClassFilter(String pattern, int flags) {
 		if (pattern == null) {
 			throw new IllegalArgumentException("Pattern is missing");
 		}
@@ -97,7 +97,7 @@ public class RegexFilter implements ClassPathFilter, Serializable, StringFilter 
 	 * @throws IllegalArgumentException
 	 *             if the pattern is null
 	 */
-	public RegexFilter(Pattern pattern) {
+	public RegexClassFilter(Pattern pattern) {
 		if (pattern == null) {
 			throw new IllegalArgumentException("Pattern is missing");
 		}

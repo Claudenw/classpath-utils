@@ -26,10 +26,10 @@ import org.xenei.classpathutils.Case;
 /**
  * A filter to match the suffix of a class name.
  */
-public class SuffixFilter extends _AbstractStringFilter implements Serializable {
+public class SuffixClassFilter extends _AbstractStringFilter implements Serializable {
 
 	private static final Log LOG = LogFactory
-			.getLog(SuffixFilter.class);
+			.getLog(SuffixClassFilter.class);
 
 	private static final long serialVersionUID = 525854048564445111L;
 
@@ -41,7 +41,7 @@ public class SuffixFilter extends _AbstractStringFilter implements Serializable 
 	 * @throws IllegalArgumentException
 	 *             if the suffix is null
 	 */
-	public SuffixFilter(String suffix) {
+	public SuffixClassFilter(String suffix) {
 		super(suffix);
 	}
 
@@ -59,7 +59,7 @@ public class SuffixFilter extends _AbstractStringFilter implements Serializable 
 	 * @param caseSensitivity
 	 *            how to handle case sensitivity, null means case-sensitive
 	 */
-	public SuffixFilter(Case caseSensitivity, String suffix) {
+	public SuffixClassFilter(Case caseSensitivity, String suffix) {
 		super(caseSensitivity, suffix);
 	}
 
@@ -74,7 +74,7 @@ public class SuffixFilter extends _AbstractStringFilter implements Serializable 
 	 * @throws IllegalArgumentException
 	 *             if the suffix array is null
 	 */
-	public SuffixFilter(String... suffixes) {
+	public SuffixClassFilter(String... suffixes) {
 		super(suffixes);
 	}
 
@@ -91,7 +91,7 @@ public class SuffixFilter extends _AbstractStringFilter implements Serializable 
 	 * @throws IllegalArgumentException
 	 *             if the suffix array is null
 	 */
-	public SuffixFilter(Case caseSensitivity, String... suffixes) {
+	public SuffixClassFilter(Case caseSensitivity, String... suffixes) {
 		super(caseSensitivity, suffixes);
 	}
 
@@ -105,7 +105,7 @@ public class SuffixFilter extends _AbstractStringFilter implements Serializable 
 	 * @throws ClassCastException
 	 *             if the list does not contain Strings
 	 */
-	public SuffixFilter(Collection<String> suffixes) {
+	public SuffixClassFilter(Collection<String> suffixes) {
 		super(suffixes);
 	}
 
@@ -120,7 +120,7 @@ public class SuffixFilter extends _AbstractStringFilter implements Serializable 
 	 * @throws IllegalArgumentException
 	 *             if the suffix list is null
 	 */
-	public SuffixFilter(Case caseSensitivity, Collection<String> suffixes) {
+	public SuffixClassFilter(Case caseSensitivity, Collection<String> suffixes) {
 		super(caseSensitivity, suffixes);
 	}
 

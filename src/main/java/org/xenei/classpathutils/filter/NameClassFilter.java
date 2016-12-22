@@ -28,10 +28,10 @@ import org.xenei.classpathutils.Case;
  * filters classes by name.
  * 
  */
-public class NameFilter extends _AbstractStringFilter implements Serializable {
+public class NameClassFilter extends _AbstractStringFilter implements Serializable {
 
 	private static final Log LOG = LogFactory
-			.getLog(NameFilter.class);
+			.getLog(NameClassFilter.class);
 
 	/**
 	 * 
@@ -46,7 +46,7 @@ public class NameFilter extends _AbstractStringFilter implements Serializable {
 	 * @throws IllegalArgumentException
 	 *             if the name is null
 	 */
-	public NameFilter(String name) {
+	public NameClassFilter(String name) {
 		super(name);
 	}
 
@@ -65,7 +65,7 @@ public class NameFilter extends _AbstractStringFilter implements Serializable {
 	 * @throws IllegalArgumentException
 	 *             if the name is null
 	 */
-	public NameFilter(Case caseSensitivity, String name) {
+	public NameClassFilter(Case caseSensitivity, String name) {
 		super(caseSensitivity, name);
 	}
 
@@ -81,7 +81,7 @@ public class NameFilter extends _AbstractStringFilter implements Serializable {
 	 * @throws IllegalArgumentException
 	 *             if the names array is null
 	 */
-	public NameFilter(String... names) {
+	public NameClassFilter(String... names) {
 		super(names);
 	}
 
@@ -99,7 +99,7 @@ public class NameFilter extends _AbstractStringFilter implements Serializable {
 	 * @throws IllegalArgumentException
 	 *             if the names array is null
 	 */
-	public NameFilter(Case caseSensitivity, String... names) {
+	public NameClassFilter(Case caseSensitivity, String... names) {
 		super(caseSensitivity, names);
 	}
 
@@ -114,7 +114,7 @@ public class NameFilter extends _AbstractStringFilter implements Serializable {
 	 * @throws ClassCastException
 	 *             if the list does not contain Strings
 	 */
-	public NameFilter(Collection<String> names) {
+	public NameClassFilter(Collection<String> names) {
 		super(names);
 	}
 
@@ -131,7 +131,7 @@ public class NameFilter extends _AbstractStringFilter implements Serializable {
 	 * @throws ClassCastException
 	 *             if the list does not contain Strings
 	 */
-	public NameFilter(Case caseSensitivity, Collection<String> names) {
+	public NameClassFilter(Case caseSensitivity, Collection<String> names) {
 		super(caseSensitivity, names);
 	}
 

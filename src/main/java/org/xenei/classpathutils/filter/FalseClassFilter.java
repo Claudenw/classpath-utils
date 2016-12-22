@@ -24,27 +24,27 @@ import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
 
 /**
- * A class filter that always returns true.
+ * A class filter that always returns false.
  *
  */
-public class TrueFilter extends _AbstractBaseFilter implements Serializable {
+public class FalseClassFilter extends _AbstractBaseFilter implements Serializable {
 
 	private static final Log LOG = LogFactory
-			.getLog(TrueFilter.class);
+			.getLog(FalseClassFilter.class);
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6422553815074269475L;
+	private static final long serialVersionUID = 5537028986673047572L;
 	/**
-	 * Singleton instance of true filter.
+	 * Singleton instance of false filter.
 	 */
-	public static final ClassPathFilter TRUE = new TrueFilter();
+	public static final ClassPathFilter FALSE = new FalseClassFilter();
 
 	/**
 	 * Restrictive constructor.
 	 */
-	private TrueFilter() {
+	private FalseClassFilter() {
 	}
 
 	@Override
@@ -53,48 +53,43 @@ public class TrueFilter extends _AbstractBaseFilter implements Serializable {
 	}
 
 	/**
-	 * Returns true.
+	 * Returns false.
+	 *
+	 * @param fileName
+	 *            the file name to check (ignored)
+	 * @return false
+	 */
+	@Override
+	public boolean accept(String fileName) {
+		return false;
+	}
+
+	/**
+	 * Returns false.
 	 *
 	 * @param url
 	 *            the url to check (ignored)
-	 * @return true
+	 * @return false
 	 */
 	@Override
 	public boolean accept(URL url) {
-		return true;
+		return false;
 	}
 
 	/**
-	 * Returns true.
+	 * Returns false.
 	 *
 	 * @param clazz
 	 *            the class to check (ignored)
-	 * @return true
+	 * @return false
 	 */
 	@Override
 	public boolean accept(Class<?> clazz) {
-		return true;
+		return false;
 	}
 
-	/**
-	 * Returns true.
-	 *
-	 * 
-	 * @param string
-	 *            the string name (ignored)
-	 * @return true
-	 */
-	@Override
-	public boolean accept(String string) {
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String[] args() {
 		return NO_ARGS;
 	}
-
 }

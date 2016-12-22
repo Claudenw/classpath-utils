@@ -24,9 +24,9 @@ import java.util.Collection;
 
 import org.xenei.classpathutils.filter.AbstractClassFilter;
 import org.xenei.classpathutils.filter.AnnotationClassFilter;
-import org.xenei.classpathutils.filter.FalseFilter;
+import org.xenei.classpathutils.filter.FalseClassFilter;
 import org.xenei.classpathutils.filter.InterfaceClassFilter;
-import org.xenei.classpathutils.filter.TrueFilter;
+import org.xenei.classpathutils.filter.TrueClassFilter;
 
 /**
  * Interface that defines a ClassFilter.
@@ -36,11 +36,11 @@ public interface ClassPathFilter {
 	/**
 	 * The instance of the true() class filter.
 	 */
-	public static final ClassPathFilter TRUE = TrueFilter.TRUE;
+	public static final ClassPathFilter TRUE = TrueClassFilter.TRUE;
 	/**
 	 * The instance of the false() class filter.
 	 */
-	public static final ClassPathFilter FALSE = FalseFilter.FALSE;
+	public static final ClassPathFilter FALSE = FalseClassFilter.FALSE;
 	/**
 	 * The instance of the annotation() class filter.
 	 */

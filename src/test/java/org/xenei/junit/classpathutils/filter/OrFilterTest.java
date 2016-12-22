@@ -24,7 +24,7 @@ import java.net.URL;
 
 import org.junit.Test;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.OrFilter;
+import org.xenei.classpathutils.filter.OrClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
@@ -41,17 +41,17 @@ public class OrFilterTest {
 	 */
 	@Test
 	public void testAcceptClass() {
-		ClassPathFilter filter = new OrFilter(ClassPathFilter.FALSE,
+		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE,
 				ClassPathFilter.FALSE);
 		assertFalse(filter.accept(cls));
 
-		filter = new OrFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
+		filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
 		assertTrue(filter.accept(cls));
 
-		filter = new OrFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
+		filter = new OrClassFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
 		assertTrue(filter.accept(cls));
 
-		filter = new OrFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
+		filter = new OrClassFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
 		assertTrue(filter.accept(cls));
 	}
 
@@ -60,17 +60,17 @@ public class OrFilterTest {
 	 */
 	@Test
 	public void testAccceptString() {
-		ClassPathFilter filter = new OrFilter(ClassPathFilter.FALSE,
+		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE,
 				ClassPathFilter.FALSE);
 		assertFalse(filter.accept(str));
 
-		filter = new OrFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
+		filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
 		assertTrue(filter.accept(str));
 
-		filter = new OrFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
+		filter = new OrClassFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
 		assertTrue(filter.accept(str));
 
-		filter = new OrFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
+		filter = new OrClassFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
 		assertTrue(filter.accept(str));
 	}
 
@@ -83,17 +83,17 @@ public class OrFilterTest {
 	public void testAccceptURL() throws MalformedURLException {
 		URL url = new URL("http://example.com");
 
-		ClassPathFilter filter = new OrFilter(ClassPathFilter.FALSE,
+		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE,
 				ClassPathFilter.FALSE);
 		assertFalse(filter.accept(url));
 
-		filter = new OrFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
+		filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
 		assertTrue(filter.accept(url));
 
-		filter = new OrFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
+		filter = new OrClassFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
 		assertTrue(filter.accept(url));
 
-		filter = new OrFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
+		filter = new OrClassFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
 		assertTrue(filter.accept(url));
 	}
 
@@ -102,7 +102,7 @@ public class OrFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		ClassPathFilter filter = new OrFilter(ClassPathFilter.FALSE,
+		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE,
 				ClassPathFilter.TRUE);
 		assertEquals("Or( False(), True() )", filter.toString());
 	}
@@ -117,11 +117,11 @@ public class OrFilterTest {
 	public void testParse() throws Exception {
 		Parser p = new Parser();
 
-		ClassPathFilter filter = new OrFilter(ClassPathFilter.FALSE,
+		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE,
 				ClassPathFilter.TRUE);
 
 		ClassPathFilter cf = p.parse(filter.toString());
-		assertTrue("wrong class type", cf instanceof OrFilter);
+		assertTrue("wrong class type", cf instanceof OrClassFilter);
 		String[] args = cf.args();
 		assertEquals(ClassPathFilter.FALSE.toString(), args[0]);
 		assertEquals(ClassPathFilter.TRUE.toString(), args[1]);
