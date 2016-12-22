@@ -50,6 +50,14 @@ public class AnnotationClassFilter extends _AbstractBaseFilter implements
 	protected Log getLog() {
 		return LOG;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String funcName() {
+		return "AnnotationClass";
+	}
 
 	/**
 	 * Checks to see if the class is abstract.

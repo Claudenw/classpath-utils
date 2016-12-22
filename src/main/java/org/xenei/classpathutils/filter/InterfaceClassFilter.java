@@ -52,6 +52,14 @@ public class InterfaceClassFilter extends _AbstractBaseFilter implements
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String funcName() {
+		return "InterfaceClass";
+	}
+	
+	/**
 	 * Checks to see if the class is an interface.
 	 *
 	 * @param clazz

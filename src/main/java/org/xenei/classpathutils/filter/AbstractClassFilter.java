@@ -54,6 +54,13 @@ public class AbstractClassFilter extends _AbstractBaseFilter implements
 	 * {@inheritDoc}
 	 */
 	@Override
+	public String funcName() {
+		return "AbstractClass";
+	}
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String[] args() {
 		return NO_ARGS;
 	}

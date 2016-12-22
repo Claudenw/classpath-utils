@@ -51,8 +51,8 @@ public abstract class _AbstractBaseFilter implements ClassPathFilter {
 		if (func.endsWith("ResourceFilter")) {
 			return func.substring(0, func.length() - "ResourceFilter".length());
 		}
-		if (func.endsWith("Filter")) {
-			return func.substring(0, func.length() - "Filter".length());
+		if (func.endsWith("ClassFilter")) {
+			return func.substring(0, func.length() - "ClassFilter".length());
 		}
 		return func;
 	}
