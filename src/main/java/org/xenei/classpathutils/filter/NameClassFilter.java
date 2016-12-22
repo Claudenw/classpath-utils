@@ -152,4 +152,53 @@ public class NameClassFilter extends _AbstractStringFilter implements Serializab
 		return false;
 	}
 
+	/**
+	 * Add a string to the filter.
+	 * 
+	 * @param str
+	 *            the string to add.
+	 * @return this for chaining.            
+	 */
+	public NameClassFilter addClass(Class<?> clazz) {
+		if (clazz == null) {
+			throw new IllegalArgumentException("The class must not be null");
+		}
+		super.addString(clazz.getName());
+		return this;
+	}
+
+	/**
+	 * Add a collection of strings to the filter. Strings will be added in the
+	 * order the collection iterator returns them.
+	 * 
+	 * @param strings
+	 *            the collection of strings to be added.
+	 */
+	public final NameClassFilter addClasses(Collection<Class<?>> classes) {
+		if (classes == null) {
+			throw new IllegalArgumentException("The classes parameter must not be null");
+		}
+		for (Class<?> c : classes) {
+			addClass(c);
+		}
+		return this;
+	}
+
+	/**
+	 * Add an array of strings to the filter.
+	 * 
+	 * @param strings
+	 *            The strings to add.
+	 * @return this for chaining            
+	 */
+	public final NameClassFilter addClasses(Class<?>... classes) {
+		if (classes == null) {
+			throw new IllegalArgumentException("The classes parameter must not be null");
+		}
+		for (Class<?> c : classes) {
+			addClass(c);
+		}
+		return this;
+	}
+
 }

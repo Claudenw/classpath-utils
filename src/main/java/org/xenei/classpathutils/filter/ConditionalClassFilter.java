@@ -33,8 +33,9 @@ public interface ConditionalClassFilter extends ClassPathFilter {
 	 *
 	 * @param resourceFilter
 	 *            the filter to be added
+	 * @return this for chaining
 	 */
-	void addFilter(ClassPathFilter resourceFilter);
+	ConditionalClassFilter addFilter(ClassPathFilter resourceFilter);
 
 	/**
 	 * Returns this conditional file filter's list of file filters.

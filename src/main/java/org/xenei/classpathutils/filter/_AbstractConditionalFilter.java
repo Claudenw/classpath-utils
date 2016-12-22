@@ -110,11 +110,12 @@ public abstract class _AbstractConditionalFilter implements ConditionalClassFilt
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void addFilter(ClassPathFilter classFilter) {
+	public final _AbstractConditionalFilter addFilter(ClassPathFilter classFilter) {
 		if (classFilter == null) {
 			throw new IllegalArgumentException("classFilter may not be null");
 		}
 		this.classFilters.add(classFilter);
+		return this;
 	}
 
 	/**
