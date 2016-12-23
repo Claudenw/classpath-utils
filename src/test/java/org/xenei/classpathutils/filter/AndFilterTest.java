@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.xenei.junit.classpathutils.filter;
+package org.xenei.classpathutils.filter;
 
 import static org.junit.Assert.*;
 
@@ -24,14 +24,15 @@ import java.net.URL;
 
 import org.junit.Test;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.NotClassFilter;
+import org.xenei.classpathutils.filter.AndClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test NotClassFilter.
+ * Test the AndClassFilter.
  *
  */
-public class NotFilterTest {
+public class AndFilterTest {
+
 	private Class<?> cls = String.class;
 	private String str = cls.getName();
 
@@ -40,11 +41,18 @@ public class NotFilterTest {
 	 */
 	@Test
 	public void testAcceptClass() {
-		ClassPathFilter filter = new NotClassFilter(ClassPathFilter.FALSE);
-		assertTrue(filter.accept(cls));
-
-		filter = new NotClassFilter(ClassPathFilter.TRUE);
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
+				ClassPathFilter.FALSE);
 		assertFalse(filter.accept(cls));
+
+		filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
+		assertFalse(filter.accept(cls));
+
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
+		assertFalse(filter.accept(cls));
+
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
+		assertTrue(filter.accept(cls));
 	}
 
 	/**
@@ -52,12 +60,18 @@ public class NotFilterTest {
 	 */
 	@Test
 	public void testAccceptString() {
-		ClassPathFilter filter = new NotClassFilter(ClassPathFilter.FALSE);
-		assertTrue(filter.accept(str));
-
-		filter = new NotClassFilter(ClassPathFilter.TRUE);
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
+				ClassPathFilter.FALSE);
 		assertFalse(filter.accept(str));
 
+		filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
+		assertFalse(filter.accept(str));
+
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
+		assertFalse(filter.accept(str));
+
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
+		assertTrue(filter.accept(str));
 	}
 
 	/**
@@ -68,11 +82,18 @@ public class NotFilterTest {
 	@Test
 	public void testAccceptURL() throws MalformedURLException {
 		URL url = new URL("http://example.com");
-		ClassPathFilter filter = new NotClassFilter(ClassPathFilter.FALSE);
-		assertTrue(filter.accept(url));
-
-		filter = new NotClassFilter(ClassPathFilter.TRUE);
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
+				ClassPathFilter.FALSE);
 		assertFalse(filter.accept(url));
+
+		filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
+		assertFalse(filter.accept(url));
+
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.FALSE);
+		assertFalse(filter.accept(url));
+
+		filter = new AndClassFilter(ClassPathFilter.TRUE, ClassPathFilter.TRUE);
+		assertTrue(filter.accept(url));
 	}
 
 	/**
@@ -80,8 +101,9 @@ public class NotFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		ClassPathFilter filter = new NotClassFilter(ClassPathFilter.FALSE);
-		assertEquals("Not( False() )", filter.toString());
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
+				ClassPathFilter.TRUE);
+		assertEquals("And( False(), True() )", filter.toString());
 	}
 
 	/**
@@ -94,11 +116,14 @@ public class NotFilterTest {
 	public void testParse() throws Exception {
 		Parser p = new Parser();
 
-		ClassPathFilter cf = p.parse(new NotClassFilter(ClassPathFilter.FALSE)
-				.toString());
-		assertTrue("Wrong class", cf instanceof NotClassFilter);
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
+				ClassPathFilter.TRUE);
+
+		ClassPathFilter cf = p.parse(filter.toString());
+		assertTrue("wrong class type", cf instanceof AndClassFilter);
 		String[] args = cf.args();
 		assertEquals(ClassPathFilter.FALSE.toString(), args[0]);
-
+		assertEquals(ClassPathFilter.TRUE.toString(), args[1]);
 	}
+
 }

@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
-package org.xenei.junit.classpathutils.filter;
+package org.xenei.classpathutils.filter;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -27,19 +28,21 @@ import org.xenei.classpathutils.ClassPathFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test the FalseClassFilter().
+ * Test AnnotationClassFilter.
  *
  */
-public class FalseFilterTest {
-	private ClassPathFilter filter = ClassPathFilter.FALSE;
-	private Class<?> cls = String.class;
+public class AnnotationClassFilterTest {
+	private ClassPathFilter filter = ClassPathFilter.ANNOTATION_CLASS;
+	private Class<?> t = Test.class;
+	private Class<?> f = File.class;
 
 	/**
 	 * Test that accept(Class) works
 	 */
 	@Test
 	public void testAcceptClass() {
-		assertFalse(filter.accept(cls));
+		assertTrue(filter.accept(t));
+		assertFalse(filter.accept(f));
 	}
 
 	/**
@@ -47,17 +50,19 @@ public class FalseFilterTest {
 	 */
 	@Test
 	public void testAccceptString() {
-		assertFalse(filter.accept(cls));
+		assertTrue(filter.accept(t.getName()));
+		assertFalse(filter.accept(f.getName()));
 	}
 
 	/**
-	 * Test that accept(String) works.
+	 * Test that accept(URL) works always false
 	 * 
 	 * @throws MalformedURLException
 	 */
 	@Test
-	public void testAccceptURL() throws MalformedURLException {
-		assertFalse(filter.accept(new URL("http://example.com")));
+	public void testAcceptURL() throws MalformedURLException {
+		assertFalse(filter.accept(new URL("http://" + t.getName())));
+		assertFalse(filter.accept(new URL("http://" + f.getName())));
 	}
 
 	/**
@@ -65,7 +70,7 @@ public class FalseFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("False()", filter.toString());
+		assertEquals("AnnotationClass()", filter.toString());
 	}
 
 	/**
@@ -79,6 +84,7 @@ public class FalseFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter.toString());
-		assertEquals(ClassPathFilter.FALSE, cf);
+		assertEquals(ClassPathFilter.ANNOTATION_CLASS, cf);
 	}
+
 }

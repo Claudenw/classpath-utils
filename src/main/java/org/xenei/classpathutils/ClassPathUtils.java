@@ -38,6 +38,8 @@ import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.filter.PrefixClassFilter;
+import org.xenei.classpathutils.filter.AndClassFilter;
+import org.xenei.classpathutils.filter.SuffixClassFilter;
 
 /**
  * Package of class path searching utilities
@@ -84,17 +86,23 @@ public class ClassPathUtils {
 			String packageName, final ClassPathFilter filter)
 			throws IOException {
 		final Set<String> classes = new HashSet<String>();
+		final ClassPathFilter myFilter = new AndClassFilter( new SuffixClassFilter( ".class"), filter);
 		if (directory.startsWith("file:")) {
 			if (directory.contains("!")) {
-				handleJar(classes, directory, filter);
+				handleJar(classes, directory, myFilter);
 			} else {
 				scanDir(classes, packageName,
-						new File(directory.substring("file:".length())), filter);
+						new File(directory.substring("file:".length())), myFilter);
 			}
 		} else {
-			scanDir(classes, packageName, new File(directory), filter);
+			scanDir(classes, packageName, new File(directory), myFilter);
 		}
-		return classes;
+		Set<String> retval = new HashSet<String>();
+		for (String s : classes)
+		{
+			retval.add( s.substring( 0, s.length()-".class".length()));
+		}
+		return retval;
 	}
 
 	/**
@@ -560,7 +568,7 @@ public class ClassPathUtils {
 					DirectoryFileFilter.DIRECTORY, new NotFileFilter(
 							new PrefixFileFilter("."))))) {
 				final String newPkgName = String.format("%s%s%s", packageName,
-						(packageName.length() > 0 ? "/" : ""), file.getName());
+						(packageName.length() > 0 ? "." : ""), file.getName());
 				handleDir(classes, newPkgName, file, cFilter);
 			}
 		} else {
@@ -568,7 +576,7 @@ public class ClassPathUtils {
 			// if (dir.getName().endsWith(".class")) {
 			// process the file name.
 			String className = String.format("%s%s%s", packageName,
-					(packageName.length() > 0 ? "/" : ""), dir.getName());
+					(packageName.length() > 0 ? "." : ""), dir.getName());
 			// create class name
 			// className = className.substring(0, className.length()
 			// - ".class".length());
@@ -632,11 +640,17 @@ public class ClassPathUtils {
 		final URL jar = new URL(split[0]);
 		final String prefix = split[1].substring(1);
 		final ZipInputStream zip = new ZipInputStream(jar.openStream());
+		ClassPathFilter myFilter = new AndClassFilter( new PrefixClassFilter( prefix ), filter );
 		ZipEntry entry = null;
 		while ((entry = zip.getNextEntry()) != null) {
-			if (entry.getName().startsWith( prefix) && filter.accept(entry.getName())) {
-				classes.add(entry.getName());
-			}
+			final String className = entry.getName()
+					.replaceAll("\\$.*", "").replace('/', '.');
+//			if (entry.getName().startsWith( prefix) && filter.accept(entry.getName())) {
+//				classes.add(entry.getName());
+//			}
+			if (filter.accept( className)) {
+			classes.add(entry.getName());
+		}
 		}
 	}
 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.xenei.junit.classpathutils.filter;
+package org.xenei.classpathutils.filter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,14 +27,14 @@ import java.net.URL;
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.SuffixClassFilter;
+import org.xenei.classpathutils.filter.RegexClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test SuffixClassFilter
+ * Test RegexClassFilter
  *
  */
-public class SuffixFilterTest {
+public class RegexFilterTest {
 
 	private final ClassPathFilter filter_sens;
 	private final ClassPathFilter filter_insens;
@@ -45,9 +45,9 @@ public class SuffixFilterTest {
 	/**
 	 * Constructor
 	 */
-	public SuffixFilterTest() {
-		filter_sens = new SuffixClassFilter(Case.SENSITIVE, "Filter");
-		filter_insens = new SuffixClassFilter(Case.INSENSITIVE, "filter");
+	public RegexFilterTest() {
+		filter_sens = new RegexClassFilter(Case.SENSITIVE, "^.+xenei.+$");
+		filter_insens = new RegexClassFilter(Case.INSENSITIVE, "^.+Xenei.+$");
 	}
 
 	/**
@@ -87,13 +87,14 @@ public class SuffixFilterTest {
 	public void testAccceptURL() throws MalformedURLException {
 
 		URL url = new URL("http://example.com");
-		SuffixClassFilter sens = new SuffixClassFilter(Case.SENSITIVE, "example.com");
-		SuffixClassFilter insens = new SuffixClassFilter(Case.INSENSITIVE, "Example.COM");
+		RegexClassFilter sens = new RegexClassFilter(Case.SENSITIVE, "^.+example.c.+$");
+		RegexClassFilter insens = new RegexClassFilter(Case.INSENSITIVE,
+				"^.+Example.c.+$");
 
 		assertTrue(sens.accept(url));
 		assertTrue(insens.accept(url));
 
-		url = new URL("http://example.Com");
+		url = new URL("http://Example.com");
 		assertFalse(sens.accept(url));
 		assertTrue(insens.accept(url));
 
@@ -107,8 +108,9 @@ public class SuffixFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("Suffix( Sensitive, Filter )", filter_sens.toString());
-		assertEquals("Suffix( Insensitive, filter )", filter_insens.toString());
+		assertEquals("Regex( Sensitive, ^.+xenei.+$ )", filter_sens.toString());
+		assertEquals("Regex( Insensitive, ^.+Xenei.+$ )",
+				filter_insens.toString());
 	}
 
 	/**
@@ -122,16 +124,16 @@ public class SuffixFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter_sens.toString());
-		assertTrue("Wrong class", cf instanceof SuffixClassFilter);
+		assertTrue("Wrong class", cf instanceof RegexClassFilter);
 		String[] args = cf.args();
 		assertEquals(Case.SENSITIVE.toString(), args[0]);
-		assertEquals("Filter", args[1]);
+		assertEquals("^.+xenei.+$", args[1]);
 
 		cf = p.parse(filter_insens.toString());
-		assertTrue("Wrong class", cf instanceof SuffixClassFilter);
+		assertTrue("Wrong class", cf instanceof RegexClassFilter);
 		args = cf.args();
 		assertEquals(Case.INSENSITIVE.toString(), args[0]);
-		assertEquals("filter", args[1]);
+		assertEquals("^.+Xenei.+$", args[1]);
 
 	}
 }

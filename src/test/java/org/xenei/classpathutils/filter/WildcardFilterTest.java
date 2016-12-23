@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.xenei.junit.classpathutils.filter;
+package org.xenei.classpathutils.filter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,14 +27,15 @@ import java.net.URL;
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.NameClassFilter;
+import org.xenei.classpathutils.filter.RegexClassFilter;
+import org.xenei.classpathutils.filter.WildcardClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test NameClassFilter
+ * Test WildcardClassFilter
  *
  */
-public class NameFilterTest {
+public class WildcardFilterTest {
 
 	private final ClassPathFilter filter_sens;
 	private final ClassPathFilter filter_insens;
@@ -45,9 +46,11 @@ public class NameFilterTest {
 	/**
 	 * Constructor.
 	 */
-	public NameFilterTest() {
-		filter_sens = new NameClassFilter(Case.SENSITIVE, t.getName());
-		filter_insens = new NameClassFilter(Case.INSENSITIVE, t.getName());
+	public WildcardFilterTest() {
+		filter_sens = new WildcardClassFilter(Case.SENSITIVE,
+				"*xene?.*ClassPathFilter");
+		filter_insens = new WildcardClassFilter(Case.INSENSITIVE,
+				"*Xene?.*ClassPathFilter");
 	}
 
 	/**
@@ -71,8 +74,8 @@ public class NameFilterTest {
 		assertTrue(filter_sens.accept(t.getName()));
 		assertTrue(filter_insens.accept(t.getName()));
 
-		assertFalse(filter_sens.accept(t.getName().toLowerCase()));
-		assertTrue(filter_insens.accept(t.getName().toLowerCase()));
+		assertFalse(filter_sens.accept(t.getName().toUpperCase()));
+		assertTrue(filter_insens.accept(t.getName().toUpperCase()));
 
 		assertFalse(filter_sens.accept(f.getName()));
 		assertFalse(filter_insens.accept(f.getName()));
@@ -85,22 +88,21 @@ public class NameFilterTest {
 	 */
 	@Test
 	public void testAccceptURL() throws MalformedURLException {
-		URL url = new URL("http://example.com");
-		URL url2 = new URL("http://Example.com");
-		URL url3 = new URL("ftp://example.com");
 
-		NameClassFilter sens = new NameClassFilter(Case.SENSITIVE, "http://example.com");
-		NameClassFilter insens = new NameClassFilter(Case.INSENSITIVE,
-				"http://example.com");
+		URL url = new URL("http://example.com");
+		RegexClassFilter sens = new RegexClassFilter(Case.SENSITIVE, ".*example.c.*");
+		RegexClassFilter insens = new RegexClassFilter(Case.INSENSITIVE, ".*Example.c.*");
 
 		assertTrue(sens.accept(url));
 		assertTrue(insens.accept(url));
 
-		assertFalse(sens.accept(url2));
-		assertTrue(insens.accept(url2));
+		url = new URL("http://Example.com");
+		assertFalse(sens.accept(url));
+		assertTrue(insens.accept(url));
 
-		assertFalse(sens.accept(url3));
-		assertFalse(insens.accept(url3));
+		url = new URL("http://example.net");
+		assertFalse(sens.accept(url));
+		assertFalse(insens.accept(url));
 	}
 
 	/**
@@ -108,10 +110,50 @@ public class NameFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("Name( Sensitive, " + t.getName() + " )",
+		assertEquals("Wildcard( Sensitive, *xene?.*ClassPathFilter )",
 				filter_sens.toString());
-		assertEquals("Name( Insensitive, " + t.getName() + " )",
+		assertEquals("Wildcard( Insensitive, *Xene?.*ClassPathFilter )",
 				filter_insens.toString());
+	}
+
+	/**
+	 * Test that the dot does not get expanded to regex expression.
+	 */
+	@Test
+	public void testDotPosition() {
+		assertEquals("^\\Q.org.xenei.\\E$",
+				WildcardClassFilter.makeRegex(".org.xenei."));
+	}
+
+	/**
+	 * Test that the asterisk is expanded to .* whereever it is found in the
+	 * string.
+	 */
+	@Test
+	public void testAsteriskPosition() {
+		assertEquals("^.*\\Qorg\\E.*\\Qxenei\\E.*$",
+				WildcardClassFilter.makeRegex("*org*xenei*"));
+		assertEquals("^.*\\Q.bad.\\E.*$", WildcardClassFilter.makeRegex("*.bad.*"));
+	}
+
+	/**
+	 * Test that the asterisk is expanded to .* whereever it is found in the
+	 * string.
+	 */
+	@Test
+	public void testSingleWildcards() {
+		assertEquals("^.*$", WildcardClassFilter.makeRegex("*"));
+		assertEquals("^.$", WildcardClassFilter.makeRegex("?"));
+	}
+
+	/**
+	 * Test that the question mark is expanded to . (dot) where ever it is found
+	 * in the string.
+	 */
+	@Test
+	public void testQuestionPosition() {
+		assertEquals("^.\\Qorg\\E.\\Qxenei\\E.$",
+				WildcardClassFilter.makeRegex("?org?xenei?"));
 	}
 
 	/**
@@ -125,16 +167,16 @@ public class NameFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter_sens.toString());
-		assertTrue("Wrong class", cf instanceof NameClassFilter);
+		assertTrue("Wrong class", cf instanceof WildcardClassFilter);
 		String[] args = cf.args();
 		assertEquals(Case.SENSITIVE.toString(), args[0]);
-		assertEquals(t.getName(), args[1]);
+		assertEquals("*xene?.*ClassPathFilter", args[1]);
 
 		cf = p.parse(filter_insens.toString());
-		assertTrue("Wrong class", cf instanceof NameClassFilter);
+		assertTrue("Wrong class", cf instanceof WildcardClassFilter);
 		args = cf.args();
 		assertEquals(Case.INSENSITIVE.toString(), args[0]);
-		assertEquals(t.getName(), args[1]);
+		assertEquals("*Xene?.*ClassPathFilter", args[1]);
 
 	}
 }

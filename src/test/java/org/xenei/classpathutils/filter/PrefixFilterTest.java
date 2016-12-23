@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.xenei.junit.classpathutils.filter;
+package org.xenei.classpathutils.filter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,14 +27,14 @@ import java.net.URL;
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.RegexClassFilter;
+import org.xenei.classpathutils.filter.PrefixClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test RegexClassFilter
+ * Test PrefixClassFilter
  *
  */
-public class RegexFilterTest {
+public class PrefixFilterTest {
 
 	private final ClassPathFilter filter_sens;
 	private final ClassPathFilter filter_insens;
@@ -43,11 +43,11 @@ public class RegexFilterTest {
 	private Class<?> f = String.class;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
-	public RegexFilterTest() {
-		filter_sens = new RegexClassFilter(Case.SENSITIVE, "^.+xenei.+$");
-		filter_insens = new RegexClassFilter(Case.INSENSITIVE, "^.+Xenei.+$");
+	public PrefixFilterTest() {
+		filter_sens = new PrefixClassFilter(Case.SENSITIVE, "org.xenei");
+		filter_insens = new PrefixClassFilter(Case.INSENSITIVE, "org.Xenei");
 	}
 
 	/**
@@ -64,22 +64,6 @@ public class RegexFilterTest {
 
 	/**
 	 * Test that accept(String) works.
-	 */
-	@Test
-	public void testAccceptString() {
-
-		assertTrue(filter_sens.accept(t.getName()));
-		assertTrue(filter_insens.accept(t.getName()));
-
-		assertFalse(filter_sens.accept(t.getName().toUpperCase()));
-		assertTrue(filter_insens.accept(t.getName().toUpperCase()));
-
-		assertFalse(filter_sens.accept(f.getName()));
-		assertFalse(filter_insens.accept(f.getName()));
-	}
-
-	/**
-	 * Test that accept(String) works.
 	 * 
 	 * @throws MalformedURLException
 	 */
@@ -87,9 +71,9 @@ public class RegexFilterTest {
 	public void testAccceptURL() throws MalformedURLException {
 
 		URL url = new URL("http://example.com");
-		RegexClassFilter sens = new RegexClassFilter(Case.SENSITIVE, "^.+example.c.+$");
-		RegexClassFilter insens = new RegexClassFilter(Case.INSENSITIVE,
-				"^.+Example.c.+$");
+		PrefixClassFilter sens = new PrefixClassFilter(Case.SENSITIVE, "http://example");
+		PrefixClassFilter insens = new PrefixClassFilter(Case.INSENSITIVE,
+				"HTTP://example");
 
 		assertTrue(sens.accept(url));
 		assertTrue(insens.accept(url));
@@ -98,9 +82,21 @@ public class RegexFilterTest {
 		assertFalse(sens.accept(url));
 		assertTrue(insens.accept(url));
 
-		url = new URL("http://example.net");
+		url = new URL("ftp://example.com");
 		assertFalse(sens.accept(url));
 		assertFalse(insens.accept(url));
+	}
+
+	/**
+	 * Test that accept(Class) works
+	 */
+	@Test
+	public void testAcceptString() {
+		assertTrue(filter_sens.accept(t));
+		assertTrue(filter_insens.accept(t));
+
+		assertFalse(filter_sens.accept(f));
+		assertFalse(filter_insens.accept(f));
 	}
 
 	/**
@@ -108,8 +104,8 @@ public class RegexFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("Regex( Sensitive, ^.+xenei.+$ )", filter_sens.toString());
-		assertEquals("Regex( Insensitive, ^.+Xenei.+$ )",
+		assertEquals("Prefix( Sensitive, org.xenei )", filter_sens.toString());
+		assertEquals("Prefix( Insensitive, org.Xenei )",
 				filter_insens.toString());
 	}
 
@@ -124,16 +120,16 @@ public class RegexFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter_sens.toString());
-		assertTrue("Wrong class", cf instanceof RegexClassFilter);
+		assertTrue("Wrong class", cf instanceof PrefixClassFilter);
 		String[] args = cf.args();
 		assertEquals(Case.SENSITIVE.toString(), args[0]);
-		assertEquals("^.+xenei.+$", args[1]);
+		assertEquals("org.xenei", args[1]);
 
 		cf = p.parse(filter_insens.toString());
-		assertTrue("Wrong class", cf instanceof RegexClassFilter);
+		assertTrue("Wrong class", cf instanceof PrefixClassFilter);
 		args = cf.args();
 		assertEquals(Case.INSENSITIVE.toString(), args[0]);
-		assertEquals("^.+Xenei.+$", args[1]);
+		assertEquals("org.Xenei", args[1]);
 
 	}
 }

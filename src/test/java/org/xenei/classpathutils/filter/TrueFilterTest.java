@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.xenei.junit.classpathutils.filter;
+package org.xenei.classpathutils.filter;
 
 import static org.junit.Assert.*;
 
@@ -27,21 +27,19 @@ import org.xenei.classpathutils.ClassPathFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test InterfaceClassFilter
+ * Test TrueClassFilter
  *
  */
-public class InterfaceClassFilterTest {
-	private ClassPathFilter filter = ClassPathFilter.INTERFACE_CLASS;
-	private Class<?> t = ClassPathFilter.class;
-	private Class<?> f = String.class;
+public class TrueFilterTest {
+	private ClassPathFilter filter = ClassPathFilter.TRUE;
+	private Class<?> cls = String.class;
 
 	/**
 	 * Test that accept(Class) works
 	 */
 	@Test
 	public void testAcceptClass() {
-		assertTrue(filter.accept(t));
-		assertFalse(filter.accept(f));
+		assertTrue(filter.accept(cls));
 	}
 
 	/**
@@ -49,19 +47,17 @@ public class InterfaceClassFilterTest {
 	 */
 	@Test
 	public void testAccceptString() {
-		assertTrue(filter.accept(t.getName()));
-		assertFalse(filter.accept(f.getName()));
+		assertTrue(filter.accept(cls));
 	}
 
 	/**
-	 * Test that accept(URL) works always false
+	 * Test that accept(String) works.
 	 * 
 	 * @throws MalformedURLException
 	 */
 	@Test
-	public void testAcceptURL() throws MalformedURLException {
-		assertFalse(filter.accept(new URL("http://" + t.getName())));
-		assertFalse(filter.accept(new URL("http://" + f.getName())));
+	public void testAccceptURL() throws MalformedURLException {
+		assertTrue(filter.accept(new URL("http://example.com")));
 	}
 
 	/**
@@ -69,7 +65,7 @@ public class InterfaceClassFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("InterfaceClass()", filter.toString());
+		assertEquals("True()", filter.toString());
 	}
 
 	/**
@@ -83,6 +79,6 @@ public class InterfaceClassFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter.toString());
-		assertEquals(ClassPathFilter.INTERFACE_CLASS, cf);
+		assertEquals(ClassPathFilter.TRUE, cf);
 	}
 }

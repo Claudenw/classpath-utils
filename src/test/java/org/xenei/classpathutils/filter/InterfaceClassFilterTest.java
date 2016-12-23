@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-package org.xenei.junit.classpathutils.filter;
+package org.xenei.classpathutils.filter;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -28,13 +27,13 @@ import org.xenei.classpathutils.ClassPathFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test AnnotationClassFilter.
+ * Test InterfaceClassFilter
  *
  */
-public class AnnotationClassFilterTest {
-	private ClassPathFilter filter = ClassPathFilter.ANNOTATION_CLASS;
-	private Class<?> t = Test.class;
-	private Class<?> f = File.class;
+public class InterfaceClassFilterTest {
+	private ClassPathFilter filter = ClassPathFilter.INTERFACE_CLASS;
+	private Class<?> t = ClassPathFilter.class;
+	private Class<?> f = String.class;
 
 	/**
 	 * Test that accept(Class) works
@@ -70,7 +69,7 @@ public class AnnotationClassFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("AnnotationClass()", filter.toString());
+		assertEquals("InterfaceClass()", filter.toString());
 	}
 
 	/**
@@ -84,7 +83,6 @@ public class AnnotationClassFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter.toString());
-		assertEquals(ClassPathFilter.ANNOTATION_CLASS, cf);
+		assertEquals(ClassPathFilter.INTERFACE_CLASS, cf);
 	}
-
 }

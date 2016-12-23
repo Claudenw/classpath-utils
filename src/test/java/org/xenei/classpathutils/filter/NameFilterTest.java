@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.xenei.junit.classpathutils.filter;
+package org.xenei.classpathutils.filter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,14 +27,14 @@ import java.net.URL;
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.PrefixClassFilter;
+import org.xenei.classpathutils.filter.NameClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test PrefixClassFilter
+ * Test NameClassFilter
  *
  */
-public class PrefixFilterTest {
+public class NameFilterTest {
 
 	private final ClassPathFilter filter_sens;
 	private final ClassPathFilter filter_insens;
@@ -45,9 +45,9 @@ public class PrefixFilterTest {
 	/**
 	 * Constructor.
 	 */
-	public PrefixFilterTest() {
-		filter_sens = new PrefixClassFilter(Case.SENSITIVE, "org.xenei");
-		filter_insens = new PrefixClassFilter(Case.INSENSITIVE, "org.Xenei");
+	public NameFilterTest() {
+		filter_sens = new NameClassFilter(Case.SENSITIVE, t.getName());
+		filter_insens = new NameClassFilter(Case.INSENSITIVE, t.getName());
 	}
 
 	/**
@@ -64,39 +64,43 @@ public class PrefixFilterTest {
 
 	/**
 	 * Test that accept(String) works.
+	 */
+	@Test
+	public void testAccceptString() {
+
+		assertTrue(filter_sens.accept(t.getName()));
+		assertTrue(filter_insens.accept(t.getName()));
+
+		assertFalse(filter_sens.accept(t.getName().toLowerCase()));
+		assertTrue(filter_insens.accept(t.getName().toLowerCase()));
+
+		assertFalse(filter_sens.accept(f.getName()));
+		assertFalse(filter_insens.accept(f.getName()));
+	}
+
+	/**
+	 * Test that accept(String) works.
 	 * 
 	 * @throws MalformedURLException
 	 */
 	@Test
 	public void testAccceptURL() throws MalformedURLException {
-
 		URL url = new URL("http://example.com");
-		PrefixClassFilter sens = new PrefixClassFilter(Case.SENSITIVE, "http://example");
-		PrefixClassFilter insens = new PrefixClassFilter(Case.INSENSITIVE,
-				"HTTP://example");
+		URL url2 = new URL("http://Example.com");
+		URL url3 = new URL("ftp://example.com");
+
+		NameClassFilter sens = new NameClassFilter(Case.SENSITIVE, "http://example.com");
+		NameClassFilter insens = new NameClassFilter(Case.INSENSITIVE,
+				"http://example.com");
 
 		assertTrue(sens.accept(url));
 		assertTrue(insens.accept(url));
 
-		url = new URL("http://Example.com");
-		assertFalse(sens.accept(url));
-		assertTrue(insens.accept(url));
+		assertFalse(sens.accept(url2));
+		assertTrue(insens.accept(url2));
 
-		url = new URL("ftp://example.com");
-		assertFalse(sens.accept(url));
-		assertFalse(insens.accept(url));
-	}
-
-	/**
-	 * Test that accept(Class) works
-	 */
-	@Test
-	public void testAcceptString() {
-		assertTrue(filter_sens.accept(t));
-		assertTrue(filter_insens.accept(t));
-
-		assertFalse(filter_sens.accept(f));
-		assertFalse(filter_insens.accept(f));
+		assertFalse(sens.accept(url3));
+		assertFalse(insens.accept(url3));
 	}
 
 	/**
@@ -104,8 +108,9 @@ public class PrefixFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("Prefix( Sensitive, org.xenei )", filter_sens.toString());
-		assertEquals("Prefix( Insensitive, org.Xenei )",
+		assertEquals("Name( Sensitive, " + t.getName() + " )",
+				filter_sens.toString());
+		assertEquals("Name( Insensitive, " + t.getName() + " )",
 				filter_insens.toString());
 	}
 
@@ -120,16 +125,16 @@ public class PrefixFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter_sens.toString());
-		assertTrue("Wrong class", cf instanceof PrefixClassFilter);
+		assertTrue("Wrong class", cf instanceof NameClassFilter);
 		String[] args = cf.args();
 		assertEquals(Case.SENSITIVE.toString(), args[0]);
-		assertEquals("org.xenei", args[1]);
+		assertEquals(t.getName(), args[1]);
 
 		cf = p.parse(filter_insens.toString());
-		assertTrue("Wrong class", cf instanceof PrefixClassFilter);
+		assertTrue("Wrong class", cf instanceof NameClassFilter);
 		args = cf.args();
 		assertEquals(Case.INSENSITIVE.toString(), args[0]);
-		assertEquals("org.Xenei", args[1]);
+		assertEquals(t.getName(), args[1]);
 
 	}
 }

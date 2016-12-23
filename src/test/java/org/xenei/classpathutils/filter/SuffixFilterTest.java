@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.xenei.junit.classpathutils.filter;
+package org.xenei.classpathutils.filter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,15 +27,14 @@ import java.net.URL;
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.RegexClassFilter;
-import org.xenei.classpathutils.filter.WildcardClassFilter;
+import org.xenei.classpathutils.filter.SuffixClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test WildcardClassFilter
+ * Test SuffixClassFilter
  *
  */
-public class WildcardFilterTest {
+public class SuffixFilterTest {
 
 	private final ClassPathFilter filter_sens;
 	private final ClassPathFilter filter_insens;
@@ -44,13 +43,11 @@ public class WildcardFilterTest {
 	private Class<?> f = String.class;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 */
-	public WildcardFilterTest() {
-		filter_sens = new WildcardClassFilter(Case.SENSITIVE,
-				"*xene?.*ClassPathFilter");
-		filter_insens = new WildcardClassFilter(Case.INSENSITIVE,
-				"*Xene?.*ClassPathFilter");
+	public SuffixFilterTest() {
+		filter_sens = new SuffixClassFilter(Case.SENSITIVE, "Filter");
+		filter_insens = new SuffixClassFilter(Case.INSENSITIVE, "filter");
 	}
 
 	/**
@@ -90,13 +87,13 @@ public class WildcardFilterTest {
 	public void testAccceptURL() throws MalformedURLException {
 
 		URL url = new URL("http://example.com");
-		RegexClassFilter sens = new RegexClassFilter(Case.SENSITIVE, ".*example.c.*");
-		RegexClassFilter insens = new RegexClassFilter(Case.INSENSITIVE, ".*Example.c.*");
+		SuffixClassFilter sens = new SuffixClassFilter(Case.SENSITIVE, "example.com");
+		SuffixClassFilter insens = new SuffixClassFilter(Case.INSENSITIVE, "Example.COM");
 
 		assertTrue(sens.accept(url));
 		assertTrue(insens.accept(url));
 
-		url = new URL("http://Example.com");
+		url = new URL("http://example.Com");
 		assertFalse(sens.accept(url));
 		assertTrue(insens.accept(url));
 
@@ -110,50 +107,8 @@ public class WildcardFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("Wildcard( Sensitive, *xene?.*ClassPathFilter )",
-				filter_sens.toString());
-		assertEquals("Wildcard( Insensitive, *Xene?.*ClassPathFilter )",
-				filter_insens.toString());
-	}
-
-	/**
-	 * Test that the dot does not get expanded to regex expression.
-	 */
-	@Test
-	public void testDotPosition() {
-		assertEquals("^\\Q.org.xenei.\\E$",
-				WildcardClassFilter.makeRegex(".org.xenei."));
-	}
-
-	/**
-	 * Test that the asterisk is expanded to .* whereever it is found in the
-	 * string.
-	 */
-	@Test
-	public void testAsteriskPosition() {
-		assertEquals("^.*\\Qorg\\E.*\\Qxenei\\E.*$",
-				WildcardClassFilter.makeRegex("*org*xenei*"));
-		assertEquals("^.*\\Q.bad.\\E.*$", WildcardClassFilter.makeRegex("*.bad.*"));
-	}
-
-	/**
-	 * Test that the asterisk is expanded to .* whereever it is found in the
-	 * string.
-	 */
-	@Test
-	public void testSingleWildcards() {
-		assertEquals("^.*$", WildcardClassFilter.makeRegex("*"));
-		assertEquals("^.$", WildcardClassFilter.makeRegex("?"));
-	}
-
-	/**
-	 * Test that the question mark is expanded to . (dot) where ever it is found
-	 * in the string.
-	 */
-	@Test
-	public void testQuestionPosition() {
-		assertEquals("^.\\Qorg\\E.\\Qxenei\\E.$",
-				WildcardClassFilter.makeRegex("?org?xenei?"));
+		assertEquals("Suffix( Sensitive, Filter )", filter_sens.toString());
+		assertEquals("Suffix( Insensitive, filter )", filter_insens.toString());
 	}
 
 	/**
@@ -167,16 +122,16 @@ public class WildcardFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter_sens.toString());
-		assertTrue("Wrong class", cf instanceof WildcardClassFilter);
+		assertTrue("Wrong class", cf instanceof SuffixClassFilter);
 		String[] args = cf.args();
 		assertEquals(Case.SENSITIVE.toString(), args[0]);
-		assertEquals("*xene?.*ClassPathFilter", args[1]);
+		assertEquals("Filter", args[1]);
 
 		cf = p.parse(filter_insens.toString());
-		assertTrue("Wrong class", cf instanceof WildcardClassFilter);
+		assertTrue("Wrong class", cf instanceof SuffixClassFilter);
 		args = cf.args();
 		assertEquals(Case.INSENSITIVE.toString(), args[0]);
-		assertEquals("*Xene?.*ClassPathFilter", args[1]);
+		assertEquals("filter", args[1]);
 
 	}
 }
