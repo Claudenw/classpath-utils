@@ -144,8 +144,9 @@ public class NameClassFilter extends _AbstractStringFilter implements Serializab
 	 */
 	@Override
 	public boolean accept(String className) {
+		String cn = removeDotClass( className );
 		for (String name2 : getStrings()) {
-			if (caseSensitivity.checkEquals(className, name2)) {
+			if (caseSensitivity.checkEquals(cn, name2)) {
 				return true;
 			}
 		}

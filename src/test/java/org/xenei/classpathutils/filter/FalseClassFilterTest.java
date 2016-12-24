@@ -30,7 +30,7 @@ import org.xenei.classpathutils.filter.parser.Parser;
  * Test the FalseClassFilter().
  *
  */
-public class FalseFilterTest {
+public class FalseClassFilterTest {
 	private ClassPathFilter filter = ClassPathFilter.FALSE;
 	private Class<?> cls = String.class;
 

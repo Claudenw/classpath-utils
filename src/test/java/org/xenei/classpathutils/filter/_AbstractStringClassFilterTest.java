@@ -34,7 +34,7 @@ import org.xenei.classpathutils.filter._AbstractStringFilter;
  * Class to test AbstractStringClassFilter.
  *
  */
-public class AbstractStringClassFilterTest {
+public class _AbstractStringClassFilterTest {
 
 	private _AbstractStringFilter filter;
 
@@ -43,7 +43,7 @@ public class AbstractStringClassFilterTest {
 	private _AbstractStringFilter filter_insens;
 
 	private static Log LOG = LogFactory
-			.getLog(AbstractStringClassFilterTest.class);
+			.getLog(_AbstractStringClassFilterTest.class);
 
 	/**
 	 * Recreate the filters.

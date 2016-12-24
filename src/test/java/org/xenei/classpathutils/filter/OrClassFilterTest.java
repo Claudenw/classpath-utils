@@ -31,7 +31,7 @@ import org.xenei.classpathutils.filter.parser.Parser;
  * Test OrClassFilter
  *
  */
-public class OrFilterTest {
+public class OrClassFilterTest {
 
 	private Class<?> cls = String.class;
 	private String str = cls.getName();

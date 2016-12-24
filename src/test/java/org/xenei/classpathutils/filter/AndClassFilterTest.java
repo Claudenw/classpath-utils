@@ -31,7 +31,7 @@ import org.xenei.classpathutils.filter.parser.Parser;
  * Test the AndClassFilter.
  *
  */
-public class AndFilterTest {
+public class AndClassFilterTest {
 
 	private Class<?> cls = String.class;
 	private String str = cls.getName();

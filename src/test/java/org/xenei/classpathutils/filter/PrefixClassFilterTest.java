@@ -34,7 +34,7 @@ import org.xenei.classpathutils.filter.parser.Parser;
  * Test PrefixClassFilter
  *
  */
-public class PrefixFilterTest {
+public class PrefixClassFilterTest {
 
 	private final ClassPathFilter filter_sens;
 	private final ClassPathFilter filter_insens;
@@ -45,7 +45,7 @@ public class PrefixFilterTest {
 	/**
 	 * Constructor.
 	 */
-	public PrefixFilterTest() {
+	public PrefixClassFilterTest() {
 		filter_sens = new PrefixClassFilter(Case.SENSITIVE, "org.xenei");
 		filter_insens = new PrefixClassFilter(Case.INSENSITIVE, "org.Xenei");
 	}

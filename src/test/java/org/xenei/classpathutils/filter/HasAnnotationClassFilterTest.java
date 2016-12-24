@@ -52,6 +52,8 @@ public class HasAnnotationClassFilterTest {
 	 */
 	@Test
 	public void testAccceptString() {
+		assertTrue(filter.accept(_AbstractBaseFilter.removeDotClass(t.getName())));
+		assertFalse(filter.accept(_AbstractBaseFilter.removeDotClass(f.getName())));
 
 		assertTrue(filter.accept(t.getName()));
 		assertFalse(filter.accept(f.getName()));

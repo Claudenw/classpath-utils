@@ -27,14 +27,14 @@ import java.net.URL;
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
-import org.xenei.classpathutils.filter.SuffixClassFilter;
+import org.xenei.classpathutils.filter.NameClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test SuffixClassFilter
+ * Test NameClassFilter
  *
  */
-public class SuffixFilterTest {
+public class NameClassFilterTest {
 
 	private final ClassPathFilter filter_sens;
 	private final ClassPathFilter filter_insens;
@@ -43,11 +43,11 @@ public class SuffixFilterTest {
 	private Class<?> f = String.class;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
-	public SuffixFilterTest() {
-		filter_sens = new SuffixClassFilter(Case.SENSITIVE, "Filter");
-		filter_insens = new SuffixClassFilter(Case.INSENSITIVE, "filter");
+	public NameClassFilterTest() {
+		filter_sens = new NameClassFilter(Case.SENSITIVE, t.getName());
+		filter_insens = new NameClassFilter(Case.INSENSITIVE, t.getName());
 	}
 
 	/**
@@ -68,12 +68,18 @@ public class SuffixFilterTest {
 	@Test
 	public void testAccceptString() {
 
+		assertTrue(filter_sens.accept(_AbstractBaseFilter.removeDotClass(t.getName())));
+		assertTrue(filter_insens.accept(_AbstractBaseFilter.removeDotClass(t.getName())));
 		assertTrue(filter_sens.accept(t.getName()));
 		assertTrue(filter_insens.accept(t.getName()));
 
-		assertFalse(filter_sens.accept(t.getName().toUpperCase()));
-		assertTrue(filter_insens.accept(t.getName().toUpperCase()));
+		assertFalse(filter_sens.accept(_AbstractBaseFilter.removeDotClass(t.getName().toLowerCase())));
+		assertTrue(filter_insens.accept(_AbstractBaseFilter.removeDotClass(t.getName().toLowerCase())));
+		assertFalse(filter_sens.accept(t.getName().toLowerCase()));
+		assertTrue(filter_insens.accept(t.getName().toLowerCase()));
 
+		assertFalse(filter_sens.accept(_AbstractBaseFilter.removeDotClass(f.getName())));
+		assertFalse(filter_insens.accept(_AbstractBaseFilter.removeDotClass(f.getName())));
 		assertFalse(filter_sens.accept(f.getName()));
 		assertFalse(filter_insens.accept(f.getName()));
 	}
@@ -85,21 +91,22 @@ public class SuffixFilterTest {
 	 */
 	@Test
 	public void testAccceptURL() throws MalformedURLException {
-
 		URL url = new URL("http://example.com");
-		SuffixClassFilter sens = new SuffixClassFilter(Case.SENSITIVE, "example.com");
-		SuffixClassFilter insens = new SuffixClassFilter(Case.INSENSITIVE, "Example.COM");
+		URL url2 = new URL("http://Example.com");
+		URL url3 = new URL("ftp://example.com");
+
+		NameClassFilter sens = new NameClassFilter(Case.SENSITIVE, "http://example.com");
+		NameClassFilter insens = new NameClassFilter(Case.INSENSITIVE,
+				"http://example.com");
 
 		assertTrue(sens.accept(url));
 		assertTrue(insens.accept(url));
 
-		url = new URL("http://example.Com");
-		assertFalse(sens.accept(url));
-		assertTrue(insens.accept(url));
+		assertFalse(sens.accept(url2));
+		assertTrue(insens.accept(url2));
 
-		url = new URL("http://example.net");
-		assertFalse(sens.accept(url));
-		assertFalse(insens.accept(url));
+		assertFalse(sens.accept(url3));
+		assertFalse(insens.accept(url3));
 	}
 
 	/**
@@ -107,8 +114,10 @@ public class SuffixFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("Suffix( Sensitive, Filter )", filter_sens.toString());
-		assertEquals("Suffix( Insensitive, filter )", filter_insens.toString());
+		assertEquals("Name( Sensitive, " + t.getName() + " )",
+				filter_sens.toString());
+		assertEquals("Name( Insensitive, " + t.getName() + " )",
+				filter_insens.toString());
 	}
 
 	/**
@@ -122,16 +131,16 @@ public class SuffixFilterTest {
 		Parser p = new Parser();
 
 		ClassPathFilter cf = p.parse(filter_sens.toString());
-		assertTrue("Wrong class", cf instanceof SuffixClassFilter);
+		assertTrue("Wrong class", cf instanceof NameClassFilter);
 		String[] args = cf.args();
 		assertEquals(Case.SENSITIVE.toString(), args[0]);
-		assertEquals("Filter", args[1]);
+		assertEquals(t.getName(), args[1]);
 
 		cf = p.parse(filter_insens.toString());
-		assertTrue("Wrong class", cf instanceof SuffixClassFilter);
+		assertTrue("Wrong class", cf instanceof NameClassFilter);
 		args = cf.args();
 		assertEquals(Case.INSENSITIVE.toString(), args[0]);
-		assertEquals("filter", args[1]);
+		assertEquals(t.getName(), args[1]);
 
 	}
 }

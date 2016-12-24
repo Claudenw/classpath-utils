@@ -88,7 +88,7 @@ public class AbstractClassFilter extends _AbstractBaseFilter implements
 	public boolean accept(String className) {
 
 		try {
-			return accept(Class.forName(className));
+			return accept(Class.forName( _AbstractBaseFilter.removeDotClass(className)));
 		} catch (ClassNotFoundException e) {
 			return false;
 		}

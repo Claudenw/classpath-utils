@@ -24,22 +24,27 @@ import java.net.URL;
 
 import org.junit.Test;
 import org.xenei.classpathutils.ClassPathFilter;
+import org.xenei.classpathutils.filter.NotClassFilter;
 import org.xenei.classpathutils.filter.parser.Parser;
 
 /**
- * Test TrueClassFilter
+ * Test NotClassFilter.
  *
  */
-public class TrueFilterTest {
-	private ClassPathFilter filter = ClassPathFilter.TRUE;
+public class NotClassFilterTest {
 	private Class<?> cls = String.class;
+	private String str = cls.getName();
 
 	/**
 	 * Test that accept(Class) works
 	 */
 	@Test
 	public void testAcceptClass() {
+		ClassPathFilter filter = new NotClassFilter(ClassPathFilter.FALSE);
 		assertTrue(filter.accept(cls));
+
+		filter = new NotClassFilter(ClassPathFilter.TRUE);
+		assertFalse(filter.accept(cls));
 	}
 
 	/**
@@ -47,7 +52,12 @@ public class TrueFilterTest {
 	 */
 	@Test
 	public void testAccceptString() {
-		assertTrue(filter.accept(cls));
+		ClassPathFilter filter = new NotClassFilter(ClassPathFilter.FALSE);
+		assertTrue(filter.accept(str));
+
+		filter = new NotClassFilter(ClassPathFilter.TRUE);
+		assertFalse(filter.accept(str));
+
 	}
 
 	/**
@@ -57,7 +67,12 @@ public class TrueFilterTest {
 	 */
 	@Test
 	public void testAccceptURL() throws MalformedURLException {
-		assertTrue(filter.accept(new URL("http://example.com")));
+		URL url = new URL("http://example.com");
+		ClassPathFilter filter = new NotClassFilter(ClassPathFilter.FALSE);
+		assertTrue(filter.accept(url));
+
+		filter = new NotClassFilter(ClassPathFilter.TRUE);
+		assertFalse(filter.accept(url));
 	}
 
 	/**
@@ -65,7 +80,8 @@ public class TrueFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("True()", filter.toString());
+		ClassPathFilter filter = new NotClassFilter(ClassPathFilter.FALSE);
+		assertEquals("Not( False() )", filter.toString());
 	}
 
 	/**
@@ -78,7 +94,11 @@ public class TrueFilterTest {
 	public void testParse() throws Exception {
 		Parser p = new Parser();
 
-		ClassPathFilter cf = p.parse(filter.toString());
-		assertEquals(ClassPathFilter.TRUE, cf);
+		ClassPathFilter cf = p.parse(new NotClassFilter(ClassPathFilter.FALSE)
+				.toString());
+		assertTrue("Wrong class", cf instanceof NotClassFilter);
+		String[] args = cf.args();
+		assertEquals(ClassPathFilter.FALSE.toString(), args[0]);
+
 	}
 }

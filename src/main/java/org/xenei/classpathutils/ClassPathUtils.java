@@ -201,6 +201,11 @@ public class ClassPathUtils {
 			while (resources.hasMoreElements()) {
 				final URL resource = resources.nextElement();
 				String dir = resource.getPath();
+				if (LOG.isDebugEnabled())
+				{
+					LOG.debug(String.format("Processing dir %s", dir));
+				}
+				
 				if (!directories.contains(dir)) {
 					directories.add(dir);
 
@@ -560,7 +565,7 @@ public class ClassPathUtils {
 		}
 		if (dir.isDirectory()) {
 			// handle all the classes in the directory
-			for (File file : dir.listFiles()) {
+			for (File file : dir.listFiles((FileFilter) new NotFileFilter( DirectoryFileFilter.DIRECTORY))) {
 				handleDir(classes, packageName, file, cFilter);
 			}
 			// handle all the sub-directories
@@ -576,10 +581,10 @@ public class ClassPathUtils {
 			// if (dir.getName().endsWith(".class")) {
 			// process the file name.
 			String className = String.format("%s%s%s", packageName,
-					(packageName.length() > 0 ? "." : ""), dir.getName());
+					(packageName.length() > 0 ? "." : ""), modifyFileName(dir.getName()));
 			// create class name
 			// className = className.substring(0, className.length()
-			// - ".class".length());
+			// - ".class".length());			
 			if (cFilter.accept(className)) {
 				classes.add(className);
 			}
@@ -622,6 +627,13 @@ public class ClassPathUtils {
 		// if it is not a directory we don't process it here as we are looking
 		// for directories that start with the packageName.
 	}
+	
+	private static String modifyFileName( String fileName )
+	{
+		String s = fileName.replaceAll( "\\$[0-9]+[\\.\\$].*", ""); // remove anonymous classes
+		// change inner class '$' to '.' and any slashes as well
+		return s.replaceAll("\\$", ".").replace('/', '.');
+	}
 
 	/**
 	 * handle finding classes in a jar.
@@ -643,8 +655,7 @@ public class ClassPathUtils {
 		ClassPathFilter myFilter = new AndClassFilter( new PrefixClassFilter( prefix ), filter );
 		ZipEntry entry = null;
 		while ((entry = zip.getNextEntry()) != null) {
-			final String className = entry.getName()
-					.replaceAll("\\$.*", "").replace('/', '.');
+			final String className = modifyFileName(entry.getName());
 //			if (entry.getName().startsWith( prefix) && filter.accept(entry.getName())) {
 //				classes.add(entry.getName());
 //			}

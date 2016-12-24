@@ -33,6 +33,12 @@ public abstract class _AbstractBaseFilter implements ClassPathFilter {
 	protected static final String[] NO_ARGS = new String[0];
 
 	protected abstract Log getLog();
+	
+	static String removeDotClass( String className )
+	{
+		return className.endsWith(".class")?className.substring(0, className.length()-".class".length()):className;
+	}
+	
 
 	/**
 	 * {@inheritDoc}

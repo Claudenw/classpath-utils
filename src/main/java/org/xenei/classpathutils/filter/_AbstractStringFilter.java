@@ -43,8 +43,6 @@ public abstract class _AbstractStringFilter extends _AbstractBaseFilter {
 	 * 
 	 * @param str
 	 *            the string to allow, must not be null
-	 * @throws IllegalArgumentException
-	 *             if the str is null
 	 */
 	protected _AbstractStringFilter(String str) {
 		this(null, str);
@@ -71,11 +69,6 @@ public abstract class _AbstractStringFilter extends _AbstractBaseFilter {
 	 * <p>
 	 * The array is not cloned, so could be changed after constructing the
 	 * instance. This would be inadvisable however.
-	 * 
-	 * @param strings
-	 *            the array of strings to allow, must not be null or zero length
-	 * @throws IllegalArgumentException
-	 *             if the names array is null
 	 */
 	protected _AbstractStringFilter(String... strings) {
 		this(null, strings);
@@ -92,17 +85,14 @@ public abstract class _AbstractStringFilter extends _AbstractBaseFilter {
 	 *            how to handle case sensitivity, null means case-sensitive
 	 * @param strings
 	 *            the array of strings to allow, must not be null or zero length
-	 * @throws IllegalArgumentException
-	 *             if the names array is null
 	 */
 	protected _AbstractStringFilter(Case caseSensitivity, String... strings) {
-		if (strings == null || strings.length < 1) {
-			throw new IllegalArgumentException(
-					"List of strings may not be null or null length");
-		}
 		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE
 				: caseSensitivity;
-		addStrings(strings);
+		if (strings != null && strings.length > 0) {
+			addStrings(strings);
+		}
+		
 	}
 
 	/**
