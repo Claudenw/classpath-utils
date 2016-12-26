@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.xenei.classpathutils.ClassPathFilter;
@@ -33,6 +34,17 @@ import org.xenei.classpathutils.ClassPathFilter;
  *
  */
 public abstract class _AbstractConditionalFilter implements ConditionalClassFilter {
+	
+	protected static final Comparator<ClassPathFilter> EXECUTION_ORDER = new Comparator<ClassPathFilter>(){
+
+		@Override
+		public int compare(ClassPathFilter arg0, ClassPathFilter arg1) {
+			if (arg0 instanceof StringClassFilter ) {
+				return arg1 instanceof StringClassFilter?0:-1;
+			} else {
+				return arg1 instanceof StringClassFilter?1:0;
+			}
+		}};
 
 	/** The list of file filters. */
 	private final List<ClassPathFilter> classFilters = new ArrayList<ClassPathFilter>();
@@ -195,5 +207,20 @@ public abstract class _AbstractConditionalFilter implements ConditionalClassFilt
 	@Override
 	public String toString() {
 		return ClassPathFilter.Util.toString(this);
+	}
+	
+	@Override
+	public boolean equals( Object o )
+	{
+		if (o instanceof ClassPathFilter)
+		{
+			return ClassPathFilter.Util.equals(this, (ClassPathFilter)o);
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return ClassPathFilter.Util.hashCode(this);
 	}
 }

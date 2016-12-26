@@ -21,6 +21,9 @@ import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Test;
 import org.xenei.classpathutils.ClassPathFilter;
@@ -124,6 +127,41 @@ public class AndClassFilterTest {
 		String[] args = cf.args();
 		assertEquals(ClassPathFilter.FALSE.toString(), args[0]);
 		assertEquals(ClassPathFilter.TRUE.toString(), args[1]);
+	}
+	
+	@Test
+	public void testOptimize() throws Exception {
+		NameClassFilter foo = new NameClassFilter( "foo");
+		AndClassFilter ncf = new AndClassFilter( foo, foo );
+		ClassPathFilter filter = ncf.optimize();
+		assertEquals( foo, filter );
+		
+		ncf = new AndClassFilter( TrueClassFilter.TRUE, foo, FalseClassFilter.FALSE);
+		filter = ncf.optimize();
+		assertEquals( FalseClassFilter.FALSE, filter );
+
+		NameClassFilter bar = new NameClassFilter( "bar");
+		AndClassFilter ncf2 = new AndClassFilter( foo, bar );
+		ncf = new AndClassFilter( TrueClassFilter.TRUE, foo, ncf2);
+		filter = ncf.optimize();
+		
+		assertTrue( filter instanceof AndClassFilter );
+		
+		List<ClassPathFilter> fLst = ((AndClassFilter)filter).getFilters();
+		assertEquals( 2, fLst.size());
+		
+		assertTrue( fLst.contains( foo ));
+		assertTrue( fLst.contains( bar ));
+		
+		HasAnnotationClassFilter anno = new HasAnnotationClassFilter( Test.class ); 
+		ncf = new AndClassFilter( anno , bar );
+		filter = ncf.optimize();
+		
+		assertTrue( filter instanceof AndClassFilter );
+		fLst = ((AndClassFilter)filter).getFilters();
+		assertEquals( 2, fLst.size());
+		assertEquals( bar, fLst.get(0) );
+		assertEquals( anno, fLst.get(1));
 	}
 
 }

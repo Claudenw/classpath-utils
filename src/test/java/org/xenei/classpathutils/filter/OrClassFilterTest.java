@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.junit.Test;
 import org.xenei.classpathutils.ClassPathFilter;
@@ -125,6 +126,41 @@ public class OrClassFilterTest {
 		String[] args = cf.args();
 		assertEquals(ClassPathFilter.FALSE.toString(), args[0]);
 		assertEquals(ClassPathFilter.TRUE.toString(), args[1]);
+
+	}
+	
+	@Test
+	public void testOptimize() throws Exception {
+		NameClassFilter foo = new NameClassFilter( "foo");
+		OrClassFilter ncf = new OrClassFilter( foo, foo );
+		ClassPathFilter filter = ncf.optimize();
+		assertEquals( foo, filter );
+		
+		ncf = new OrClassFilter( TrueClassFilter.TRUE, foo, FalseClassFilter.FALSE);
+		filter = ncf.optimize();
+		assertEquals( FalseClassFilter.TRUE, filter );
+
+		NameClassFilter bar = new NameClassFilter( "bar");
+		ncf = new OrClassFilter( foo, FalseClassFilter.FALSE, bar );
+		filter = ncf.optimize();
+		
+		assertTrue( filter instanceof OrClassFilter );
+		
+		List<ClassPathFilter> fLst = ((OrClassFilter)filter).getFilters();
+		assertEquals( 2, fLst.size());
+		
+		assertTrue( fLst.contains( foo ));
+		assertTrue( fLst.contains( bar ));
+		
+		HasAnnotationClassFilter anno = new HasAnnotationClassFilter( Test.class ); 
+		ncf = new OrClassFilter( anno , bar );
+		filter = ncf.optimize();
+		
+		assertTrue( filter instanceof OrClassFilter );
+		fLst = ((OrClassFilter)filter).getFilters();
+		assertEquals( 2, fLst.size());
+		assertEquals( bar, fLst.get(0) );
+		assertEquals( anno, fLst.get(1));
 
 	}
 }

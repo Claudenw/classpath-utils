@@ -92,4 +92,9 @@ public class FalseClassFilter extends _AbstractBaseFilter implements Serializabl
 	public String[] args() {
 		return NO_ARGS;
 	}
+
+	@Override
+	public ClassPathFilter optimize() {
+		return FALSE;
+	}
 }

@@ -88,7 +88,7 @@ public class AbstractClassFilter extends _AbstractBaseFilter implements
 	public boolean accept(String className) {
 
 		try {
-			return accept(Class.forName( _AbstractBaseFilter.removeDotClass(className)));
+			return accept(loadClass(className));
 		} catch (ClassNotFoundException e) {
 			return false;
 		}
@@ -100,5 +100,10 @@ public class AbstractClassFilter extends _AbstractBaseFilter implements
 	@Override
 	public boolean accept(URL url) {
 		return false;
+	}
+
+	@Override
+	public ClassPathFilter optimize() {
+		return this;
 	}
 }

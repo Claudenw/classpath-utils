@@ -54,6 +54,7 @@ public interface ClassPathFilter {
 	 */
 	public static final ClassPathFilter INTERFACE_CLASS = InterfaceClassFilter.INTERFACE;
 
+	public ClassPathFilter optimize();
 	/**
 	 * Accept a URL.
 	 * 
@@ -190,7 +191,12 @@ public interface ClassPathFilter {
 				Collection<Class<?>> classes, ClassPathFilter filter) {
 			Collection<Class<?>> retval = new ArrayList<Class<?>>();
 			for (Class<?> clazz : classes) {
+				if (clazz.getName().endsWith( "Test"))
+				{
+				System.out.println( "Class "+clazz);
+				}
 				if (filter.accept(clazz)) {
+					
 					retval.add(clazz);
 				}
 			}
@@ -220,6 +226,16 @@ public interface ClassPathFilter {
 				sb.append(" ");
 			}
 			return sb.append(")").toString();
+		}
+		
+		public static boolean equals( ClassPathFilter cpf1, ClassPathFilter cpf2)
+		{
+			return cpf1.toString().equals( cpf2.toString());
+		}
+		
+		public static int hashCode( ClassPathFilter cpf)
+		{
+			return cpf.toString().hashCode();
 		}
 
 		/**

@@ -101,4 +101,16 @@ public class NotClassFilterTest {
 		assertEquals(ClassPathFilter.FALSE.toString(), args[0]);
 
 	}
+	
+	@Test
+	public void testOptimize() throws Exception {
+		NotClassFilter ncf = new NotClassFilter( TrueClassFilter.TRUE );
+		ClassPathFilter filter = ncf.optimize();
+		assertEquals( FalseClassFilter.FALSE, filter );
+
+		 ncf = new NotClassFilter( TrueClassFilter.FALSE );
+		 filter = ncf.optimize();
+		assertEquals( FalseClassFilter.TRUE, filter );
+
+	}
 }

@@ -19,10 +19,13 @@ package org.xenei.classpathutils.filter;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.Case;
+import org.xenei.classpathutils.ClassPathFilter;
 
 /**
  * filters classes by name.
@@ -198,6 +201,21 @@ public class NameClassFilter extends _AbstractStringFilter implements Serializab
 		}
 		for (Class<?> c : classes) {
 			addClass(c);
+		}
+		return this;
+	}
+
+	@Override
+	public ClassPathFilter optimize() {
+		// remove duplicates
+		Set<String> lst = new LinkedHashSet( getStrings() );
+		if (lst.size() == 0)
+		{
+			return FalseClassFilter.FALSE;
+		}
+		if (lst.size() < getStrings().size())
+		{
+			return new NameClassFilter( lst );
 		}
 		return this;
 	}

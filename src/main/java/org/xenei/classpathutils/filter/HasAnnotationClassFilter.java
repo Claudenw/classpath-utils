@@ -21,17 +21,21 @@ import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.Collection;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
 
 /**
  * Accepts classes that have the specified annotation.
  */
-public class HasAnnotationClassFilter implements ClassPathFilter, Serializable {
+public class HasAnnotationClassFilter extends _AbstractBaseFilter {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4258956807308815129L;
+	
+	private static final Log LOG = LogFactory.getLog(HasAnnotationClassFilter.class);
 
 	private Class<? extends Annotation> annotation;
 
@@ -75,8 +79,11 @@ public class HasAnnotationClassFilter implements ClassPathFilter, Serializable {
 	@Override
 	public boolean accept(String className) {
 		try {
-			return accept(Class.forName( _AbstractBaseFilter.removeDotClass(className)));
+			return accept(loadClass(className));
 		} catch (ClassNotFoundException e) {
+			return false;
+		} catch (NoClassDefFoundError x)
+		{
 			return false;
 		}
 	}
@@ -97,40 +104,18 @@ public class HasAnnotationClassFilter implements ClassPathFilter, Serializable {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String toString() {
-		return ClassPathFilter.Util.toString(this);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public String[] args() {
 		return new String[] { annotation.getName() };
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public Collection<Class<?>> filterClasses(Collection<Class<?>> collection) {
-		return ClassPathFilter.Util.filterClasses(collection, this);
+	protected Log getLog() {
+		return LOG;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public Collection<URL> filterURLs(Collection<URL> collection) {
-		return ClassPathFilter.Util.filterURLs(collection, this);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Collection<String> filterNames(Collection<String> collection) {
-		return ClassPathFilter.Util.filterNames(collection, this);
+	public ClassPathFilter optimize() {
+		return this;
 	}
 
 }

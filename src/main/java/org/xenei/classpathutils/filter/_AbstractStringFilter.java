@@ -31,7 +31,7 @@ import org.xenei.classpathutils.ClassPathFilter;
  * Base String filter, that converts class to class name for accept evaluation.
  *
  */
-public abstract class _AbstractStringFilter extends _AbstractBaseFilter {
+public abstract class _AbstractStringFilter extends _AbstractBaseFilter implements StringClassFilter {
 
 	private final List<String> strings = new ArrayList<String>();
 
@@ -135,6 +135,7 @@ public abstract class _AbstractStringFilter extends _AbstractBaseFilter {
 	public String[] args() {
 		String[] retval = new String[strings.size() + 1];
 		retval[0] = caseSensitivity.getName();
+		strings.sort( String.CASE_INSENSITIVE_ORDER );
 		for (int i = 0; i < strings.size(); i++) {
 			retval[i + 1] = strings.get(i);
 		}

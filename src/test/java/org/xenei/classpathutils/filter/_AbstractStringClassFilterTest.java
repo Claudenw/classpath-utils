@@ -61,6 +61,11 @@ public class _AbstractStringClassFilterTest {
 			protected Log getLog() {
 				return LOG;
 			}
+
+			@Override
+			public ClassPathFilter optimize() {
+				return this;
+			}
 		};
 		filter_sens = new _AbstractStringFilter(Case.SENSITIVE, "foo") {
 
@@ -73,6 +78,11 @@ public class _AbstractStringClassFilterTest {
 			protected Log getLog() {
 				return LOG;
 			}
+			
+			@Override
+			public ClassPathFilter optimize() {
+				return this;
+			}
 		};
 		filter_insens = new _AbstractStringFilter(Case.INSENSITIVE, "foo") {
 
@@ -84,6 +94,11 @@ public class _AbstractStringClassFilterTest {
 			@Override
 			protected Log getLog() {
 				return LOG;
+			}
+			
+			@Override
+			public ClassPathFilter optimize() {
+				return this;
 			}
 		};
 	}

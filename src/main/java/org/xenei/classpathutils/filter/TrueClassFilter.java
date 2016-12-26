@@ -97,4 +97,9 @@ public class TrueClassFilter extends _AbstractBaseFilter implements Serializable
 		return NO_ARGS;
 	}
 
+	@Override
+	public ClassPathFilter optimize() {
+		return TrueClassFilter.TRUE;
+	}
+
 }

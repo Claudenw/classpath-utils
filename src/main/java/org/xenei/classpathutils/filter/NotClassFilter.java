@@ -116,4 +116,23 @@ public class NotClassFilter extends _AbstractBaseFilter implements Serializable 
 		return new String[] { filter.toString() };
 	}
 
+	@Override
+	public ClassPathFilter optimize() {
+		ClassPathFilter f = filter.optimize();
+		if (f == FalseClassFilter.FALSE)
+		{
+			return TrueClassFilter.TRUE;
+		}
+		if (f == TrueClassFilter.TRUE)
+		{
+			return FalseClassFilter.FALSE;
+		}
+		if (f == filter)
+		{
+			return this;
+		}
+		return new NotClassFilter( f );
+		
+	}
+
 }

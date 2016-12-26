@@ -134,4 +134,29 @@ public class SuffixClassFilterTest {
 		assertEquals("filter", args[1]);
 
 	}
+	
+	@Test
+	public void testOptimize() throws Exception {
+		SuffixClassFilter pcf = new SuffixClassFilter( "" );
+		ClassPathFilter filter = pcf.optimize();
+		assertEquals( TrueClassFilter.TRUE, filter );
+		
+		pcf = new SuffixClassFilter( "foo" );
+		filter = pcf.optimize();
+		assertEquals( new SuffixClassFilter("foo"), filter );
+		
+		pcf.addString( "" );
+		filter = pcf.optimize();
+		assertEquals( TrueClassFilter.TRUE, filter );
+
+		pcf = new SuffixClassFilter( "foo" );
+		pcf.addString("bar");
+		filter = pcf.optimize();
+		assertEquals( new SuffixClassFilter( "foo", "bar"), filter );
+		
+		pcf = new SuffixClassFilter( "foo", "foo" );
+		pcf.addString("foo");
+		filter = pcf.optimize();
+		assertEquals( new SuffixClassFilter( "foo"), filter );
+	}
 }

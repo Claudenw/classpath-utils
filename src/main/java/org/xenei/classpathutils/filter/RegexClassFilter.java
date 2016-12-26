@@ -154,6 +154,21 @@ public class RegexClassFilter implements ClassPathFilter, Serializable, StringCl
 	public String toString() {
 		return ClassPathFilter.Util.toString(this);
 	}
+	
+	@Override
+	public boolean equals( Object o )
+	{
+		if (o instanceof ClassPathFilter)
+		{
+			return ClassPathFilter.Util.equals(this, (ClassPathFilter)o);
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return ClassPathFilter.Util.hashCode(this);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -188,4 +203,10 @@ public class RegexClassFilter implements ClassPathFilter, Serializable, StringCl
 	public Collection<Class<?>> filterClasses(Collection<Class<?>> collection) {
 		return ClassPathFilter.Util.filterClasses(collection, this);
 	}
+
+	@Override
+	public ClassPathFilter optimize() {
+		return this;
+	}
+	
 }

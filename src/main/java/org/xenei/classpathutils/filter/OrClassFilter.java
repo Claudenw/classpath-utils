@@ -18,8 +18,14 @@ package org.xenei.classpathutils.filter;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.xenei.classpathutils.ClassPathFilter;
 
@@ -117,6 +123,68 @@ public class OrClassFilter extends _AbstractConditionalFilter implements
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public ClassPathFilter optimize() {
+		Set<ClassPathFilter> filters = new LinkedHashSet<ClassPathFilter>(this.getFilters());
+		// optimize the arguments first
+		boolean changed = false;
+		for (ClassPathFilter f : this.getFilters())
+		{
+			ClassPathFilter f2 = f.optimize();
+			// if any of them resolve to TRUE then the entire OR is true.
+			if (f2 == TrueClassFilter.TRUE)
+			{
+				return TrueClassFilter.TRUE;
+			}
+			// remove any FALSE
+			if (f2 == FalseClassFilter.FALSE)
+			{
+				changed = true;
+				filters.remove( f );
+			} else 
+			if ( ! f.equals(f2))
+			{
+				changed = true;
+				filters.remove(f);
+				filters.add(f2);
+			}			
+		}
+		
+		if (filters.size() == 0)
+		{
+			return FalseClassFilter.FALSE;
+		}
+		
+		
+		// if there is only one argument just return that.
+		if (filters.size()==1)
+		{
+			return filters.iterator().next();
+		}
+		
+
+		List<ClassPathFilter> filterOrder = new ArrayList<ClassPathFilter>(filters);
+		filterOrder.sort( EXECUTION_ORDER);
+		if (!changed)
+		{
+			Iterator<ClassPathFilter> iter1 = this.getFilters().iterator();
+			Iterator<ClassPathFilter> iter2 = filterOrder.iterator();
+			while (iter1.hasNext())
+			{
+				if ( ! iter1.next().equals( iter2.next() )) {
+					changed = true;
+					break;
+				}
+			}
+		}
+		
+		if (changed)
+		{
+			return new OrClassFilter( filterOrder );
+		}
+		return this;
 	}
 
 }
