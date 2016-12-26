@@ -24,11 +24,12 @@ import java.util.regex.Pattern;
 
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
+import org.xenei.classpathutils.filter.types.StringFilterType;
 
 /**
  * Match classes with a regular expression.
  */
-public class RegexClassFilter implements ClassPathFilter, Serializable, StringClassFilter {
+public class RegexClassFilter implements ClassPathFilter, Serializable, StringFilterType {
 
 	/**
 	 * 

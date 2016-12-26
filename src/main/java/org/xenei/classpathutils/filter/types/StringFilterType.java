@@ -1,4 +1,4 @@
-package org.xenei.classpathutils.filter;
+package org.xenei.classpathutils.filter.types;
 
 import org.xenei.classpathutils.ClassPathFilter;
 
@@ -6,6 +6,6 @@ import org.xenei.classpathutils.ClassPathFilter;
  * A marker interface to indicate that the test is a string based test.
  *
  */
-public interface StringClassFilter extends ClassPathFilter {
+public interface StringFilterType extends FilterType {
 
 }

@@ -22,12 +22,13 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
+import org.xenei.classpathutils.filter.types.LogicFilterType;
 
 /**
  * A class filter that always returns true.
  *
  */
-public class TrueClassFilter extends _AbstractBaseFilter implements Serializable {
+public class TrueClassFilter extends _AbstractBaseFilter implements LogicFilterType {
 
 	private static final Log LOG = LogFactory
 			.getLog(TrueClassFilter.class);

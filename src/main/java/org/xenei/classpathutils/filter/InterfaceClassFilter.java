@@ -22,12 +22,12 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
+import org.xenei.classpathutils.filter.types.ClassFilterType;
 
 /**
  * Check if the class is an interface
  */
-public class InterfaceClassFilter extends _AbstractBaseFilter implements
-		Serializable {
+public class InterfaceClassFilter extends _AbstractBaseFilter implements ClassFilterType {
 
 	private static final Log LOG = LogFactory
 			.getLog(InterfaceClassFilter.class);

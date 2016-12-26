@@ -29,9 +29,9 @@ import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
 import org.xenei.classpathutils.filter.AbstractClassFilter;
 import org.xenei.classpathutils.filter._AbstractStringFilter;
+import org.xenei.classpathutils.filter.types.CollectionFilterType;
 import org.xenei.classpathutils.filter.AndClassFilter;
 import org.xenei.classpathutils.filter.AnnotationClassFilter;
-import org.xenei.classpathutils.filter.ConditionalClassFilter;
 import org.xenei.classpathutils.filter.FalseClassFilter;
 import org.xenei.classpathutils.filter.HasAnnotationClassFilter;
 import org.xenei.classpathutils.filter.InterfaceClassFilter;
@@ -126,7 +126,7 @@ public class Parser {
 				return new NotClassFilter(parse(args));
 			}
 
-			if (ConditionalClassFilter.class.isAssignableFrom(info.clazz)) {
+			if (CollectionFilterType.class.isAssignableFrom(info.clazz)) {
 				List<ClassPathFilter> consArgs = new ArrayList<ClassPathFilter>();
 				// parse the functions.
 				int cnt = 0;

@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
+import org.xenei.classpathutils.filter.types.StringFilterType;
 
 /**
  * Filters classes using the supplied wildcards.
@@ -53,7 +54,7 @@ import org.xenei.classpathutils.ClassPathFilter;
  * </pre>
  */
 public class WildcardClassFilter extends _AbstractBaseFilter implements
-		Serializable, StringClassFilter {
+		Serializable, StringFilterType {
 
 	private static final Log LOG = LogFactory
 			.getLog(WildcardClassFilter.class);

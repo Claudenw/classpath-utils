@@ -26,12 +26,13 @@ import java.util.List;
 
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
+import org.xenei.classpathutils.filter.types.StringFilterType;
 
 /**
  * Base String filter, that converts class to class name for accept evaluation.
  *
  */
-public abstract class _AbstractStringFilter extends _AbstractBaseFilter implements StringClassFilter {
+public abstract class _AbstractStringFilter extends _AbstractBaseFilter implements StringFilterType {
 
 	private final List<String> strings = new ArrayList<String>();
 

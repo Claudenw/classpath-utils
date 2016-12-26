@@ -18,6 +18,7 @@
 
 package org.xenei.classpathutils;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +33,7 @@ import org.xenei.classpathutils.filter.TrueClassFilter;
  * Interface that defines a ClassFilter.
  *
  */
-public interface ClassPathFilter {
+public interface ClassPathFilter extends Serializable {
 	/**
 	 * The instance of the true() class filter.
 	 */

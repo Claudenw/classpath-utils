@@ -45,13 +45,13 @@ public class ClassPathUtilsTest {
 	@Test
 	public void testFindClassesFromClassJar() throws IOException {
 		URL url = ClassPathUtilsTest.class.getResource("classes.jar");
-		Set<String> names = ClassPathUtils.findClasses(url.toString() + "!/",
+		Set<String> names = ClassPathUtils.findClasses(url.toString(),
 				"org.xenei.classpathutils.testClasses");
 		assertEquals(4, names.size());
-		names = ClassPathUtils.findClasses(url.toString() + "!/",
+		names = ClassPathUtils.findClasses(url.toString(),
 				"org.xenei.classpathutils.testClasses.package-info");
 		assertEquals(1, names.size());
-		names = ClassPathUtils.findClasses(url.toString() + "!/", "com.xenei");
+		names = ClassPathUtils.findClasses(url.toString(), "com.xenei");
 		assertEquals(0, names.size());
 	}
 

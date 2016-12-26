@@ -22,12 +22,13 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
+import org.xenei.classpathutils.filter.types.ClassFilterType;
 
 /**
  * A ClassFilter that filters classes that are annotations.
  */
-public class AnnotationClassFilter extends _AbstractBaseFilter implements
-		Serializable {
+public class AnnotationClassFilter extends _AbstractBaseFilter 
+implements ClassFilterType {
 
 	private static final Log LOG = LogFactory
 			.getLog(AnnotationClassFilter.class);

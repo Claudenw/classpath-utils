@@ -24,11 +24,12 @@ import java.util.Collection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
+import org.xenei.classpathutils.filter.types.ClassFilterType;
 
 /**
  * Accepts classes that have the specified annotation.
  */
-public class HasAnnotationClassFilter extends _AbstractBaseFilter {
+public class HasAnnotationClassFilter extends _AbstractBaseFilter implements ClassFilterType {
 
 	/**
 	 * 

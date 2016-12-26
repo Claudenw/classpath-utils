@@ -18,16 +18,19 @@ package org.xenei.classpathutils.filter;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
+import org.xenei.classpathutils.filter.types.CollectionFilterType;
 
 /**
  * This filter produces a logical NOT of the specified filter
  *
  */
-public class NotClassFilter extends _AbstractBaseFilter implements Serializable {
+public class NotClassFilter extends _AbstractBaseFilter implements CollectionFilterType {
 
 	private static final Log LOG = LogFactory
 			.getLog(NotClassFilter.class);
@@ -133,6 +136,11 @@ public class NotClassFilter extends _AbstractBaseFilter implements Serializable 
 		}
 		return new NotClassFilter( f );
 		
+	}
+
+	@Override
+	public List<ClassPathFilter> getFilters() {
+		return Arrays.asList( filter );
 	}
 
 }
