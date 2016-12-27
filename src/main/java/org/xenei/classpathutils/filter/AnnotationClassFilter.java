@@ -16,7 +16,6 @@
  */
 package org.xenei.classpathutils.filter;
 
-import java.io.Serializable;
 import java.net.URL;
 
 import org.apache.commons.logging.Log;
@@ -27,11 +26,9 @@ import org.xenei.classpathutils.filter.types.ClassFilterType;
 /**
  * A ClassFilter that filters classes that are annotations.
  */
-public class AnnotationClassFilter extends _AbstractBaseFilter 
-implements ClassFilterType {
+public class AnnotationClassFilter extends _AbstractBaseFilter implements ClassFilterType {
 
-	private static final Log LOG = LogFactory
-			.getLog(AnnotationClassFilter.class);
+	private static final Log LOG = LogFactory.getLog(AnnotationClassFilter.class);
 
 	/**
 	 * 
@@ -51,7 +48,7 @@ implements ClassFilterType {
 	protected Log getLog() {
 		return LOG;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

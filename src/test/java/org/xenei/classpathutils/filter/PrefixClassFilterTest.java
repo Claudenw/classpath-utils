@@ -23,8 +23,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-
 import org.junit.Test;
 import org.xenei.classpathutils.Case;
 import org.xenei.classpathutils.ClassPathFilter;
@@ -73,8 +71,7 @@ public class PrefixClassFilterTest {
 
 		URL url = new URL("http://example.com");
 		PrefixClassFilter sens = new PrefixClassFilter(Case.SENSITIVE, "http://example");
-		PrefixClassFilter insens = new PrefixClassFilter(Case.INSENSITIVE,
-				"HTTP://example");
+		PrefixClassFilter insens = new PrefixClassFilter(Case.INSENSITIVE, "HTTP://example");
 
 		assertTrue(sens.accept(url));
 		assertTrue(insens.accept(url));
@@ -106,8 +103,7 @@ public class PrefixClassFilterTest {
 	@Test
 	public void testToString() {
 		assertEquals("Prefix( Sensitive, org.xenei )", filter_sens.toString());
-		assertEquals("Prefix( Insensitive, org.Xenei )",
-				filter_insens.toString());
+		assertEquals("Prefix( Insensitive, org.Xenei )", filter_insens.toString());
 	}
 
 	/**
@@ -133,25 +129,25 @@ public class PrefixClassFilterTest {
 		assertEquals("org.Xenei", args[1]);
 
 	}
-	
+
 	@Test
 	public void testOptimize() throws Exception {
-		PrefixClassFilter pcf = new PrefixClassFilter( "" );
+		PrefixClassFilter pcf = new PrefixClassFilter("");
 		ClassPathFilter filter = pcf.optimize();
-		assertEquals( TrueClassFilter.TRUE, filter );
-		
-		pcf = new PrefixClassFilter( "foo" );
-		filter = pcf.optimize();
-		assertEquals( new PrefixClassFilter("foo"), filter );
-		
-		pcf.addString( "" );
-		filter = pcf.optimize();
-		assertEquals( TrueClassFilter.TRUE, filter );
+		assertEquals(TrueClassFilter.TRUE, filter);
 
-		pcf = new PrefixClassFilter( "foo" );
+		pcf = new PrefixClassFilter("foo");
+		filter = pcf.optimize();
+		assertEquals(new PrefixClassFilter("foo"), filter);
+
+		pcf.addString("");
+		filter = pcf.optimize();
+		assertEquals(TrueClassFilter.TRUE, filter);
+
+		pcf = new PrefixClassFilter("foo");
 		pcf.addString("bar");
 		filter = pcf.optimize();
-		assertEquals( new PrefixClassFilter( "foo", "bar"), filter );
+		assertEquals(new PrefixClassFilter("foo", "bar"), filter);
 	}
 
 }

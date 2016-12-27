@@ -132,8 +132,7 @@ public final class Case implements Serializable {
 		if (str1 == null || str2 == null) {
 			throw new NullPointerException("The strings must not be null");
 		}
-		return sensitive ? str1.compareTo(str2) : str1
-				.compareToIgnoreCase(str2);
+		return sensitive ? str1.compareTo(str2) : str1.compareToIgnoreCase(str2);
 	}
 
 	/**
@@ -191,8 +190,7 @@ public final class Case implements Serializable {
 	 */
 	public boolean checkEndsWith(String str, String end) {
 		int endLen = end.length();
-		return str.regionMatches(!sensitive, str.length() - endLen, end, 0,
-				endLen);
+		return str.regionMatches(!sensitive, str.length() - endLen, end, 0, endLen);
 	}
 
 	/**
@@ -244,10 +242,8 @@ public final class Case implements Serializable {
 	 * @throws NullPointerException
 	 *             if either string is null
 	 */
-	public boolean checkRegionMatches(String str, int strStartIndex,
-			String search) {
-		return str.regionMatches(!sensitive, strStartIndex, search, 0,
-				search.length());
+	public boolean checkRegionMatches(String str, int strStartIndex, String search) {
+		return str.regionMatches(!sensitive, strStartIndex, search, 0, search.length());
 	}
 
 	// -----------------------------------------------------------------------

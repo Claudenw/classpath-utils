@@ -16,7 +16,6 @@
  */
 package org.xenei.classpathutils.filter;
 
-import java.io.Serializable;
 import java.net.URL;
 
 import org.apache.commons.logging.Log;
@@ -30,8 +29,7 @@ import org.xenei.classpathutils.filter.types.LogicFilterType;
  */
 public class FalseClassFilter extends _AbstractBaseFilter implements LogicFilterType {
 
-	private static final Log LOG = LogFactory
-			.getLog(FalseClassFilter.class);
+	private static final Log LOG = LogFactory.getLog(FalseClassFilter.class);
 
 	/**
 	 * 

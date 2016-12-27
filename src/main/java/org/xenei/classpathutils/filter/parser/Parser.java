@@ -107,16 +107,15 @@ public class Parser {
 	 * @throws IllegalArgumentException
 	 *             If the filter can not be build.
 	 */
-	public ClassPathFilter parse(String filterStr)
-			throws IllegalArgumentException {
+	@SuppressWarnings("unchecked")
+	public ClassPathFilter parse(String filterStr) throws IllegalArgumentException {
 		ParserInfo info = new ParserInfo(filterStr);
 
 		String args = info.parseArgs();
 		try {
 			if (args.length() == 0) {
 				try {
-					return (ClassPathFilter) ClassPathFilter.class
-							.getDeclaredField(info.getStaticName()).get(null);
+					return (ClassPathFilter) ClassPathFilter.class.getDeclaredField(info.getStaticName()).get(null);
 				} catch (NoSuchFieldException e) {
 					return info.clazz.getConstructor().newInstance();
 				}
@@ -154,8 +153,7 @@ public class Parser {
 						break;
 					}
 				}
-				return info.clazz.getConstructor(Collection.class).newInstance(
-						consArgs);
+				return info.clazz.getConstructor(Collection.class).newInstance(consArgs);
 
 			}
 
@@ -171,32 +169,26 @@ public class Parser {
 				List<String> argStrLst = splitArgs(args);
 				if (argStrLst.size() != 1) {
 					throw new IllegalArgumentException(
-							String.format(
-									"Only one string me be provided for HasAnnotation: %s",
-									args));
+							String.format("Only one string me be provided for HasAnnotation: %s", args));
 				}
 				Class<?> cls;
 				try {
-					cls = Thread.currentThread().getContextClassLoader()
-							.loadClass(args.trim());
+					cls = Thread.currentThread().getContextClassLoader().loadClass(args.trim());
 				} catch (ClassNotFoundException e) {
 					throw new IllegalArgumentException(
-							String.format("Error creating: %s: %s", info.name,
-									e.getMessage()), e);
+							String.format("Error creating: %s: %s", info.name, e.getMessage()), e);
 				}
 				if (Annotation.class.isAssignableFrom(cls)) {
-					return new HasAnnotationClassFilter(
-							(Class<? extends Annotation>) cls);
+					return new HasAnnotationClassFilter((Class<? extends Annotation>) cls);
 				}
-				throw new IllegalArgumentException(String.format(
-						"%s is not an Annotation", args));
+				throw new IllegalArgumentException(String.format("%s is not an Annotation", args));
 			}
 
 			if (RegexClassFilter.class.isAssignableFrom(info.clazz)) {
 				List<String> argStrLst = splitArgs(args);
 				if (argStrLst.size() == 0) {
-					throw new IllegalArgumentException(String.format(
-							"Not enough arguments for %s: %s", info.name, args));
+					throw new IllegalArgumentException(
+							String.format("Not enough arguments for %s: %s", info.name, args));
 				}
 				Case caze = null;
 				try {
@@ -208,47 +200,38 @@ public class Parser {
 				}
 				if (argStrLst.size() < 2) {
 					throw new IllegalArgumentException(
-							String.format(" Not enough arguments for %s: %s",
-									info.name, args));
+							String.format(" Not enough arguments for %s: %s", info.name, args));
 				}
 				return new RegexClassFilter(caze, argStrLst.get(1));
 			}
 
-			throw new IllegalArgumentException("Unrecognized filter: "
-					+ info.name);
+			throw new IllegalArgumentException("Unrecognized filter: " + info.name);
 		} catch (InstantiationException e) {
 			throw new IllegalArgumentException(
-					String.format("Unable to instantiate: %s: %s", info.name,
-							e.getMessage()), e);
+					String.format("Unable to instantiate: %s: %s", info.name, e.getMessage()), e);
 		} catch (SecurityException e) {
-			throw new IllegalArgumentException(String.format(
-					"Security exception instantiating: %s: %s", info.name,
-					e.getMessage()), e);
+			throw new IllegalArgumentException(
+					String.format("Security exception instantiating: %s: %s", info.name, e.getMessage()), e);
 		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException(String.format(
-					"Error instantiating: %s: %s", info.name, e.getMessage()),
+			throw new IllegalArgumentException(String.format("Error instantiating: %s: %s", info.name, e.getMessage()),
 					e);
 		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException(String.format(
-					"Error instantiating: %s: %s", info.name, e.getMessage()),
+			throw new IllegalArgumentException(String.format("Error instantiating: %s: %s", info.name, e.getMessage()),
 					e);
 		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException(String.format(
-					"Can not find constructor for: %s: %s", info.name,
-					e.getMessage()), e);
+			throw new IllegalArgumentException(
+					String.format("Can not find constructor for: %s: %s", info.name, e.getMessage()), e);
 
 		}
 
 	}
 
 	private ClassPathFilter constructWithCase(ParserInfo info, String args)
-			throws InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException,
+			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
 		List<String> argStrLst = splitArgs(args);
 		if (argStrLst.size() == 0) {
-			throw new IllegalArgumentException(String.format(
-					"Not enough arguments for %s: %s", info.name, args));
+			throw new IllegalArgumentException(String.format("Not enough arguments for %s: %s", info.name, args));
 		}
 		Case caze = null;
 		try {
@@ -257,16 +240,14 @@ public class Parser {
 			// this catch has to be here because later
 			// IllegalArgumenExceptions must be thrown.
 
-			return info.clazz.getConstructor(Collection.class).newInstance(
-					argStrLst);
+			return info.clazz.getConstructor(Collection.class).newInstance(argStrLst);
 
 		}
 		if (argStrLst.size() < 2) {
-			throw new IllegalArgumentException(String.format(
-					" Not enough arguments for %s: %s", info.name, args));
+			throw new IllegalArgumentException(String.format(" Not enough arguments for %s: %s", info.name, args));
 		}
-		return info.clazz.getConstructor(Case.class, Collection.class)
-				.newInstance(caze, argStrLst.subList(1, argStrLst.size()));
+		return info.clazz.getConstructor(Case.class, Collection.class).newInstance(caze,
+				argStrLst.subList(1, argStrLst.size()));
 
 	}
 
@@ -300,8 +281,7 @@ public class Parser {
 			name = this.parserStr.substring(0, pos);
 			clazz = map.get(name.toLowerCase());
 			if (clazz == null) {
-				throw new IllegalArgumentException(name
-						+ " is not a registered class filter");
+				throw new IllegalArgumentException(name + " is not a registered class filter");
 			}
 		}
 

@@ -25,14 +25,12 @@ import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -56,45 +54,39 @@ import org.xenei.classpathutils.filter.SuffixClassFilter;
 public class ClassPathUtils {
 
 	private static final Log LOG = LogFactory.getLog(ClassPathUtils.class);
-	
+
 	private static PrintStream os;
-	
+
 	static {
-		String s = System.getProperty( "ClassPathUtils_DEBUG");
-		if (s != null)
-		{
+		String s = System.getProperty("ClassPathUtils_DEBUG");
+		if (s != null) {
 			os = System.out;
 		}
 	}
 
 	/**
 	 * Write to log if log is enabled.
+	 * 
 	 * @param args
 	 */
-	public static void doLog( Object ... args )
-	{
-		if (os != null)
-		{
-			if (args.length==1 )
-			{
-				os.println( args[0].toString() );
-			}
-			else
-			{
-				os.println( String.format( args[0].toString(), Arrays.copyOfRange(args, 1, args.length) ));
+	public static void doLog(Object... args) {
+		if (os != null) {
+			if (args.length == 1) {
+				os.println(args[0].toString());
+			} else {
+				os.println(String.format(args[0].toString(), Arrays.copyOfRange(args, 1, args.length)));
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the classloader.
+	 * 
 	 * @return The classloader to use for finding classes and resources.
 	 */
-	public static ClassLoader getClassLoader()
-	{
+	public static ClassLoader getClassLoader() {
 		return Thread.currentThread().getContextClassLoader();
 	}
-
 
 	/**
 	 * Recursive method used to find all classes in a given directory and
@@ -128,26 +120,24 @@ public class ClassPathUtils {
 	 */
 	public static Set<String> findClasses(final String directory, String packageName, final ClassPathFilter filter)
 			throws IOException {
-				
+
 		final Set<String> classes = new HashSet<String>();
-			ClassPathFilter myFilter = new AndClassFilter(new SuffixClassFilter(".class"),
-					new NotClassFilter(new PrefixClassFilter( "META" )),
-					new NotClassFilter(new RegexClassFilter( ".+\\$[0-9]+[\\.\\$].*")),
-					filter).optimize();
-			
-			if (LOG.isDebugEnabled() || os != null)
-			{			
-				String s = String.format("finding classes pkg: %s filter: %s ", packageName, myFilter); 
-				LOG.debug(s);
-				doLog( s );
-			}
-			if (directory.contains("!") || directory.endsWith( ".jar")) {
-				handleJar(classes, directory, myFilter);
-			} else {
-				String dirStr = directory.startsWith("file:")?directory.substring("file:".length()):directory;
-						scanDir(classes, packageName, new File(dirStr), myFilter);
-			}
-		
+		ClassPathFilter myFilter = new AndClassFilter(new SuffixClassFilter(".class"),
+				new NotClassFilter(new PrefixClassFilter("META")),
+				new NotClassFilter(new RegexClassFilter(".+\\$[0-9]+[\\.\\$].*")), filter).optimize();
+
+		if (LOG.isDebugEnabled() || os != null) {
+			String s = String.format("finding classes pkg: %s filter: %s ", packageName, myFilter);
+			LOG.debug(s);
+			doLog(s);
+		}
+		if (directory.contains("!") || directory.endsWith(".jar")) {
+			handleJar(classes, directory, myFilter);
+		} else {
+			String dirStr = directory.startsWith("file:") ? directory.substring("file:".length()) : directory;
+			scanDir(classes, packageName, new File(dirStr), myFilter);
+		}
+
 		Set<String> retval = new HashSet<String>();
 		for (String s : classes) {
 			retval.add(s.substring(0, s.length() - ".class".length()));
@@ -231,55 +221,51 @@ public class ClassPathUtils {
 			LOG.error("Package name may not be null.");
 			return Collections.emptyList();
 		}
-	
-		String dirName = packageName.replace('.', '/');
 
 		Set<URL> resources = getAllResources(classLoader);
-		
+
 		final Set<Class<?>> classes = new HashSet<Class<?>>();
 		final Set<String> directories = new HashSet<String>();
 
-			for  (URL resource : resources ) {
-				if (LOG.isInfoEnabled() || os != null)
-				{
-					
-					String s = String.format("getting classes processing: %s ", resource); 
-					LOG.info(s);
-					doLog( s );
-				}		
-				
-				String dir = resource.getPath();
-				if (LOG.isDebugEnabled()) {
-					LOG.debug(String.format("Processing dir %s", dir));
-				}
+		for (URL resource : resources) {
+			if (LOG.isInfoEnabled() || os != null) {
 
-				if (!directories.contains(dir)) {
-					directories.add(dir);
+				String s = String.format("getting classes processing: %s ", resource);
+				LOG.info(s);
+				doLog(s);
+			}
 
-					try {
-						for (final String clazz : findClasses(dir, packageName, filter)) {
-							try {
-								if (LOG.isDebugEnabled()) {
-									LOG.debug(String.format("Adding class %s", clazz));
-								}
-								classes.add(Class.forName(clazz, false, classLoader));
-							} catch (final ClassNotFoundException e) {
-								String err = String.format( "Unable to get class %s due to %s", clazz, e.toString());
-								doLog( err );
-								LOG.warn( err );
-							} catch (NoClassDefFoundError e)
-							{							
-								String err = String.format( "Unable to get class %s due to %s", clazz, e.toString());
-								doLog( err );
-								LOG.warn( err );
+			String dir = resource.getPath();
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(String.format("Processing dir %s", dir));
+			}
+
+			if (!directories.contains(dir)) {
+				directories.add(dir);
+
+				try {
+					for (final String clazz : findClasses(dir, packageName, filter)) {
+						try {
+							if (LOG.isDebugEnabled()) {
+								LOG.debug(String.format("Adding class %s", clazz));
 							}
+							classes.add(Class.forName(clazz, false, classLoader));
+						} catch (final ClassNotFoundException e) {
+							String err = String.format("Unable to get class %s due to %s", clazz, e.toString());
+							doLog(err);
+							LOG.warn(err);
+						} catch (NoClassDefFoundError e) {
+							String err = String.format("Unable to get class %s due to %s", clazz, e.toString());
+							doLog(err);
+							LOG.warn(err);
 						}
-					} catch (final IOException e) {
-						doLog( e.toString() );
-						LOG.warn(e.toString());
 					}
+				} catch (final IOException e) {
+					doLog(e.toString());
+					LOG.warn(e.toString());
 				}
 			}
+		}
 
 		return classes;
 	}
@@ -429,22 +415,21 @@ public class ClassPathUtils {
 			throws IOException {
 		ClassPathFilter myFilter = filter.optimize();
 
-		if (LOG.isInfoEnabled() || os != null)
-		{
-			
-			String s = String.format("finding resources pkg: %s filter: %s ", packageName, myFilter); 
-			LOG.info(s);
-			doLog( s );
+		if (LOG.isInfoEnabled() || os != null) {
 
-		}		
+			String s = String.format("finding resources pkg: %s filter: %s ", packageName, myFilter);
+			LOG.info(s);
+			doLog(s);
+
+		}
 
 		final Set<String> classes = new HashSet<String>();
-		
-			if (directory.contains("!") || directory.endsWith(".jar")) {
-				handleJar(classes, directory, myFilter);
-			
+
+		if (directory.contains("!") || directory.endsWith(".jar")) {
+			handleJar(classes, directory, myFilter);
+
 		} else {
-			String dirStr = directory.startsWith("file:")?directory.substring("file:".length()):directory;
+			String dirStr = directory.startsWith("file:") ? directory.substring("file:".length()) : directory;
 			scanDir(classes, packageName, new File(dirStr), myFilter);
 		}
 		return classes;
@@ -501,38 +486,35 @@ public class ClassPathUtils {
 		return getResources(classLoader, packageName, new PrefixClassFilter(packageName));
 	}
 
-	private static Set<URL> getAllResources( final ClassLoader classLoader ) 
-	{
-		
+	private static Set<URL> getAllResources(final ClassLoader classLoader) {
+
 		Set<URL> lst = new LinkedHashSet<URL>();
 		try {
-		Enumeration<URL> e = classLoader.getResources("");
-		while (e.hasMoreElements())
-		{
-			lst.add(e.nextElement());
-		}
+			Enumeration<URL> e = classLoader.getResources("");
+			while (e.hasMoreElements()) {
+				lst.add(e.nextElement());
+			}
 		} catch (final IOException e1) {
 			LOG.error(e1.toString());
 		}
-				
-		/* if we return here it would be a short search
-		 * and only return from the current class loader.
-		 * this may not inlcude all the jars from the claspath.
+
+		/*
+		 * if we return here it would be a short search and only return from the
+		 * current class loader. this may not inlcude all the jars from the
+		 * claspath.
 		 */
-		if (classLoader instanceof URLClassLoader)
-		{
-			lst.addAll( Arrays.asList(((URLClassLoader)classLoader).getURLs()));
+		if (classLoader instanceof URLClassLoader) {
+			lst.addAll(Arrays.asList(((URLClassLoader) classLoader).getURLs()));
 		}
 		ClassLoader parent = classLoader.getParent();
-		if (parent != null && classLoader != parent)
-		{
-			lst.addAll( getAllResources(parent));
+		if (parent != null && classLoader != parent) {
+			lst.addAll(getAllResources(parent));
 		}
-		doLog( "Found resources: %s", lst );
+		doLog("Found resources: %s", lst);
 
 		return lst;
 	}
-	
+
 	/**
 	 * Find all classes accessible from the class loader which belong to the
 	 * given package and sub packages.
@@ -559,45 +541,41 @@ public class ClassPathUtils {
 			return Collections.emptyList();
 		}
 
+		if (LOG.isInfoEnabled() || os != null) {
 
-		if (LOG.isInfoEnabled() || os != null)
-		{
-			
-			String s = String.format("getting resources pkg: %s filter: %s ", packageName, filter); 
+			String s = String.format("getting resources pkg: %s filter: %s ", packageName, filter);
 			LOG.info(s);
-			if (os != null)
-			{
+			if (os != null) {
 				os.println(s);
 			}
-		}		
+		}
 
-		String dirName = packageName.replace('.', '/');
-	Set<URL> resources = getAllResources(classLoader);
+		Set<URL> resources = getAllResources(classLoader);
 
 		final Set<URL> classes = new HashSet<URL>();
 		final Set<String> directories = new HashSet<String>();
-			for (URL resource : resources) {
-				String dir = resource.getPath();
-				if (!directories.contains(dir)) {
-					directories.add(dir);
+		for (URL resource : resources) {
+			String dir = resource.getPath();
+			if (!directories.contains(dir)) {
+				directories.add(dir);
 
-					try {
-						for (final String clazz : findResources(dir, packageName, filter)) {
-							if (LOG.isDebugEnabled()) {
-								LOG.debug(String.format("Adding class %s", clazz));
-							}
-							URL url = classLoader.getResource(clazz);
-							if (url != null) {
-								classes.add(url);
-							} else {
-								LOG.warn(String.format("Unable to locate: %s", clazz));
-							}
+				try {
+					for (final String clazz : findResources(dir, packageName, filter)) {
+						if (LOG.isDebugEnabled()) {
+							LOG.debug(String.format("Adding class %s", clazz));
 						}
-					} catch (final IOException e) {
-						LOG.warn(e.toString());
+						URL url = classLoader.getResource(clazz);
+						if (url != null) {
+							classes.add(url);
+						} else {
+							LOG.warn(String.format("Unable to locate: %s", clazz));
+						}
 					}
+				} catch (final IOException e) {
+					LOG.warn(e.toString());
 				}
 			}
+		}
 
 		return classes;
 	}
@@ -675,7 +653,7 @@ public class ClassPathUtils {
 	 * convert a jar filename into a class name
 	 */
 	private static String modifyFileName(String fileName) {
-return fileName.replace('/', '.');
+		return fileName.replace('/', '.');
 	}
 
 	/**
@@ -693,18 +671,17 @@ return fileName.replace('/', '.');
 		final String[] split = directory.split("!");
 		URL jar = null;
 		try {
-			jar = new URL(split[0]);		
-		} catch (MalformedURLException e)
-		{
-			// expected in some cases	
-			jar = new File( split[0] ).toURI().toURL();
+			jar = new URL(split[0]);
+		} catch (MalformedURLException e) {
+			// expected in some cases
+			jar = new File(split[0]).toURI().toURL();
 		}
-		final String prefix = (split.length>1 && split[1].length()>0)?split[1].substring(1):"";
+		final String prefix = (split.length > 1 && split[1].length() > 0) ? split[1].substring(1) : "";
 		final ZipInputStream zip = new ZipInputStream(jar.openStream());
-		ClassPathFilter myFilter = new AndClassFilter(new PrefixClassFilter(prefix),  filter).optimize();
+		ClassPathFilter myFilter = new AndClassFilter(new PrefixClassFilter(prefix), filter).optimize();
 		ZipEntry entry = null;
 		while ((entry = zip.getNextEntry()) != null) {
-			final String className = modifyFileName(entry.getName());			
+			final String className = modifyFileName(entry.getName());
 			if (myFilter.accept(className)) {
 				classes.add(className);
 			}

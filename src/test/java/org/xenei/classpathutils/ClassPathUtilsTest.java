@@ -24,7 +24,6 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Set;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xenei.classpathutils.ClassPathUtils;
 import org.xenei.classpathutils.filter.PrefixClassFilter;
@@ -45,11 +44,9 @@ public class ClassPathUtilsTest {
 	@Test
 	public void testFindClassesFromClassJar() throws IOException {
 		URL url = ClassPathUtilsTest.class.getResource("classes.jar");
-		Set<String> names = ClassPathUtils.findClasses(url.toString(),
-				"org.xenei.classpathutils.testClasses");
+		Set<String> names = ClassPathUtils.findClasses(url.toString(), "org.xenei.classpathutils.testClasses");
 		assertEquals(4, names.size());
-		names = ClassPathUtils.findClasses(url.toString(),
-				"org.xenei.classpathutils.testClasses.package-info");
+		names = ClassPathUtils.findClasses(url.toString(), "org.xenei.classpathutils.testClasses.package-info");
 		assertEquals(1, names.size());
 		names = ClassPathUtils.findClasses(url.toString(), "com.xenei");
 		assertEquals(0, names.size());
@@ -64,8 +61,7 @@ public class ClassPathUtilsTest {
 	@Test
 	public void testFindClassesFromJavadocJar() throws IOException {
 		URL url = ClassPathUtilsTest.class.getResource("javadoc.jar");
-		Set<String> names = ClassPathUtils.findClasses(url.toString() + "!/",
-				"org.xenei.classpathutils.testClasses");
+		Set<String> names = ClassPathUtils.findClasses(url.toString() + "!/", "org.xenei.classpathutils.testClasses");
 		assertEquals(0, names.size());
 	}
 
@@ -78,8 +74,7 @@ public class ClassPathUtilsTest {
 	@Test
 	public void testFindClassesFromSourceJar() throws IOException {
 		URL url = ClassPathUtilsTest.class.getResource("sources.jar");
-		Set<String> names = ClassPathUtils.findClasses(url.toString() + "!/",
-				"org.xenei.classpathutils.testClasses");
+		Set<String> names = ClassPathUtils.findClasses(url.toString() + "!/", "org.xenei.classpathutils.testClasses");
 		assertEquals(0, names.size());
 	}
 
@@ -92,8 +87,7 @@ public class ClassPathUtilsTest {
 	@Test
 	public void testFindClasses_StringString() throws IOException {
 		URL url = ClassPathUtilsTest.class.getResource("/");
-		Set<String> names = ClassPathUtils.findClasses(url.toString(),
-				"org.xenei.classpathutils.testClasses.sub1");
+		Set<String> names = ClassPathUtils.findClasses(url.toString(), "org.xenei.classpathutils.testClasses.sub1");
 		assertEquals(2, names.size());
 	}
 
@@ -106,9 +100,8 @@ public class ClassPathUtilsTest {
 	@Test
 	public void testFindClasses_StringStringFilter() throws IOException {
 		URL url = ClassPathUtilsTest.class.getResource("/org/xenei/classpathutils");
-		Set<String> names = ClassPathUtils
-				.findClasses(url.toString(), "org.xenei.classpathutils.testClasses",
-						new PrefixClassFilter("org.xenei.classpathutils.testClasses.sub1"));
+		Set<String> names = ClassPathUtils.findClasses(url.toString(), "org.xenei.classpathutils.testClasses",
+				new PrefixClassFilter("org.xenei.classpathutils.testClasses.sub1"));
 		assertEquals(2, names.size());
 
 		url = ClassPathUtilsTest.class.getResource("/");
@@ -125,8 +118,7 @@ public class ClassPathUtilsTest {
 	 */
 	@Test
 	public void testGetClasses_String() throws IOException {
-		Collection<Class<?>> classes = ClassPathUtils
-				.getClasses("org.xenei.classpathutils.testClasses.sub1");
+		Collection<Class<?>> classes = ClassPathUtils.getClasses("org.xenei.classpathutils.testClasses.sub1");
 		assertEquals(2, classes.size());
 	}
 
@@ -138,8 +130,8 @@ public class ClassPathUtilsTest {
 	 */
 	@Test
 	public void testGetClasses_StringFilter() throws IOException {
-		Collection<Class<?>> classes = ClassPathUtils.getClasses(
-				"org.xenei.classpathutils.testClasses", new WildcardClassFilter("*s.su*"));
+		Collection<Class<?>> classes = ClassPathUtils.getClasses("org.xenei.classpathutils.testClasses",
+				new WildcardClassFilter("*s.su*"));
 		assertEquals(2, classes.size());
 	}
 }

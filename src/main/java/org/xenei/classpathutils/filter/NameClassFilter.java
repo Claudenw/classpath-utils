@@ -33,8 +33,7 @@ import org.xenei.classpathutils.ClassPathFilter;
  */
 public class NameClassFilter extends _AbstractStringFilter implements Serializable {
 
-	private static final Log LOG = LogFactory
-			.getLog(NameClassFilter.class);
+	private static final Log LOG = LogFactory.getLog(NameClassFilter.class);
 
 	/**
 	 * 
@@ -147,7 +146,7 @@ public class NameClassFilter extends _AbstractStringFilter implements Serializab
 	 */
 	@Override
 	public boolean accept(String className) {
-		String cn = removeDotClass( className );
+		String cn = removeDotClass(className);
 		for (String name2 : getStrings()) {
 			if (caseSensitivity.checkEquals(cn, name2)) {
 				return true;
@@ -161,7 +160,7 @@ public class NameClassFilter extends _AbstractStringFilter implements Serializab
 	 * 
 	 * @param str
 	 *            the string to add.
-	 * @return this for chaining.            
+	 * @return this for chaining.
 	 */
 	public NameClassFilter addClass(Class<?> clazz) {
 		if (clazz == null) {
@@ -193,7 +192,7 @@ public class NameClassFilter extends _AbstractStringFilter implements Serializab
 	 * 
 	 * @param strings
 	 *            The strings to add.
-	 * @return this for chaining            
+	 * @return this for chaining
 	 */
 	public final NameClassFilter addClasses(Class<?>... classes) {
 		if (classes == null) {
@@ -208,14 +207,12 @@ public class NameClassFilter extends _AbstractStringFilter implements Serializab
 	@Override
 	public ClassPathFilter optimize() {
 		// remove duplicates
-		Set<String> lst = new LinkedHashSet( getStrings() );
-		if (lst.size() == 0)
-		{
+		Set<String> lst = new LinkedHashSet<String>(getStrings());
+		if (lst.size() == 0) {
 			return FalseClassFilter.FALSE;
 		}
-		if (lst.size() < getStrings().size())
-		{
-			return new NameClassFilter( lst );
+		if (lst.size() < getStrings().size()) {
+			return new NameClassFilter(lst);
 		}
 		return this;
 	}

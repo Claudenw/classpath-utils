@@ -20,14 +20,10 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import org.xenei.classpathutils.ClassPathFilter;
 
 /**
@@ -36,8 +32,7 @@ import org.xenei.classpathutils.ClassPathFilter;
  * {@code true}. Otherwise, it returns {@code false}. Checking of the file
  * filter list stops when the first filter returns {@code false}.
  */
-public class AndClassFilter extends _AbstractConditionalFilter implements
-		Serializable {
+public class AndClassFilter extends _AbstractConditionalFilter implements Serializable {
 
 	/**
 	 * 
@@ -127,71 +122,56 @@ public class AndClassFilter extends _AbstractConditionalFilter implements
 		}
 		return true;
 	}
-	
+
 	@Override
-	public ClassPathFilter optimize()
-	{
+	public ClassPathFilter optimize() {
 		// use a map to make merging enclosed ANDs easier.
-		Map<String,ClassPathFilter> filters = new HashMap<String,ClassPathFilter>();
+		Map<String, ClassPathFilter> filters = new HashMap<String, ClassPathFilter>();
 		boolean changed = false;
-		for (ClassPathFilter cpf : this.getFilters())
-		{
+		for (ClassPathFilter cpf : this.getFilters()) {
 			ClassPathFilter cpf2 = cpf.optimize();
-			changed |= ! cpf2.toString().equals( cpf.toString());
-			if (cpf2 instanceof AndClassFilter)
-			{
+			changed |= !cpf2.toString().equals(cpf.toString());
+			if (cpf2 instanceof AndClassFilter) {
 				changed = true;
 				AndClassFilter acf = (AndClassFilter) cpf2;
-				for (ClassPathFilter filter : acf.getFilters())
-				{
-					filters.put( filter.toString(), filter);
+				for (ClassPathFilter filter : acf.getFilters()) {
+					filters.put(filter.toString(), filter);
 				}
-			}
-			else if (cpf2 == FalseClassFilter.FALSE)
-			{
+			} else if (cpf2 == FalseClassFilter.FALSE) {
 				return FalseClassFilter.FALSE;
-			} else 
-			if (cpf2 == TrueClassFilter.TRUE)
-			{
+			} else if (cpf2 == TrueClassFilter.TRUE) {
 				// remove any TRUE filters.
 				changed = true;
 			} else {
-				filters.put( cpf2.toString(), cpf2);
+				filters.put(cpf2.toString(), cpf2);
 			}
 		}
-		
-		if (filters.size() == 0)
-		{
+
+		if (filters.size() == 0) {
 			return FalseClassFilter.FALSE;
 		}
-		
-		
+
 		// if there is only one argument just return that.
-		if (filters.size()==1)
-		{
+		if (filters.size() == 1) {
 			return filters.values().iterator().next();
 		}
-		
+
 		List<ClassPathFilter> filterOrder = new ArrayList<ClassPathFilter>(filters.values());
-		filterOrder.sort( EXECUTION_ORDER);
-		if (!changed)
-		{
+		filterOrder.sort(EXECUTION_ORDER);
+		if (!changed) {
 			Iterator<ClassPathFilter> iter1 = filters.values().iterator();
 			Iterator<ClassPathFilter> iter2 = filterOrder.iterator();
-			while (iter1.hasNext())
-			{
-				if ( ! iter1.next().equals( iter2.next() )) {
+			while (iter1.hasNext()) {
+				if (!iter1.next().equals(iter2.next())) {
 					changed = true;
 					break;
 				}
 			}
 		}
-		
-		
-		if (changed)
-		{
-			return new AndClassFilter( filterOrder);
+
+		if (changed) {
+			return new AndClassFilter(filterOrder);
 		}
 		return this;
-		}
+	}
 }

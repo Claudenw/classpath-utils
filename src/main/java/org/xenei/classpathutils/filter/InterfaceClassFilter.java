@@ -16,7 +16,6 @@
  */
 package org.xenei.classpathutils.filter;
 
-import java.io.Serializable;
 import java.net.URL;
 
 import org.apache.commons.logging.Log;
@@ -29,8 +28,7 @@ import org.xenei.classpathutils.filter.types.ClassFilterType;
  */
 public class InterfaceClassFilter extends _AbstractBaseFilter implements ClassFilterType {
 
-	private static final Log LOG = LogFactory
-			.getLog(InterfaceClassFilter.class);
+	private static final Log LOG = LogFactory.getLog(InterfaceClassFilter.class);
 
 	/**
 	 * 
@@ -58,7 +56,7 @@ public class InterfaceClassFilter extends _AbstractBaseFilter implements ClassFi
 	public String funcName() {
 		return "InterfaceClass";
 	}
-	
+
 	/**
 	 * Checks to see if the class is an interface.
 	 *
@@ -82,7 +80,7 @@ public class InterfaceClassFilter extends _AbstractBaseFilter implements ClassFi
 	public boolean accept(String className) {
 
 		try {
-			return accept( loadClass(className));
+			return accept(loadClass(className));
 		} catch (ClassNotFoundException e) {
 			return false;
 		}

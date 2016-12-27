@@ -16,7 +16,6 @@
  */
 package org.xenei.classpathutils.filter.types;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.xenei.classpathutils.ClassPathFilter;

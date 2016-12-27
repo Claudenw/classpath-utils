@@ -31,27 +31,28 @@ import org.xenei.classpathutils.ClassPathUtils;
  */
 public abstract class _AbstractBaseFilter implements ClassPathFilter {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected static final String[] NO_ARGS = new String[0];
 
 	protected abstract Log getLog();
-	
+
 	/* package static so it can be used in tests. */
-	/* package static */static String removeDotClass( String className )
-	{
-		return className.endsWith(".class")?className.substring(0, className.length()-".class".length()):className;
+	/* package static */static String removeDotClass(String className) {
+		return className.endsWith(".class") ? className.substring(0, className.length() - ".class".length())
+				: className;
 	}
-	
-	protected Class<?> loadClass( String className ) throws ClassNotFoundException
-	{
-		String classNameStr = removeDotClass( className );
+
+	protected Class<?> loadClass(String className) throws ClassNotFoundException {
+		String classNameStr = removeDotClass(className);
 		try {
-		return Class.forName(classNameStr, false, ClassPathUtils.getClassLoader());
-		}
-		catch (ClassNotFoundException e)
-		{
-			String err = String.format("Can not load %s: %s",className, e.toString() ); 
-			getLog().error( err );
-			ClassPathUtils.doLog( err );
+			return Class.forName(classNameStr, false, ClassPathUtils.getClassLoader());
+		} catch (ClassNotFoundException e) {
+			String err = String.format("Can not load %s: %s", className, e.toString());
+			getLog().error(err);
+			ClassPathUtils.doLog(err);
 			throw e;
 		}
 	}
@@ -63,17 +64,15 @@ public abstract class _AbstractBaseFilter implements ClassPathFilter {
 	public String toString() {
 		return ClassPathFilter.Util.toString(this);
 	}
-	
+
 	@Override
-	public boolean equals( Object o )
-	{
-		if (o instanceof ClassPathFilter)
-		{
-			return ClassPathFilter.Util.equals(this, (ClassPathFilter)o);
+	public boolean equals(Object o) {
+		if (o instanceof ClassPathFilter) {
+			return ClassPathFilter.Util.equals(this, (ClassPathFilter) o);
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return ClassPathFilter.Util.hashCode(this);

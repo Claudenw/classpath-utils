@@ -47,10 +47,8 @@ public class WildcardClassFilterTest {
 	 * Constructor.
 	 */
 	public WildcardClassFilterTest() {
-		filter_sens = new WildcardClassFilter(Case.SENSITIVE,
-				"*xene?.*ClassPathFilter");
-		filter_insens = new WildcardClassFilter(Case.INSENSITIVE,
-				"*Xene?.*ClassPathFilter");
+		filter_sens = new WildcardClassFilter(Case.SENSITIVE, "*xene?.*ClassPathFilter");
+		filter_insens = new WildcardClassFilter(Case.INSENSITIVE, "*Xene?.*ClassPathFilter");
 	}
 
 	/**
@@ -110,10 +108,8 @@ public class WildcardClassFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("Wildcard( Sensitive, *xene?.*ClassPathFilter )",
-				filter_sens.toString());
-		assertEquals("Wildcard( Insensitive, *Xene?.*ClassPathFilter )",
-				filter_insens.toString());
+		assertEquals("Wildcard( Sensitive, *xene?.*ClassPathFilter )", filter_sens.toString());
+		assertEquals("Wildcard( Insensitive, *Xene?.*ClassPathFilter )", filter_insens.toString());
 	}
 
 	/**
@@ -121,8 +117,7 @@ public class WildcardClassFilterTest {
 	 */
 	@Test
 	public void testDotPosition() {
-		assertEquals("^\\Q.org.xenei.\\E$",
-				WildcardClassFilter.makeRegex(".org.xenei."));
+		assertEquals("^\\Q.org.xenei.\\E$", WildcardClassFilter.makeRegex(".org.xenei."));
 	}
 
 	/**
@@ -131,8 +126,7 @@ public class WildcardClassFilterTest {
 	 */
 	@Test
 	public void testAsteriskPosition() {
-		assertEquals("^.*\\Qorg\\E.*\\Qxenei\\E.*$",
-				WildcardClassFilter.makeRegex("*org*xenei*"));
+		assertEquals("^.*\\Qorg\\E.*\\Qxenei\\E.*$", WildcardClassFilter.makeRegex("*org*xenei*"));
 		assertEquals("^.*\\Q.bad.\\E.*$", WildcardClassFilter.makeRegex("*.bad.*"));
 	}
 
@@ -152,8 +146,7 @@ public class WildcardClassFilterTest {
 	 */
 	@Test
 	public void testQuestionPosition() {
-		assertEquals("^.\\Qorg\\E.\\Qxenei\\E.$",
-				WildcardClassFilter.makeRegex("?org?xenei?"));
+		assertEquals("^.\\Qorg\\E.\\Qxenei\\E.$", WildcardClassFilter.makeRegex("?org?xenei?"));
 	}
 
 	/**

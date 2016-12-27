@@ -17,12 +17,9 @@
 package org.xenei.classpathutils.filter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -35,8 +32,7 @@ import org.xenei.classpathutils.ClassPathFilter;
  */
 public class SuffixClassFilter extends _AbstractStringFilter implements Serializable {
 
-	private static final Log LOG = LogFactory
-			.getLog(SuffixClassFilter.class);
+	private static final Log LOG = LogFactory.getLog(SuffixClassFilter.class);
 
 	private static final long serialVersionUID = 525854048564445111L;
 
@@ -148,29 +144,25 @@ public class SuffixClassFilter extends _AbstractStringFilter implements Serializ
 		}
 		return false;
 	}
-	
+
 	@Override
 	public ClassPathFilter optimize() {
 		// remove duplicates
-				Set<String> set = new LinkedHashSet<String>( getStrings() );
-		if (set.size() == 0)
-		{
+		Set<String> set = new LinkedHashSet<String>(getStrings());
+		if (set.size() == 0) {
 			return FalseClassFilter.FALSE;
 		}
-		
+
 		Iterator<String> iter = set.iterator();
-		while (iter.hasNext())
-		{
-			if (iter.next().length() == 0)
-			{
+		while (iter.hasNext()) {
+			if (iter.next().length() == 0) {
 				return TrueClassFilter.TRUE;
 			}
 		}
-			if (set.size()<getStrings().size())
-			{
-				return new SuffixClassFilter( caseSensitivity, set );
-			}
-			return this;
-				
+		if (set.size() < getStrings().size()) {
+			return new SuffixClassFilter(caseSensitivity, set);
+		}
+		return this;
+
 	}
 }

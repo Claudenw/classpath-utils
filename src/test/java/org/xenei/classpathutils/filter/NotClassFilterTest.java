@@ -94,23 +94,22 @@ public class NotClassFilterTest {
 	public void testParse() throws Exception {
 		Parser p = new Parser();
 
-		ClassPathFilter cf = p.parse(new NotClassFilter(ClassPathFilter.FALSE)
-				.toString());
+		ClassPathFilter cf = p.parse(new NotClassFilter(ClassPathFilter.FALSE).toString());
 		assertTrue("Wrong class", cf instanceof NotClassFilter);
 		String[] args = cf.args();
 		assertEquals(ClassPathFilter.FALSE.toString(), args[0]);
 
 	}
-	
+
 	@Test
 	public void testOptimize() throws Exception {
-		NotClassFilter ncf = new NotClassFilter( TrueClassFilter.TRUE );
+		NotClassFilter ncf = new NotClassFilter(TrueClassFilter.TRUE);
 		ClassPathFilter filter = ncf.optimize();
-		assertEquals( FalseClassFilter.FALSE, filter );
+		assertEquals(FalseClassFilter.FALSE, filter);
 
-		 ncf = new NotClassFilter( TrueClassFilter.FALSE );
-		 filter = ncf.optimize();
-		assertEquals( FalseClassFilter.TRUE, filter );
+		ncf = new NotClassFilter(ClassPathFilter.FALSE);
+		filter = ncf.optimize();
+		assertEquals(ClassPathFilter.TRUE, filter);
 
 	}
 }

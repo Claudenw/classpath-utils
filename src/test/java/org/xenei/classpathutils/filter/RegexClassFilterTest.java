@@ -88,8 +88,7 @@ public class RegexClassFilterTest {
 
 		URL url = new URL("http://example.com");
 		RegexClassFilter sens = new RegexClassFilter(Case.SENSITIVE, "^.+example.c.+$");
-		RegexClassFilter insens = new RegexClassFilter(Case.INSENSITIVE,
-				"^.+Example.c.+$");
+		RegexClassFilter insens = new RegexClassFilter(Case.INSENSITIVE, "^.+Example.c.+$");
 
 		assertTrue(sens.accept(url));
 		assertTrue(insens.accept(url));
@@ -109,8 +108,7 @@ public class RegexClassFilterTest {
 	@Test
 	public void testToString() {
 		assertEquals("Regex( Sensitive, ^.+xenei.+$ )", filter_sens.toString());
-		assertEquals("Regex( Insensitive, ^.+Xenei.+$ )",
-				filter_insens.toString());
+		assertEquals("Regex( Insensitive, ^.+Xenei.+$ )", filter_insens.toString());
 	}
 
 	/**

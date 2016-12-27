@@ -37,45 +37,43 @@ import org.xenei.classpathutils.filter.types.StringFilterType;
  *
  */
 public abstract class _AbstractConditionalFilter implements CollectionFilterType {
-	
-	protected static final Comparator<ClassPathFilter> EXECUTION_ORDER = new Comparator<ClassPathFilter>(){
 
-		private ClassPathFilter getFilter( ClassPathFilter f )
-		{
-			if (f instanceof CollectionFilterType)
-			{
-				List<ClassPathFilter> l = ((CollectionFilterType)f).getFilters();
-				if (l.size()!=1)
-				{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	protected static final Comparator<ClassPathFilter> EXECUTION_ORDER = new Comparator<ClassPathFilter>() {
+
+		private ClassPathFilter getFilter(ClassPathFilter f) {
+			if (f instanceof CollectionFilterType) {
+				List<ClassPathFilter> l = ((CollectionFilterType) f).getFilters();
+				if (l.size() != 1) {
 					return f;
 				}
 				return l.get(0);
 			}
 			return f;
 		}
-		
-		private int getFilterValue( ClassPathFilter f )
-		{
-			if (f instanceof StringFilterType)
-			{
+
+		private int getFilterValue(ClassPathFilter f) {
+			if (f instanceof StringFilterType) {
 				return 1;
 			}
-			if (f instanceof LogicFilterType)
-			{
+			if (f instanceof LogicFilterType) {
 				return 0;
 			}
-			if (f instanceof CollectionFilterType )
-				{
+			if (f instanceof CollectionFilterType) {
 				return 10;
-				}
+			}
 			return 100;
 		}
-		
+
 		@Override
 		public int compare(ClassPathFilter arg0, ClassPathFilter arg1) {
-			return Integer.compare( getFilterValue(getFilter( arg0 )),
-					getFilterValue( getFilter( arg1 )));			
-		}};
+			return Integer.compare(getFilterValue(getFilter(arg0)), getFilterValue(getFilter(arg1)));
+		}
+	};
 
 	/** The list of file filters. */
 	private final List<ClassPathFilter> classFilters = new ArrayList<ClassPathFilter>();
@@ -86,11 +84,9 @@ public abstract class _AbstractConditionalFilter implements CollectionFilterType
 	 * @param classFilters
 	 *            The filters to create the conditional from.
 	 */
-	protected _AbstractConditionalFilter(
-			final Collection<ClassPathFilter> classFilters) {
+	protected _AbstractConditionalFilter(final Collection<ClassPathFilter> classFilters) {
 		if (classFilters == null || classFilters.size() < 2) {
-			throw new IllegalArgumentException(
-					"Collection of filters may not be null or contain less than 2 filters");
+			throw new IllegalArgumentException("Collection of filters may not be null or contain less than 2 filters");
 		}
 		addFilters(classFilters);
 	}
@@ -103,8 +99,7 @@ public abstract class _AbstractConditionalFilter implements CollectionFilterType
 	 */
 	protected _AbstractConditionalFilter(final ClassPathFilter... classFilters) {
 		if (classFilters.length < 2) {
-			throw new IllegalArgumentException(
-					"Array of filters may not contain less than 2 filters");
+			throw new IllegalArgumentException("Array of filters may not contain less than 2 filters");
 		}
 		addFilters(classFilters);
 	}
@@ -236,7 +231,6 @@ public abstract class _AbstractConditionalFilter implements CollectionFilterType
 		}
 	}
 
-
 	/**
 	 * Removes resource filters from this filter.
 	 *
@@ -264,21 +258,18 @@ public abstract class _AbstractConditionalFilter implements CollectionFilterType
 	public String toString() {
 		return ClassPathFilter.Util.toString(this);
 	}
-	
+
 	@Override
-	public boolean equals( Object o )
-	{
-		if (o instanceof ClassPathFilter)
-		{
-			return ClassPathFilter.Util.equals(this, (ClassPathFilter)o);
+	public boolean equals(Object o) {
+		if (o instanceof ClassPathFilter) {
+			return ClassPathFilter.Util.equals(this, (ClassPathFilter) o);
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return ClassPathFilter.Util.hashCode(this);
 	}
-
 
 }

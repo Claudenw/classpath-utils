@@ -27,11 +27,9 @@ import org.xenei.classpathutils.ClassPathFilter;
 /**
  * Filters classes that are abstract
  */
-public class AbstractClassFilter extends _AbstractBaseFilter implements
-		Serializable {
+public class AbstractClassFilter extends _AbstractBaseFilter implements Serializable {
 
-	private static final Log LOG = LogFactory
-			.getLog(AbstractClassFilter.class);
+	private static final Log LOG = LogFactory.getLog(AbstractClassFilter.class);
 	/**
 	 * 
 	 */
@@ -57,6 +55,7 @@ public class AbstractClassFilter extends _AbstractBaseFilter implements
 	public String funcName() {
 		return "AbstractClass";
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -16,11 +16,8 @@
  */
 package org.xenei.classpathutils.filter;
 
-import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.net.URL;
-import java.util.Collection;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
@@ -35,7 +32,7 @@ public class HasAnnotationClassFilter extends _AbstractBaseFilter implements Cla
 	 * 
 	 */
 	private static final long serialVersionUID = 4258956807308815129L;
-	
+
 	private static final Log LOG = LogFactory.getLog(HasAnnotationClassFilter.class);
 
 	private Class<? extends Annotation> annotation;
@@ -83,8 +80,7 @@ public class HasAnnotationClassFilter extends _AbstractBaseFilter implements Cla
 			return accept(loadClass(className));
 		} catch (ClassNotFoundException e) {
 			return false;
-		} catch (NoClassDefFoundError x)
-		{
+		} catch (NoClassDefFoundError x) {
 			return false;
 		}
 	}

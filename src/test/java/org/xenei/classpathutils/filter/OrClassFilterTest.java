@@ -42,8 +42,7 @@ public class OrClassFilterTest {
 	 */
 	@Test
 	public void testAcceptClass() {
-		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE,
-				ClassPathFilter.FALSE);
+		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.FALSE);
 		assertFalse(filter.accept(cls));
 
 		filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
@@ -61,8 +60,7 @@ public class OrClassFilterTest {
 	 */
 	@Test
 	public void testAccceptString() {
-		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE,
-				ClassPathFilter.FALSE);
+		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.FALSE);
 		assertFalse(filter.accept(str));
 
 		filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
@@ -84,8 +82,7 @@ public class OrClassFilterTest {
 	public void testAccceptURL() throws MalformedURLException {
 		URL url = new URL("http://example.com");
 
-		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE,
-				ClassPathFilter.FALSE);
+		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.FALSE);
 		assertFalse(filter.accept(url));
 
 		filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
@@ -103,8 +100,7 @@ public class OrClassFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE,
-				ClassPathFilter.TRUE);
+		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
 		assertEquals("Or( False(), True() )", filter.toString());
 	}
 
@@ -118,8 +114,7 @@ public class OrClassFilterTest {
 	public void testParse() throws Exception {
 		Parser p = new Parser();
 
-		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE,
-				ClassPathFilter.TRUE);
+		ClassPathFilter filter = new OrClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
 
 		ClassPathFilter cf = p.parse(filter.toString());
 		assertTrue("wrong class type", cf instanceof OrClassFilter);
@@ -128,39 +123,39 @@ public class OrClassFilterTest {
 		assertEquals(ClassPathFilter.TRUE.toString(), args[1]);
 
 	}
-	
+
 	@Test
 	public void testOptimize() throws Exception {
-		NameClassFilter foo = new NameClassFilter( "foo");
-		OrClassFilter ncf = new OrClassFilter( foo, foo );
+		NameClassFilter foo = new NameClassFilter("foo");
+		OrClassFilter ncf = new OrClassFilter(foo, foo);
 		ClassPathFilter filter = ncf.optimize();
-		assertEquals( foo, filter );
-		
-		ncf = new OrClassFilter( TrueClassFilter.TRUE, foo, FalseClassFilter.FALSE);
-		filter = ncf.optimize();
-		assertEquals( FalseClassFilter.TRUE, filter );
+		assertEquals(foo, filter);
 
-		NameClassFilter bar = new NameClassFilter( "bar");
-		ncf = new OrClassFilter( foo, FalseClassFilter.FALSE, bar );
+		ncf = new OrClassFilter(TrueClassFilter.TRUE, foo, FalseClassFilter.FALSE);
 		filter = ncf.optimize();
-		
-		assertTrue( filter instanceof OrClassFilter );
-		
-		List<ClassPathFilter> fLst = ((OrClassFilter)filter).getFilters();
-		assertEquals( 2, fLst.size());
-		
-		assertTrue( fLst.contains( foo ));
-		assertTrue( fLst.contains( bar ));
-		
-		HasAnnotationClassFilter anno = new HasAnnotationClassFilter( Test.class ); 
-		ncf = new OrClassFilter( anno , bar );
+		assertEquals(ClassPathFilter.TRUE, filter);
+
+		NameClassFilter bar = new NameClassFilter("bar");
+		ncf = new OrClassFilter(foo, FalseClassFilter.FALSE, bar);
 		filter = ncf.optimize();
-		
-		assertTrue( filter instanceof OrClassFilter );
-		fLst = ((OrClassFilter)filter).getFilters();
-		assertEquals( 2, fLst.size());
-		assertEquals( bar, fLst.get(0) );
-		assertEquals( anno, fLst.get(1));
+
+		assertTrue(filter instanceof OrClassFilter);
+
+		List<ClassPathFilter> fLst = ((OrClassFilter) filter).getFilters();
+		assertEquals(2, fLst.size());
+
+		assertTrue(fLst.contains(foo));
+		assertTrue(fLst.contains(bar));
+
+		HasAnnotationClassFilter anno = new HasAnnotationClassFilter(Test.class);
+		ncf = new OrClassFilter(anno, bar);
+		filter = ncf.optimize();
+
+		assertTrue(filter instanceof OrClassFilter);
+		fLst = ((OrClassFilter) filter).getFilters();
+		assertEquals(2, fLst.size());
+		assertEquals(bar, fLst.get(0));
+		assertEquals(anno, fLst.get(1));
 
 	}
 }

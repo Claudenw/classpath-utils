@@ -33,8 +33,7 @@ import org.xenei.classpathutils.filter.parser.Parser;
  *
  */
 public class HasAnnotationClassFilterTest {
-	private ClassPathFilter filter = new HasAnnotationClassFilter(
-			Deprecated.class);
+	private ClassPathFilter filter = new HasAnnotationClassFilter(Deprecated.class);
 	private Class<?> t = X.class;
 	private Class<?> f = File.class;
 
@@ -75,8 +74,7 @@ public class HasAnnotationClassFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("HasAnnotation( " + Deprecated.class.getName() + " )",
-				filter.toString());
+		assertEquals("HasAnnotation( " + Deprecated.class.getName() + " )", filter.toString());
 	}
 
 	/**

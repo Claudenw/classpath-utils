@@ -42,8 +42,7 @@ public class _AbstractStringClassFilterTest {
 
 	private _AbstractStringFilter filter_insens;
 
-	private static Log LOG = LogFactory
-			.getLog(_AbstractStringClassFilterTest.class);
+	private static Log LOG = LogFactory.getLog(_AbstractStringClassFilterTest.class);
 
 	/**
 	 * Recreate the filters.
@@ -51,6 +50,11 @@ public class _AbstractStringClassFilterTest {
 	@Before
 	public void setupAbstractStringClassFilterTest() {
 		filter = new _AbstractStringFilter("foo") {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public boolean accept(String className) {
@@ -69,6 +73,11 @@ public class _AbstractStringClassFilterTest {
 		};
 		filter_sens = new _AbstractStringFilter(Case.SENSITIVE, "foo") {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean accept(String className) {
 				return true;
@@ -78,7 +87,7 @@ public class _AbstractStringClassFilterTest {
 			protected Log getLog() {
 				return LOG;
 			}
-			
+
 			@Override
 			public ClassPathFilter optimize() {
 				return this;
@@ -86,6 +95,11 @@ public class _AbstractStringClassFilterTest {
 		};
 		filter_insens = new _AbstractStringFilter(Case.INSENSITIVE, "foo") {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean accept(String className) {
 				return true;
@@ -95,7 +109,7 @@ public class _AbstractStringClassFilterTest {
 			protected Log getLog() {
 				return LOG;
 			}
-			
+
 			@Override
 			public ClassPathFilter optimize() {
 				return this;
@@ -115,12 +129,9 @@ public class _AbstractStringClassFilterTest {
 		filter.addString(ClassPathFilter.class.getName());
 		filter_sens.addString(ClassPathFilter.class.getName());
 		filter_insens.addString(ClassPathFilter.class.getName());
-		assertEquals("( Sensitive, foo, " + ClassPathFilter.class.getName()
-				+ " )", filter.toString());
-		assertEquals("( Sensitive, foo, " + ClassPathFilter.class.getName()
-				+ " )", filter_sens.toString());
-		assertEquals("( Insensitive, foo, " + ClassPathFilter.class.getName()
-				+ " )", filter_insens.toString());
+		assertEquals("( Sensitive, foo, " + ClassPathFilter.class.getName() + " )", filter.toString());
+		assertEquals("( Sensitive, foo, " + ClassPathFilter.class.getName() + " )", filter_sens.toString());
+		assertEquals("( Insensitive, foo, " + ClassPathFilter.class.getName() + " )", filter_insens.toString());
 
 	}
 
@@ -131,8 +142,7 @@ public class _AbstractStringClassFilterTest {
 	public void testAddStrings() {
 		filter.addStrings("fu", "bar", "baz");
 		assertEquals(4, filter.getStrings().size());
-		assertTrue("missing foo (from constructor)", filter.getStrings()
-				.contains("foo"));
+		assertTrue("missing foo (from constructor)", filter.getStrings().contains("foo"));
 		assertTrue("missing fu", filter.getStrings().contains("fu"));
 		assertTrue("missing bar", filter.getStrings().contains("bar"));
 		assertTrue("missing baz", filter.getStrings().contains("baz"));
@@ -149,8 +159,7 @@ public class _AbstractStringClassFilterTest {
 		lst.add("baz");
 		filter_sens.addStrings(lst);
 		assertEquals(4, filter_sens.getStrings().size());
-		assertTrue("missing foo (from constructor)", filter_sens.getStrings()
-				.contains("foo"));
+		assertTrue("missing foo (from constructor)", filter_sens.getStrings().contains("foo"));
 		assertTrue("missing fu", filter_sens.getStrings().contains("fu"));
 		assertTrue("missing bar", filter_sens.getStrings().contains("bar"));
 		assertTrue("missing baz", filter_sens.getStrings().contains("baz"));

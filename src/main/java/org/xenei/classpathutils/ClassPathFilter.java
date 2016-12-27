@@ -56,6 +56,7 @@ public interface ClassPathFilter extends Serializable {
 	public static final ClassPathFilter INTERFACE_CLASS = InterfaceClassFilter.INTERFACE;
 
 	public ClassPathFilter optimize();
+
 	/**
 	 * Accept a URL.
 	 * 
@@ -146,8 +147,7 @@ public interface ClassPathFilter extends Serializable {
 		 * @return A collection of URLs that pass the filter in the order the
 		 *         classes iterator returns them.
 		 */
-		public static Collection<URL> filterURLs(Collection<URL> urls,
-				ClassPathFilter filter) {
+		public static Collection<URL> filterURLs(Collection<URL> urls, ClassPathFilter filter) {
 			Collection<URL> retval = new ArrayList<URL>();
 			for (URL url : urls) {
 				if (filter.accept(url)) {
@@ -167,8 +167,7 @@ public interface ClassPathFilter extends Serializable {
 		 * @return A collection of classes that pass the filter in the order the
 		 *         classNames iterator returns them.
 		 */
-		public static Collection<String> filterNames(
-				Collection<String> classNames, ClassPathFilter filter) {
+		public static Collection<String> filterNames(Collection<String> classNames, ClassPathFilter filter) {
 			Collection<String> retval = new ArrayList<String>();
 			for (String className : classNames) {
 				if (filter.accept(className)) {
@@ -188,16 +187,14 @@ public interface ClassPathFilter extends Serializable {
 		 * @return A collection of classes that pass the filter in the order the
 		 *         classes iterator returns them.
 		 */
-		public static Collection<Class<?>> filterClasses(
-				Collection<Class<?>> classes, ClassPathFilter filter) {
+		public static Collection<Class<?>> filterClasses(Collection<Class<?>> classes, ClassPathFilter filter) {
 			Collection<Class<?>> retval = new ArrayList<Class<?>>();
 			for (Class<?> clazz : classes) {
-				if (clazz.getName().endsWith( "Test"))
-				{
-				System.out.println( "Class "+clazz);
+				if (clazz.getName().endsWith("Test")) {
+					System.out.println("Class " + clazz);
 				}
 				if (filter.accept(clazz)) {
-					
+
 					retval.add(clazz);
 				}
 			}
@@ -228,14 +225,12 @@ public interface ClassPathFilter extends Serializable {
 			}
 			return sb.append(")").toString();
 		}
-		
-		public static boolean equals( ClassPathFilter cpf1, ClassPathFilter cpf2)
-		{
-			return cpf1.toString().equals( cpf2.toString());
+
+		public static boolean equals(ClassPathFilter cpf1, ClassPathFilter cpf2) {
+			return cpf1.toString().equals(cpf2.toString());
 		}
-		
-		public static int hashCode( ClassPathFilter cpf)
-		{
+
+		public static int hashCode(ClassPathFilter cpf) {
 			return cpf.toString().hashCode();
 		}
 

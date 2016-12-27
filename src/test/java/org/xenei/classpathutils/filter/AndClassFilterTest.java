@@ -21,8 +21,6 @@ import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
@@ -44,8 +42,7 @@ public class AndClassFilterTest {
 	 */
 	@Test
 	public void testAcceptClass() {
-		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
-				ClassPathFilter.FALSE);
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.FALSE);
 		assertFalse(filter.accept(cls));
 
 		filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
@@ -63,8 +60,7 @@ public class AndClassFilterTest {
 	 */
 	@Test
 	public void testAccceptString() {
-		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
-				ClassPathFilter.FALSE);
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.FALSE);
 		assertFalse(filter.accept(str));
 
 		filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
@@ -85,8 +81,7 @@ public class AndClassFilterTest {
 	@Test
 	public void testAccceptURL() throws MalformedURLException {
 		URL url = new URL("http://example.com");
-		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
-				ClassPathFilter.FALSE);
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.FALSE);
 		assertFalse(filter.accept(url));
 
 		filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
@@ -104,8 +99,7 @@ public class AndClassFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
-				ClassPathFilter.TRUE);
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
 		assertEquals("And( False(), True() )", filter.toString());
 	}
 
@@ -119,8 +113,7 @@ public class AndClassFilterTest {
 	public void testParse() throws Exception {
 		Parser p = new Parser();
 
-		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE,
-				ClassPathFilter.TRUE);
+		ClassPathFilter filter = new AndClassFilter(ClassPathFilter.FALSE, ClassPathFilter.TRUE);
 
 		ClassPathFilter cf = p.parse(filter.toString());
 		assertTrue("wrong class type", cf instanceof AndClassFilter);
@@ -128,40 +121,40 @@ public class AndClassFilterTest {
 		assertEquals(ClassPathFilter.FALSE.toString(), args[0]);
 		assertEquals(ClassPathFilter.TRUE.toString(), args[1]);
 	}
-	
+
 	@Test
 	public void testOptimize() throws Exception {
-		NameClassFilter foo = new NameClassFilter( "foo");
-		AndClassFilter ncf = new AndClassFilter( foo, foo );
+		NameClassFilter foo = new NameClassFilter("foo");
+		AndClassFilter ncf = new AndClassFilter(foo, foo);
 		ClassPathFilter filter = ncf.optimize();
-		assertEquals( foo, filter );
-		
-		ncf = new AndClassFilter( TrueClassFilter.TRUE, foo, FalseClassFilter.FALSE);
-		filter = ncf.optimize();
-		assertEquals( FalseClassFilter.FALSE, filter );
+		assertEquals(foo, filter);
 
-		NameClassFilter bar = new NameClassFilter( "bar");
-		AndClassFilter ncf2 = new AndClassFilter( foo, bar );
-		ncf = new AndClassFilter( TrueClassFilter.TRUE, foo, ncf2);
+		ncf = new AndClassFilter(TrueClassFilter.TRUE, foo, FalseClassFilter.FALSE);
 		filter = ncf.optimize();
-		
-		assertTrue( filter instanceof AndClassFilter );
-		
-		List<ClassPathFilter> fLst = ((AndClassFilter)filter).getFilters();
-		assertEquals( 2, fLst.size());
-		
-		assertTrue( fLst.contains( foo ));
-		assertTrue( fLst.contains( bar ));
-		
-		HasAnnotationClassFilter anno = new HasAnnotationClassFilter( Test.class ); 
-		ncf = new AndClassFilter( anno , bar );
+		assertEquals(FalseClassFilter.FALSE, filter);
+
+		NameClassFilter bar = new NameClassFilter("bar");
+		AndClassFilter ncf2 = new AndClassFilter(foo, bar);
+		ncf = new AndClassFilter(TrueClassFilter.TRUE, foo, ncf2);
 		filter = ncf.optimize();
-		
-		assertTrue( filter instanceof AndClassFilter );
-		fLst = ((AndClassFilter)filter).getFilters();
-		assertEquals( 2, fLst.size());
-		assertEquals( bar, fLst.get(0) );
-		assertEquals( anno, fLst.get(1));
+
+		assertTrue(filter instanceof AndClassFilter);
+
+		List<ClassPathFilter> fLst = ((AndClassFilter) filter).getFilters();
+		assertEquals(2, fLst.size());
+
+		assertTrue(fLst.contains(foo));
+		assertTrue(fLst.contains(bar));
+
+		HasAnnotationClassFilter anno = new HasAnnotationClassFilter(Test.class);
+		ncf = new AndClassFilter(anno, bar);
+		filter = ncf.optimize();
+
+		assertTrue(filter instanceof AndClassFilter);
+		fLst = ((AndClassFilter) filter).getFilters();
+		assertEquals(2, fLst.size());
+		assertEquals(bar, fLst.get(0));
+		assertEquals(anno, fLst.get(1));
 	}
 
 }

@@ -155,17 +155,15 @@ public class RegexClassFilter implements ClassPathFilter, Serializable, StringFi
 	public String toString() {
 		return ClassPathFilter.Util.toString(this);
 	}
-	
+
 	@Override
-	public boolean equals( Object o )
-	{
-		if (o instanceof ClassPathFilter)
-		{
-			return ClassPathFilter.Util.equals(this, (ClassPathFilter)o);
+	public boolean equals(Object o) {
+		if (o instanceof ClassPathFilter) {
+			return ClassPathFilter.Util.equals(this, (ClassPathFilter) o);
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return ClassPathFilter.Util.hashCode(this);
@@ -176,8 +174,7 @@ public class RegexClassFilter implements ClassPathFilter, Serializable, StringFi
 	 */
 	@Override
 	public String[] args() {
-		Case c = (pattern.flags() & Pattern.CASE_INSENSITIVE) != 0 ? Case.INSENSITIVE
-				: Case.SENSITIVE;
+		Case c = (pattern.flags() & Pattern.CASE_INSENSITIVE) != 0 ? Case.INSENSITIVE : Case.SENSITIVE;
 		return new String[] { c.getName(), pattern.pattern() };
 	}
 
@@ -209,5 +206,5 @@ public class RegexClassFilter implements ClassPathFilter, Serializable, StringFi
 	public ClassPathFilter optimize() {
 		return this;
 	}
-	
+
 }

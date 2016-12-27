@@ -16,7 +16,6 @@
  */
 package org.xenei.classpathutils.filter;
 
-import java.io.Serializable;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -32,8 +31,7 @@ import org.xenei.classpathutils.filter.types.CollectionFilterType;
  */
 public class NotClassFilter extends _AbstractBaseFilter implements CollectionFilterType {
 
-	private static final Log LOG = LogFactory
-			.getLog(NotClassFilter.class);
+	private static final Log LOG = LogFactory.getLog(NotClassFilter.class);
 
 	/**
 	 * 
@@ -122,25 +120,22 @@ public class NotClassFilter extends _AbstractBaseFilter implements CollectionFil
 	@Override
 	public ClassPathFilter optimize() {
 		ClassPathFilter f = filter.optimize();
-		if (f == FalseClassFilter.FALSE)
-		{
+		if (f == FalseClassFilter.FALSE) {
 			return TrueClassFilter.TRUE;
 		}
-		if (f == TrueClassFilter.TRUE)
-		{
+		if (f == TrueClassFilter.TRUE) {
 			return FalseClassFilter.FALSE;
 		}
-		if (f == filter)
-		{
+		if (f == filter) {
 			return this;
 		}
-		return new NotClassFilter( f );
-		
+		return new NotClassFilter(f);
+
 	}
 
 	@Override
 	public List<ClassPathFilter> getFilters() {
-		return Arrays.asList( filter );
+		return Arrays.asList(filter);
 	}
 
 }

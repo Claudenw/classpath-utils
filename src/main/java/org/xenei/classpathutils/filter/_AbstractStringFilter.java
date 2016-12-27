@@ -34,6 +34,11 @@ import org.xenei.classpathutils.filter.types.StringFilterType;
  */
 public abstract class _AbstractStringFilter extends _AbstractBaseFilter implements StringFilterType {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final List<String> strings = new ArrayList<String>();
 
 	/** Whether the comparison is case sensitive. */
@@ -60,8 +65,7 @@ public abstract class _AbstractStringFilter extends _AbstractBaseFilter implemen
 	 *             if the name is null
 	 */
 	protected _AbstractStringFilter(Case caseSensitivity, String str) {
-		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE
-				: caseSensitivity;
+		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE : caseSensitivity;
 		addString(str);
 	}
 
@@ -88,12 +92,11 @@ public abstract class _AbstractStringFilter extends _AbstractBaseFilter implemen
 	 *            the array of strings to allow, must not be null or zero length
 	 */
 	protected _AbstractStringFilter(Case caseSensitivity, String... strings) {
-		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE
-				: caseSensitivity;
+		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE : caseSensitivity;
 		if (strings != null && strings.length > 0) {
 			addStrings(strings);
 		}
-		
+
 	}
 
 	/**
@@ -124,8 +127,7 @@ public abstract class _AbstractStringFilter extends _AbstractBaseFilter implemen
 	 * @throws ClassCastException
 	 *             if the list does not contain Strings
 	 */
-	protected _AbstractStringFilter(Case caseSensitivity,
-			Collection<String> strings) {
+	protected _AbstractStringFilter(Case caseSensitivity, Collection<String> strings) {
 		this(caseSensitivity, strings.toArray(new String[strings.size()]));
 	}
 
@@ -136,7 +138,7 @@ public abstract class _AbstractStringFilter extends _AbstractBaseFilter implemen
 	public String[] args() {
 		String[] retval = new String[strings.size() + 1];
 		retval[0] = caseSensitivity.getName();
-		strings.sort( String.CASE_INSENSITIVE_ORDER );
+		strings.sort(String.CASE_INSENSITIVE_ORDER);
 		for (int i = 0; i < strings.size(); i++) {
 			retval[i + 1] = strings.get(i);
 		}

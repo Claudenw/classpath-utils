@@ -22,9 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
@@ -53,11 +51,9 @@ import org.xenei.classpathutils.filter.types.StringFilterType;
  * }
  * </pre>
  */
-public class WildcardClassFilter extends _AbstractBaseFilter implements
-		Serializable, StringFilterType {
+public class WildcardClassFilter extends _AbstractBaseFilter implements Serializable, StringFilterType {
 
-	private static final Log LOG = LogFactory
-			.getLog(WildcardClassFilter.class);
+	private static final Log LOG = LogFactory.getLog(WildcardClassFilter.class);
 
 	/**
 	 * 
@@ -94,8 +90,7 @@ public class WildcardClassFilter extends _AbstractBaseFilter implements
 	 *             if the pattern is null
 	 */
 	public WildcardClassFilter(Case caseSensitivity, String wildcard) {
-		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE
-				: caseSensitivity;
+		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE : caseSensitivity;
 		addWildcard(wildcard);
 	}
 
@@ -130,11 +125,9 @@ public class WildcardClassFilter extends _AbstractBaseFilter implements
 	 */
 	public WildcardClassFilter(Case caseSensitivity, String... wildcards) {
 		if (wildcards.length == 0) {
-			throw new IllegalArgumentException(
-					"The wildcard array may not be empty");
+			throw new IllegalArgumentException("The wildcard array may not be empty");
 		}
-		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE
-				: caseSensitivity;
+		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE : caseSensitivity;
 		addWildCards(wildcards);
 	}
 
@@ -168,11 +161,9 @@ public class WildcardClassFilter extends _AbstractBaseFilter implements
 	 */
 	public WildcardClassFilter(Case caseSensitivity, Collection<String> wildcards) {
 		if (wildcards == null || wildcards.size() == 0) {
-			throw new IllegalArgumentException(
-					"The wildcard list may not be empty");
+			throw new IllegalArgumentException("The wildcard list may not be empty");
 		}
-		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE
-				: caseSensitivity;
+		this.caseSensitivity = caseSensitivity == null ? Case.SENSITIVE : caseSensitivity;
 		addWildCards(wildcards);
 	}
 
@@ -191,8 +182,7 @@ public class WildcardClassFilter extends _AbstractBaseFilter implements
 	 */
 	public void addWildCards(Collection<String> wildcards) {
 		if (wildcards == null) {
-			throw new IllegalArgumentException(
-					"The wildcard list must not be null");
+			throw new IllegalArgumentException("The wildcard list must not be null");
 		}
 		for (String s : wildcards) {
 			addWildcard(s);
@@ -210,8 +200,7 @@ public class WildcardClassFilter extends _AbstractBaseFilter implements
 	 */
 	public void addWildCards(String... wildcards) {
 		if (wildcards == null) {
-			throw new IllegalArgumentException(
-					"The wildcard array must not be null");
+			throw new IllegalArgumentException("The wildcard array must not be null");
 		}
 		for (String s : wildcards) {
 			addWildcard(s);
@@ -231,8 +220,7 @@ public class WildcardClassFilter extends _AbstractBaseFilter implements
 			throw new IllegalArgumentException("The wildcard must not be null");
 		}
 		this.wildcards.add(wildcard);
-		RegexClassFilter filter = new RegexClassFilter(caseSensitivity,
-				makeRegex(wildcard));
+		RegexClassFilter filter = new RegexClassFilter(caseSensitivity, makeRegex(wildcard));
 		if (wrapped == null) {
 			wrapped = filter;
 		} else {
@@ -311,8 +299,7 @@ public class WildcardClassFilter extends _AbstractBaseFilter implements
 		if (wildcard == null) {
 			throw new IllegalArgumentException("The wildcard must not be null");
 		}
-		return parseWildQuestion(new StringBuilder("^"), wildcard).append("$")
-				.toString();
+		return parseWildQuestion(new StringBuilder("^"), wildcard).append("$").toString();
 	}
 
 	/**
@@ -356,5 +343,5 @@ public class WildcardClassFilter extends _AbstractBaseFilter implements
 	public ClassPathFilter optimize() {
 		wrapped = wrapped.optimize();
 		return this;
-		}		
+	}
 }

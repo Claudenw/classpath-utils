@@ -96,8 +96,7 @@ public class NameClassFilterTest {
 		URL url3 = new URL("ftp://example.com");
 
 		NameClassFilter sens = new NameClassFilter(Case.SENSITIVE, "http://example.com");
-		NameClassFilter insens = new NameClassFilter(Case.INSENSITIVE,
-				"http://example.com");
+		NameClassFilter insens = new NameClassFilter(Case.INSENSITIVE, "http://example.com");
 
 		assertTrue(sens.accept(url));
 		assertTrue(insens.accept(url));
@@ -114,10 +113,8 @@ public class NameClassFilterTest {
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("Name( Sensitive, " + t.getName() + " )",
-				filter_sens.toString());
-		assertEquals("Name( Insensitive, " + t.getName() + " )",
-				filter_insens.toString());
+		assertEquals("Name( Sensitive, " + t.getName() + " )", filter_sens.toString());
+		assertEquals("Name( Insensitive, " + t.getName() + " )", filter_insens.toString());
 	}
 
 	/**
