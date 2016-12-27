@@ -231,7 +231,7 @@ public class ClassPathUtils {
 			if (LOG.isInfoEnabled() || os != null) {
 
 				String s = String.format("getting classes processing: %s ", resource);
-				LOG.info(s);
+				LOG.debug(s);
 				doLog(s);
 			}
 
