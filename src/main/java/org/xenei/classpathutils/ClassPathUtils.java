@@ -124,7 +124,9 @@ public class ClassPathUtils {
 		final Set<String> classes = new HashSet<String>();
 		ClassPathFilter myFilter = new AndClassFilter(new SuffixClassFilter(".class"),
 				new NotClassFilter(new PrefixClassFilter("META")),
-				new NotClassFilter(new RegexClassFilter(".+\\$[0-9]+[\\.\\$].*")), filter).optimize();
+				new NotClassFilter(new RegexClassFilter(".+\\$[0-9]+[\\.\\$].*")), 
+				new PrefixClassFilter( packageName.replace("/", ".")),
+				filter).optimize();
 
 		if (LOG.isDebugEnabled() || os != null) {
 			String s = String.format("finding classes pkg: %s filter: %s ", packageName, myFilter);
