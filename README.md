@@ -18,7 +18,8 @@ The ClassPathUtils class contains a number of static methods to locate classes a
 Filters
 =======
 
-Filters are patterned after the Java FileFilter class and are used to filter resources.  The default classes are defined in <code>org.xenei.classpathutils.filter</code> package.
+
+ <a href="classfilters.html">filters</a> are patterned after the Java FileFilter class and are used to filter resources.  The default classes are defined in <code>org.xenei.classpathutils.filter</code> package.
 
 The filters are implemented as functions and can be parsed from strings.  The case of the function name does not matter.  Methods that  take string matching arguments (e.g. prefix) have arguments that enable or disable case matching.
 
