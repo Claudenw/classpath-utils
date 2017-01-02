@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.xenei</groupId>
 	<artifactId>classpath-utils</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>Xenei Classpath Utilities</name>
 	<description>Classpath utilities to read/locate files and classes.  Also classes to filter results.</description>
 	<url>https://github.com/Claudenw/classpath-utils/tree/master</url>
