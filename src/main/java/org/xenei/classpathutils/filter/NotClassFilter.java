@@ -33,10 +33,6 @@ public class NotClassFilter extends _AbstractBaseFilter implements CollectionFil
 
 	private static final Log LOG = LogFactory.getLog(NotClassFilter.class);
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2488500113297018806L;
 	/** The filter */
 	private final ClassPathFilter filter;
 

@@ -30,11 +30,6 @@ public class InterfaceClassFilter extends _AbstractBaseFilter implements ClassFi
 
 	private static final Log LOG = LogFactory.getLog(InterfaceClassFilter.class);
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2416808898165436521L;
-
 	/** Singleton instance of class filter */
 	public static final ClassPathFilter INTERFACE = new InterfaceClassFilter();
 

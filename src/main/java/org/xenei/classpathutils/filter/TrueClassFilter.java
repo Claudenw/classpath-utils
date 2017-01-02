@@ -32,10 +32,6 @@ public class TrueClassFilter extends _AbstractBaseFilter implements LogicFilterT
 	private static final Log LOG = LogFactory.getLog(TrueClassFilter.class);
 
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6422553815074269475L;
-	/**
 	 * Singleton instance of true filter.
 	 */
 	public static final ClassPathFilter TRUE = new TrueClassFilter();

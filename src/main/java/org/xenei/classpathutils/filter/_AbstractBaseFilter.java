@@ -31,10 +31,7 @@ import org.xenei.classpathutils.ClassPathUtils;
  */
 public abstract class _AbstractBaseFilter implements ClassPathFilter {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 	protected static final String[] NO_ARGS = new String[0];
 
 	protected abstract Log getLog();

@@ -28,11 +28,6 @@ import org.xenei.classpathutils.filter.types.ClassFilterType;
  */
 public class HasAnnotationClassFilter extends _AbstractBaseFilter implements ClassFilterType {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4258956807308815129L;
-
 	private static final Log LOG = LogFactory.getLog(HasAnnotationClassFilter.class);
 
 	private Class<? extends Annotation> annotation;

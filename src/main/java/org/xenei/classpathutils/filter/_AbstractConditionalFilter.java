@@ -38,11 +38,6 @@ import org.xenei.classpathutils.filter.types.StringFilterType;
  */
 public abstract class _AbstractConditionalFilter implements CollectionFilterType {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	protected static final Comparator<ClassPathFilter> EXECUTION_ORDER = new Comparator<ClassPathFilter>() {
 
 		private ClassPathFilter getFilter(ClassPathFilter f) {

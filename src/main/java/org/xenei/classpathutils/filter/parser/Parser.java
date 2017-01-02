@@ -65,6 +65,7 @@ public class Parser {
 		map.put("not", NotClassFilter.class);
 		map.put("or", OrClassFilter.class);
 		map.put("prefix", PrefixClassFilter.class);
+		map.put("properties", PrefixClassFilter.class);
 		map.put("regex", RegexClassFilter.class);
 		map.put("suffix", SuffixClassFilter.class);
 		map.put("true", TrueClassFilter.class);

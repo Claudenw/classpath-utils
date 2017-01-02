@@ -30,11 +30,7 @@ import org.xenei.classpathutils.filter.types.LogicFilterType;
 public class FalseClassFilter extends _AbstractBaseFilter implements LogicFilterType {
 
 	private static final Log LOG = LogFactory.getLog(FalseClassFilter.class);
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5537028986673047572L;
+	
 	/**
 	 * Singleton instance of false filter.
 	 */

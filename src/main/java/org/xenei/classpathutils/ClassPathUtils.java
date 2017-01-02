@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -124,9 +123,8 @@ public class ClassPathUtils {
 		final Set<String> classes = new HashSet<String>();
 		ClassPathFilter myFilter = new AndClassFilter(new SuffixClassFilter(".class"),
 				new NotClassFilter(new PrefixClassFilter("META")),
-				new NotClassFilter(new RegexClassFilter(".+\\$[0-9]+[\\.\\$].*")), 
-				new PrefixClassFilter( packageName.replace("/", ".")),
-				filter).optimize();
+				new NotClassFilter(new RegexClassFilter(".+\\$[0-9]+[\\.\\$].*")),
+				new PrefixClassFilter(packageName.replace("/", ".")), filter).optimize();
 
 		if (LOG.isDebugEnabled() || os != null) {
 			String s = String.format("finding classes pkg: %s filter: %s ", packageName, myFilter);
@@ -505,13 +503,13 @@ public class ClassPathUtils {
 		 * current class loader. this may not inlcude all the jars from the
 		 * claspath.
 		 */
-		if (classLoader instanceof URLClassLoader) {
-			lst.addAll(Arrays.asList(((URLClassLoader) classLoader).getURLs()));
-		}
-		ClassLoader parent = classLoader.getParent();
-		if (parent != null && classLoader != parent) {
-			lst.addAll(getAllResources(parent));
-		}
+		// if (classLoader instanceof URLClassLoader) {
+		// lst.addAll(Arrays.asList(((URLClassLoader) classLoader).getURLs()));
+		// }
+		// ClassLoader parent = classLoader.getParent();
+		// if (parent != null && classLoader != parent) {
+		// lst.addAll(getAllResources(parent));
+		// }
 		doLog("Found resources: %s", lst);
 
 		return lst;

@@ -30,11 +30,6 @@ public class AnnotationClassFilter extends _AbstractBaseFilter implements ClassF
 
 	private static final Log LOG = LogFactory.getLog(AnnotationClassFilter.class);
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7819589374453236969L;
-
 	/** Singleton instance of file filter */
 	public static final ClassPathFilter ANNOTATION = new AnnotationClassFilter();
 

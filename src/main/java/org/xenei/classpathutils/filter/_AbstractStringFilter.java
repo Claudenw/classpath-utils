@@ -34,11 +34,6 @@ import org.xenei.classpathutils.filter.types.StringFilterType;
  */
 public abstract class _AbstractStringFilter extends _AbstractBaseFilter implements StringFilterType {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private final List<String> strings = new ArrayList<String>();
 
 	/** Whether the comparison is case sensitive. */

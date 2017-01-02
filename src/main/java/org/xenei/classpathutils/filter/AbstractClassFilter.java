@@ -16,24 +16,21 @@
  */
 package org.xenei.classpathutils.filter;
 
-import java.io.Serializable;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xenei.classpathutils.ClassPathFilter;
+import org.xenei.classpathutils.filter.types.ClassFilterType;
 
 /**
  * Filters classes that are abstract
  */
-public class AbstractClassFilter extends _AbstractBaseFilter implements Serializable {
+public class AbstractClassFilter extends _AbstractBaseFilter implements ClassFilterType {
 
 	private static final Log LOG = LogFactory.getLog(AbstractClassFilter.class);
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2018565558176238916L;
+	
 	/** Singleton instance of file filter */
 	public static final ClassPathFilter ABSTRACT = new AbstractClassFilter();
 
